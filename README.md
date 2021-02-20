@@ -30,7 +30,7 @@
 ## _Table of contents_
 
 <!--ts-->
-   * [<em>Javascript Tools</em>](#javascript-tools)
+   * [<em>JavaScript Tools</em>](#javascript-tools)
       * [<em>Table of contents</em>](#table-of-contents)
       * [<em>Description</em>](#description)
       * [<em>Visitor stats</em>](#visitor-stats)
