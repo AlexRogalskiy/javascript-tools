@@ -5,24 +5,24 @@ globals = globals || {};
 
 (function (globals) {
 	'use strict';
-	
+
 	globals.statistics = globals.statistics || {};
-	
+
 	(function() {
-		
+
 		var average = function(array, n1, n2) {
 			if(!globals.toolset.isArray(array)) { throw {
 													name: 'ValueError',
 													message: 'incorrect array value: < ' + array + ' >'
 											};
 			}
-			
+
 			n1 = (n1 == null) ? 1 : (globals.toolset.isIntNumber(n1)) ? n1 : null;
-			if(n1 == null) throw {name: 'ValueError', mesage: 'incorrect \'start index\' value: < ' + n1 + ' >'};
-			
+			if(n1 == null) throw {name: 'ValueError', message: 'incorrect \'start index\' value: < ' + n1 + ' >'};
+
 			n2 = (n2 == null) ? array.length : (globals.toolset.isIntNumber(n2)) ? n2 : null;
-			if(n2 == null) throw {name: 'ValueError', mesage: 'incorrect \'end index\' value: < ' + n2 + ' >'};
-			
+			if(n2 == null) throw {name: 'ValueError', message: 'incorrect \'end index\' value: < ' + n2 + ' >'};
+
 			if(n1 >= n2 || n1 <= 0 || n2 <= 0 || n1 > array.length || n2 > array.length) { throw {
 																							name: 'ValueError',
 																							message: 'incorrect border values: low < ' + n1 + ' >, high < ' + n2 + ' >'
@@ -41,13 +41,13 @@ globals = globals || {};
 													message: 'incorrect array value: < ' + array + ' >'
 												};
 			}
-			
+
 			n1 = (n1 == null) ? 1 : (globals.toolset.isIntNumber(n1)) ? n1 : null;
-			if(n1 == null) throw {name: 'ValueError', mesage: 'incorrect \'start index\' value: < ' + n1 + ' >'};
-			
+			if(n1 == null) throw {name: 'ValueError', message: 'incorrect \'start index\' value: < ' + n1 + ' >'};
+
 			n2 = (n2 == null) ? array.length : (globals.toolset.isIntNumber(n2)) ? n2 : null;
-			if(n2 == null) throw {name: 'ValueError', mesage: 'incorrect \'end index\' value: < ' + n2 + ' >'};
-			
+			if(n2 == null) throw {name: 'ValueError', message: 'incorrect \'end index\' value: < ' + n2 + ' >'};
+
 			if(n1 >= n2 || n1 <= 0 || n2 <= 0 || n1 > array.length || n2 > array.length) { throw {
 																							name: 'ValueError',
 																							message: 'incorrect border values: low < ' + n1 + ' >, high < ' + n2 + ' >'
@@ -66,13 +66,13 @@ globals = globals || {};
 													message: 'incorrect array value: < ' + array + ' >'
 												};
 			}
-			
+
 			n1 = (n1 == null) ? 1 : (globals.toolset.isIntNumber(n1)) ? n1 : null;
-			if(n1 == null) throw {name: 'ValueError', mesage: 'incorrect \'start index\' value: < ' + n1 + ' >'};
-			
+			if(n1 == null) throw {name: 'ValueError', message: 'incorrect \'start index\' value: < ' + n1 + ' >'};
+
 			n2 = (n2 == null) ? array.length : (globals.toolset.isIntNumber(n2)) ? n2 : null;
-			if(n2 == null) throw {name: 'ValueError', mesage: 'incorrect \'end index\' value: < ' + n2 + ' >'};
-			
+			if(n2 == null) throw {name: 'ValueError', message: 'incorrect \'end index\' value: < ' + n2 + ' >'};
+
 			if(n1 >= n2 || n1 <= 0 || n2 <= 0 || n1 > array.length || n2 > array.length) { throw {
 																							name: 'ValueError',
 																							message: 'incorrect border values: low < ' + n1 + ' >, high < ' + n2 + ' >'
@@ -92,13 +92,13 @@ globals = globals || {};
 													message: 'incorrect array value: < ' + array + ' >'
 											};
 			}
-			
+
 			n1 = (n1 == null) ? 1 : (globals.toolset.isIntNumber(n1)) ? n1 : null;
-			if(n1 == null) throw {name: 'ValueError', mesage: 'incorrect \'start index\' value: < ' + n1 + ' >'};
-			
+			if(n1 == null) throw {name: 'ValueError', message: 'incorrect \'start index\' value: < ' + n1 + ' >'};
+
 			n2 = (n2 == null) ? array.length : (globals.toolset.isIntNumber(n2)) ? n2 : null;
-			if(n2 == null) throw {name: 'ValueError', mesage: 'incorrect \'end index\' value: < ' + n2 + ' >'};
-			
+			if(n2 == null) throw {name: 'ValueError', message: 'incorrect \'end index\' value: < ' + n2 + ' >'};
+
 			if(n1 >= n2 || n1 <= 0 || n2 <= 0 || n1 > array.length || n2 > array.length) { throw {
 																							name: 'ValueError',
 																							message: 'incorrect border values: low < ' + n1 + ' >, high < ' + n2 + ' >'
@@ -114,13 +114,13 @@ globals = globals || {};
 																									message: 'incorrect input values: array < ' + array + ' >, rate < ' + p + ' >'
 																								};
 			}
-			
+
 			n1 = (n1 == null) ? 1 : (globals.toolset.isIntNumber(n1)) ? n1 : null;
-			if(n1 == null) throw {name: 'ValueError', mesage: 'incorrect \'start index\' value: < ' + n1 + ' >'};
-			
+			if(n1 == null) throw {name: 'ValueError', message: 'incorrect \'start index\' value: < ' + n1 + ' >'};
+
 			n2 = (n2 == null) ? array.length : (globals.toolset.isIntNumber(n2)) ? n2 : null;
-			if(n2 == null) throw {name: 'ValueError', mesage: 'incorrect \'end index\' value: < ' + n2 + ' >'};
-			
+			if(n2 == null) throw {name: 'ValueError', message: 'incorrect \'end index\' value: < ' + n2 + ' >'};
+
 			if(n1 >= n2 || n1 <= 0 || n2 <= 0 || n1 > array.length || n2 > array.length) { throw {
 																							name: 'ValueError',
 																							message: 'incorrect border values: low < ' + n1 + ' >, high < ' + n2 + ' >'
@@ -143,13 +143,13 @@ globals = globals || {};
 													message: 'incorrect array value: < ' + array + ' >'
 											};
 			}
-			
+
 			n1 = (n1 == null) ? 1 : (globals.toolset.isIntNumber(n1)) ? n1 : null;
-			if(n1 == null) throw {name: 'ValueError', mesage: 'incorrect \'start index\' value: < ' + n1 + ' >'};
-			
+			if(n1 == null) throw {name: 'ValueError', message: 'incorrect \'start index\' value: < ' + n1 + ' >'};
+
 			n2 = (n2 == null) ? array.length : (globals.toolset.isIntNumber(n2)) ? n2 : null;
-			if(n2 == null) throw {name: 'ValueError', mesage: 'incorrect \'end index\' value: < ' + n2 + ' >'};
-			
+			if(n2 == null) throw {name: 'ValueError', message: 'incorrect \'end index\' value: < ' + n2 + ' >'};
+
 			if(n1 >= n2 || n1 <= 0 || n2 <= 0 || n1 > array.length || n2 > array.length) { throw {
 																							name: 'ValueError',
 																							message: 'incorrect border values: low < ' + n1 + ' >, high < ' + n2 + ' >'
@@ -161,7 +161,7 @@ globals = globals || {};
 		};
 		//--------------------------------------------------------------
 		var smoothMovingAvg = (function() {
-			
+
 			var _movingAvg = function(array, n1, n2) {
 				var res = globals.toolset.vector(n2 - n1 - 1);
 				for(var i=n1; i<n2-1; i++) {
@@ -169,7 +169,7 @@ globals = globals || {};
 				}
 				return res;
 			};
-			
+
 			return function(array, n1, n2, movingAvg) {
 				if(!globals.toolset.isArray(array)) { throw {
 														name: 'ValueError',
@@ -177,14 +177,14 @@ globals = globals || {};
 												};
 				}
 				n1 = (n1 == null) ? 1 : (globals.toolset.isIntNumber(n1)) ? n1 : null;
-				if(n1 == null) throw {name: 'ValueError', mesage: 'incorrect \'start index\' value: < ' + n1 + ' >'};
-				
+				if(n1 == null) throw {name: 'ValueError', message: 'incorrect \'start index\' value: < ' + n1 + ' >'};
+
 				n2 = (n2 == null) ? array.length : (globals.toolset.isIntNumber(n2)) ? n2 : null;
-				if(n2 == null) throw {name: 'ValueError', mesage: 'incorrect \'end index\' value: < ' + n2 + ' >'};
-				
+				if(n2 == null) throw {name: 'ValueError', message: 'incorrect \'end index\' value: < ' + n2 + ' >'};
+
 				movingAvg = (movingAvg == null) ? _movingAvg : (globals.toolset.isFunction(movingAvg)) ? movingAvg : null;
-				if(movingAvg == null) throw {name: 'ValueError', mesage: 'incorrect \'moving average function\' value: < ' + movingAvg + ' >'};
-				
+				if(movingAvg == null) throw {name: 'ValueError', message: 'incorrect \'moving average function\' value: < ' + movingAvg + ' >'};
+
 				if(n1 >= n2 || n1 <= 0 || n2 <= 0 || n1 > array.length || n2 > array.length) { throw {
 																								name: 'ValueError',
 																								message: 'incorrect border values: low < ' + n1 + ' >, high < ' + n2 + ' >'
@@ -201,11 +201,11 @@ globals = globals || {};
 																		};
 			}
 			n1 = (n1 == null) ? 1 : (globals.toolset.isIntNumber(n1)) ? n1 : null;
-			if(n1 == null) throw {name: 'ValueError', mesage: 'incorrect \'start index\' value: < ' + n1 + ' >'};
-			
+			if(n1 == null) throw {name: 'ValueError', message: 'incorrect \'start index\' value: < ' + n1 + ' >'};
+
 			n2 = (n2 == null) ? array.length : (globals.toolset.isIntNumber(n2)) ? n2 : null;
-			if(n2 == null) throw {name: 'ValueError', mesage: 'incorrect \'end index\' value: < ' + n2 + ' >'};
-			
+			if(n2 == null) throw {name: 'ValueError', message: 'incorrect \'end index\' value: < ' + n2 + ' >'};
+
 			if(n1 >= n2 || n1 <= 0 || n2 <= 0 || n1 > array.length || n2 > array.length) { throw {
 																							name: 'ValueError',
 																							message: 'incorrect border values: low < ' + n1 + ' >, high < ' + n2 + ' >'
@@ -234,11 +234,11 @@ globals = globals || {};
 																			};
 			}
 			n1 = (n1 == null) ? 1 : (globals.toolset.isIntNumber(n1)) ? n1 : null;
-			if(n1 == null) throw {name: 'ValueError', mesage: 'incorrect \'start index\' value: < ' + n1 + ' >'};
-			
+			if(n1 == null) throw {name: 'ValueError', message: 'incorrect \'start index\' value: < ' + n1 + ' >'};
+
 			n2 = (n2 == null) ? array.length : (globals.toolset.isIntNumber(n2)) ? n2 : null;
-			if(n2 == null) throw {name: 'ValueError', mesage: 'incorrect \'end index\' value: < ' + n2 + ' >'};
-			
+			if(n2 == null) throw {name: 'ValueError', message: 'incorrect \'end index\' value: < ' + n2 + ' >'};
+
 			if(n1 >= n2 || n1 <= 0 || n2 <= 0 || n1 > array.length || n2 > array.length) { throw {
 																							name: 'ValueError',
 																							message: 'incorrect border values: low < ' + n1 + ' >, high < ' + n2 + ' >'
@@ -257,13 +257,13 @@ globals = globals || {};
 													message: 'incorrect array value: < ' + array + ' >'
 												};
 			}
-			
+
 			n1 = (n1 == null) ? 1 : (globals.toolset.isIntNumber(n1)) ? n1 : null;
-			if(n1 == null) throw {name: 'ValueError', mesage: 'incorrect \'start index\' value: < ' + n1 + ' >'};
-			
+			if(n1 == null) throw {name: 'ValueError', message: 'incorrect \'start index\' value: < ' + n1 + ' >'};
+
 			n2 = (n2 == null) ? array.length : (globals.toolset.isIntNumber(n2)) ? n2 : null;
-			if(n2 == null) throw {name: 'ValueError', mesage: 'incorrect \'end index\' value: < ' + n2 + ' >'};
-			
+			if(n2 == null) throw {name: 'ValueError', message: 'incorrect \'end index\' value: < ' + n2 + ' >'};
+
 			if(n1 >= n2 || n1 <= 0 || n2 <= 0 || n1 > array.length || n2 > array.length) { throw {
 																							name: 'ValueError',
 																							message: 'incorrect border values: low < ' + n1 + ' >, high < ' + n2 + ' >'
@@ -283,13 +283,13 @@ globals = globals || {};
 													message: 'incorrect array value: < ' + array + ' >'
 												};
 			}
-			
+
 			n1 = (n1 == null) ? 1 : (globals.toolset.isIntNumber(n1)) ? n1 : null;
-			if(n1 == null) throw {name: 'ValueError', mesage: 'incorrect \'start index\' value: < ' + n1 + ' >'};
-			
+			if(n1 == null) throw {name: 'ValueError', message: 'incorrect \'start index\' value: < ' + n1 + ' >'};
+
 			n2 = (n2 == null) ? array.length : (globals.toolset.isIntNumber(n2)) ? n2 : null;
-			if(n2 == null) throw {name: 'ValueError', mesage: 'incorrect \'end index\' value: < ' + n2 + ' >'};
-			
+			if(n2 == null) throw {name: 'ValueError', message: 'incorrect \'end index\' value: < ' + n2 + ' >'};
+
 			if(n1 >= n2 || n1 <= 0 || n2 <= 0 || n1 > array.length || n2 > array.length) { throw {
 																							name: 'ValueError',
 																							message: 'incorrect border values: low < ' + n1 + ' >, high < ' + n2 + ' >'
@@ -309,13 +309,13 @@ globals = globals || {};
 													message: 'incorrect array value: < ' + array + ' >'
 												};
 			}
-			
+
 			n1 = (n1 == null) ? 1 : (globals.toolset.isIntNumber(n1)) ? n1 : null;
-			if(n1 == null) throw {name: 'ValueError', mesage: 'incorrect \'start index\' value: < ' + n1 + ' >'};
-			
+			if(n1 == null) throw {name: 'ValueError', message: 'incorrect \'start index\' value: < ' + n1 + ' >'};
+
 			n2 = (n2 == null) ? array.length : (globals.toolset.isIntNumber(n2)) ? n2 : null;
-			if(n2 == null) throw {name: 'ValueError', mesage: 'incorrect \'end index\' value: < ' + n2 + ' >'};
-			
+			if(n2 == null) throw {name: 'ValueError', message: 'incorrect \'end index\' value: < ' + n2 + ' >'};
+
 			if(n1 >= n2 || n1 <= 0 || n2 <= 0 || n1 > array.length || n2 > array.length) { throw {
 																							name: 'ValueError',
 																							message: 'incorrect border values: low < ' + n1 + ' >, high < ' + n2 + ' >'
@@ -335,13 +335,13 @@ globals = globals || {};
 													message: 'incorrect array value: < ' + array + ' >'
 											};
 			}
-			
+
 			n1 = (n1 == null) ? 1 : (globals.toolset.isIntNumber(n1)) ? n1 : null;
-			if(n1 == null) throw {name: 'ValueError', mesage: 'incorrect \'start index\' value: < ' + n1 + ' >'};
-			
+			if(n1 == null) throw {name: 'ValueError', message: 'incorrect \'start index\' value: < ' + n1 + ' >'};
+
 			n2 = (n2 == null) ? array.length : (globals.toolset.isIntNumber(n2)) ? n2 : null;
-			if(n2 == null) throw {name: 'ValueError', mesage: 'incorrect \'end index\' value: < ' + n2 + ' >'};
-			
+			if(n2 == null) throw {name: 'ValueError', message: 'incorrect \'end index\' value: < ' + n2 + ' >'};
+
 			if(n1 >= n2 || n1 <= 0 || n2 <= 0 || n1 > array.length || n2 > array.length) { throw {
 																							name: 'ValueError',
 																							message: 'incorrect border values: low < ' + n1 + ' >, high < ' + n2 + ' >'
@@ -383,10 +383,10 @@ globals = globals || {};
 														};
 			}
 			low = (low == null) ? 0 : (globals.toolset.isNumber(low) && low >= 0) ? low : null;
-			if(low == null) throw {name: 'ValueError', mesage: 'incorrect lower border value: < ' + low + ' >'};
+			if(low == null) throw {name: 'ValueError', message: 'incorrect lower border value: < ' + low + ' >'};
 			//
 			e = (e == null) ? 0.005 : (globals.toolset.isRealNumber(e) && e > 0 && e < 1) ? e : null;
-			if(e == null) throw {name: 'ValueError', mesage: 'incorrect precision value: < ' + e + ' >'};
+			if(e == null) throw {name: 'ValueError', message: 'incorrect precision value: < ' + e + ' >'};
 			//
 			return (2 / Math.sqrt(Math.PI)) * globals.calc.simpsonIntegral(function(x) {
 				return Math.exp(-Math.pow(x, 2));
@@ -401,7 +401,7 @@ globals = globals || {};
 													};
 			}
 			e = (e == null) ? 0.005 : (globals.toolset.isRealNumber(e) && e > 0 && e < 1) ? e : null;
-			if(e == null) throw {name: 'ValueError', mesage: 'incorrect precision value: < ' + e + ' >'};
+			if(e == null) throw {name: 'ValueError', message: 'incorrect precision value: < ' + e + ' >'};
 			//
 			return (2 / Math.sqrt(Math.PI)) * globals.calc.simpsonIntegral(function(x) {
 				return Math.exp(-Math.pow(x, 2));
@@ -549,7 +549,7 @@ globals = globals || {};
 			for(var i=0; i<arrayP.length; i++) {
 				sum += arrayP[i];
 				me += (arrayP[i] * arrayV[i]);
-				
+
 			}
 			if(sum !== 1) return;
 			return me;
@@ -729,7 +729,7 @@ globals = globals || {};
 		var negBinomDensity = function(p, r, k) {
 			if(!globals.toolset.isRealNumber(p) || !globals.toolset.isIntNumber(r) || !globals.toolset.isIntNumber(k) || p <= 0 || p >= 1 || k < 0 || r < 1) { throw {
 																																						name: 'ValueError',
-																																						mesage: 'incorrect input values: number of successes < ' + r + ' >, number of fails < ' + k + ' >, probability < ' + probability + ' >'
+																																						message: 'incorrect input values: number of successes < ' + r + ' >, number of fails < ' + k + ' >, probability < ' + probability + ' >'
 																																					};
 			}
 			return globals.calc.binom(k, r + k -1) * Math.pow(p, r) * Math.pow(1 - p, r);
@@ -739,7 +739,7 @@ globals = globals || {};
 		var puassonDensity = function(x, l) {
 			if(!globals.toolset.isNumber(x) || !globals.toolset.isNumber(l) || l <= 0 || x < 0) { throw {
 																								name: 'ValueError',
-																								mesage: 'incorrect input values: x < ' + x + ' >, lambda < ' + l + ' >'
+																								message: 'incorrect input values: x < ' + x + ' >, lambda < ' + l + ' >'
 																							};
 			}
 			if(l === 0) return 1;
@@ -752,7 +752,7 @@ globals = globals || {};
 		var studDensity = function(x, n) {
 			if(!globals.toolset.isNumber(x) || !globals.toolset.isIntNumber(n) || n < 1) { throw {
 																						name: 'ValueError',
-																						mesage: 'incorrect input values: x < ' + x + ' >, n (degrees of freedom) < ' + n + ' >'
+																						message: 'incorrect input values: x < ' + x + ' >, n (degrees of freedom) < ' + n + ' >'
 																					};
 			}
 			return (var gammaDist((n + 1) / 2) * Math.pow(1 + (x * x / n), -(n + 1)/ 2) / (Math.sqrt(Math.PI * n) * var gammaDist(n / 2)));
@@ -764,7 +764,7 @@ globals = globals || {};
 		var studDistribution = function(x, n) {
 			if(!globals.toolset.isNumber(x) || !globals.toolset.isIntNumber(n) || n < 1) { throw {
 																						name: 'ValueError',
-																						mesage: 'incorrect input values: x < ' + x + ' >, n (degrees of freedom) < ' + n + ' >'
+																						message: 'incorrect input values: x < ' + x + ' >, n (degrees of freedom) < ' + n + ' >'
 																					};
 			}
 			if(x >= 0) return (1 - var studDensity(x, n));
@@ -774,7 +774,7 @@ globals = globals || {};
 		var сhiSquareDensity = function(x, n) {
 			if(!globals.toolset.isNumber(x) || !globals.toolset.isIntNumber(n) || n < 1) { throw {
 																						name: 'ValueError',
-																						mesage: 'incorrect input values: x < ' + x + ' >, n (degrees of freedom) < ' + n + ' >'
+																						message: 'incorrect input values: x < ' + x + ' >, n (degrees of freedom) < ' + n + ' >'
 																					};
 			}
 			if(x >= 0) return Math.pow(x, (n / 2) - 1) * Math.exp(-x / 2) / (Math.pow(2, n / 2) * var gammaDist(n / 2));
@@ -788,7 +788,7 @@ globals = globals || {};
 		var expDensity = function(x, l) {
 			if(!globals.toolset.isNumber(x) || !globals.toolset.isNumber(l) || l <= 0) { throw {
 																					name: 'ValueError',
-																					mesage: 'incorrect input values: x < ' + x + ' >, lambda < ' + l + ' >'
+																					message: 'incorrect input values: x < ' + x + ' >, lambda < ' + l + ' >'
 																				};
 			}
 			if(x >= 0) return l * Math.exp(-l * x);
@@ -812,17 +812,17 @@ globals = globals || {};
 																						};
 			}
 			sigma = (sigma == null) ? var deviation(array, n1, n2) : (globals.toolset.isNumber(sigma) && sigma > 0) ? sigma : null;
-			if(sigma == null) throw {name: 'ValueError', mesage: 'incorrect \'standard deviation\' value: < ' + sigma + ' >'};
+			if(sigma == null) throw {name: 'ValueError', message: 'incorrect \'standard deviation\' value: < ' + sigma + ' >'};
 			//
 			levelSign = (levelSign == null) ? 0.05 : (globals.toolset.isRealNumber(levelSign) && levelSign > 0 && levelSign < 1) ? levelSign : null;
-			if(levelSign == null) throw {name: 'ValueError', mesage: 'incorrect \'level of significance\' value: < ' + levelSign + ' >'};
+			if(levelSign == null) throw {name: 'ValueError', message: 'incorrect \'level of significance\' value: < ' + levelSign + ' >'};
 			//
 			var n = n2 - n1 + 1;
 			var t = Math.sqrt(n) * (var average(array, n1, n2) - x) / sigma;
 			var z = (1 - var normDistribution(t, 0, 1));
 			//
 			type = (type == null) ? 1 : (globals.toolset.isNumber(type) && type > 0 && type < 4) ? type : null;
-			if(type == null) throw {name: 'ValueError', mesage: 'incorrect hypotese type {1 - <eq>, 2 - <le>, 3 - <ge>}'};
+			if(type == null) throw {name: 'ValueError', message: 'incorrect hypotese type {1 - <eq>, 2 - <le>, 3 - <ge>}'};
 			//
 			switch(type) {
 				case 1:
@@ -850,13 +850,13 @@ globals = globals || {};
 																				};
 			}
 			tails = (tails == null) ? 1 : (globals.toolset.isIntNumber(tails) && tails > 0 && tails < 3) ? tails : null;
-			if(tails == null) throw {name: 'ValueError', mesage: 'incorrect tails value {1 - <eq>, 2 - <ne>}: < ' + tails + ' >'};
+			if(tails == null) throw {name: 'ValueError', message: 'incorrect tails value {1 - <eq>, 2 - <ne>}: < ' + tails + ' >'};
 			//
 			levelSign = (levelSign == null) ? 0.05 : (globals.toolset.isRealNumber(levelSign) && levelSign > 0 && levelSign < 1) ? levelSign : null;
-			if(levelSign == null) throw {name: 'ValueError', mesage: 'incorrect \'level of significance\' value: < ' + levelSign + ' >'};
+			if(levelSign == null) throw {name: 'ValueError', message: 'incorrect \'level of significance\' value: < ' + levelSign + ' >'};
 			//
 			type = (type == null) ? 1 : (globals.toolset.isIntNumber(type) && type > 0 && type < 4) ? type : null;
-			if(type == null) throw {name: 'ValueError', mesage: 'incorrect hypotese type value {1 - <eq>, 2 - <le>, 3 - <ge>}: < ' + type + ' >'};
+			if(type == null) throw {name: 'ValueError', message: 'incorrect hypotese type value {1 - <eq>, 2 - <le>, 3 - <ge>}: < ' + type + ' >'};
 			//
 			switch(type) {
 				case 1:
@@ -969,7 +969,7 @@ globals = globals || {};
 																				};
 			}
 			levelSign = (levelSign == null) ? 0.05 : (globals.toolset.isRealNumber(levelSign) && levelSign > 0 && levelSign < 1) ? levelSign : null;
-			if(levelSign == null) throw {name: 'ValueError', mesage: 'incorrect \'level of significance\' value: < ' + levelSign + ' >'};
+			if(levelSign == null) throw {name: 'ValueError', message: 'incorrect \'level of significance\' value: < ' + levelSign + ' >'};
 			//
 			var minLen = (arrayX.length > arrayY.length) ? arrayY.length : arrayX.length;
 			var nF = (globals.toolset.isIntNumber(n1) ? n1 : 1);
@@ -998,7 +998,7 @@ globals = globals || {};
 																				};
 			}
 			levelSign = (levelSign == null) ? 0.05 : (globals.toolset.isRealNumber(levelSign) && levelSign > 0 && levelSign < 1) ? levelSign : null;
-			if(levelSign == null) throw {name: 'ValueError', mesage: 'incorrect \'level of significance\' value: < ' + levelSign + ' >'};
+			if(levelSign == null) throw {name: 'ValueError', message: 'incorrect \'level of significance\' value: < ' + levelSign + ' >'};
 			//
 			var minLen = (arrayX.length > arrayY.length) ? arrayY.length : arrayX.length;
 			n1 = (globals.toolset.isIntNumber(n1) ? n1 : 1);
@@ -1082,7 +1082,7 @@ globals = globals || {};
 		var fisher = function(x) {
 			if(!globals.toolset.isNumber(x) || x <= -1 || x >= 1) { throw {
 																	name: 'ValueError',
-																	mesage: 'incorrect input value: x < ' + x + ' >'
+																	message: 'incorrect input value: x < ' + x + ' >'
 																};
 			}
 			return (1 / 2) * Math.log((1 + x) / (1 - x));
@@ -1092,7 +1092,7 @@ globals = globals || {};
 		var fisherReverse = function(x) {
 			if(!globals.toolset.isNumber(x)) { throw {
 												name: 'ValueError',
-												mesage: 'incorrect input value: x < ' + x + ' >'
+												message: 'incorrect input value: x < ' + x + ' >'
 											};
 			}
 			return (Math.exp(2 * x) - 1) / (Math.exp(2 * x) + 1);
@@ -1267,5 +1267,5 @@ globals = globals || {};
 		globals.statistics.sortInsertion = sortInsertion;
 		globals.statistics.sort = sort;
 	}
-		
+
 }(globals));

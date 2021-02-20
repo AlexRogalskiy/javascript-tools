@@ -514,7 +514,7 @@ jsar.utils.matrix = function(spec) {
 									};
 		}
 		shift = (shift == null) ? 1 : (jsar.toolset.isIntNumber(shift)) ? (shift % mi1) : null;
-		if(shift == null) throw {name: 'ValueError', mesage: 'incorrect shift value < ' + shift + ' >'};
+		if(shift == null) throw {name: 'ValueError', message: 'incorrect shift value < ' + shift + ' >'};
 		var index = Math.abs(shift), temp, sign = (shift > 0) ? 1 : 0;
 		while(index > 0) {
 			if(sign) {
@@ -542,7 +542,7 @@ jsar.utils.matrix = function(spec) {
 									};
 		}
 		shift = (shift == null) ? 1 : (jsar.toolset.isIntNumber(shift)) ? (shift % mj1) : null;
-		if(shift == null) throw {name: 'ValueError', mesage: 'incorrect shift value < ' + shift + ' >'};
+		if(shift == null) throw {name: 'ValueError', message: 'incorrect shift value < ' + shift + ' >'};
 		var index = Math.abs(shift), temp, sign = (shift > 0) ? 1 : 0;
 		for(var i=0; i<mi1; i++) {
 			while(index > 0) {
@@ -647,7 +647,7 @@ jsar.utils.matrix = function(spec) {
 	that.addRow = function(row, index) {
 		if(!jsar.toolset.isArray(row)) { throw {
 											name: 'ValueError',
-											mesage: 'incorrect input value: row < ' + row + ' >'
+											message: 'incorrect input value: row < ' + row + ' >'
 										};
 		}
 		var mi1 = this.getRowsNum(), mj1 = this.getColumnsNum();
@@ -657,14 +657,14 @@ jsar.utils.matrix = function(spec) {
 									};
 		}
 		index = (index == null) ? mi1 : (jsar.toolset.isIntNumber(index) && index >= 1 && index <= mi1) ? index : null;
-		if(index == null) throw {name: 'ValueError', mesage: 'incorrect row index: < ' + index + ' >'};
+		if(index == null) throw {name: 'ValueError', message: 'incorrect row index: < ' + index + ' >'};
 		matrix1.splice(index, 0, row);
 		return this;
 	};
 	that.addColumn = function(column, index) {
 		if(!jsar.toolset.isArray(column)) { throw {
 												name: 'ValueError',
-												mesage: 'incorrect input value: column < ' + column + ' >'
+												message: 'incorrect input value: column < ' + column + ' >'
 											};
 		}
 		var mi1 = this.getRowsNum(), mj1 = this.getColumnsNum();
@@ -674,7 +674,7 @@ jsar.utils.matrix = function(spec) {
 									};
 		}
 		index = (index == null) ? mi1 : (jsar.toolset.isIntNumber(index) && index >= 1 && index <= mj1) ? index : null;
-		if(index == null) throw {name: 'ValueError', mesage: 'incorrect column index: < ' + index + ' >'}
+		if(index == null) throw {name: 'ValueError', message: 'incorrect column index: < ' + index + ' >'}
 		for(var i=0; i<mi1; i++) {
 			matrix1[i].splice(index, 0, (column[i] && typeof column[i] === 'number') ? column[i] : null);
 		}
@@ -688,7 +688,7 @@ jsar.utils.matrix = function(spec) {
 									};
 		}
 		index = (index == null) ? mi1 : (jsar.toolset.isIntNumber(index) && index >= 1 && index <= mi1) ? index : null;
-		if(index == null) throw {name: 'ValueError', mesage: 'incorrect row index: < ' + index + ' >'};
+		if(index == null) throw {name: 'ValueError', message: 'incorrect row index: < ' + index + ' >'};
 		matrix1.splice(index - 1, 1);
 		return this;
 	};
@@ -700,7 +700,7 @@ jsar.utils.matrix = function(spec) {
 									};
 		}
 		index = (index == null) ? mi1 : (jsar.toolset.isIntNumber(index) && index >= 1 && index <= mj1) ? index : null;
-		if(index == null) throw {name: 'ValueError', mesage: 'incorrect column index: < ' + index + ' >'};
+		if(index == null) throw {name: 'ValueError', message: 'incorrect column index: < ' + index + ' >'};
 		for(var i=0; i<mi1; i++) {
 			matrix1[i].splice(index - 1, 1);
 		}
@@ -965,7 +965,7 @@ jsar.utils.matrix = function(spec) {
 		if(isNullDiagonal == null) throw {name: 'ValueError', message: 'incorrect parameter: diagonal values included < ' + isNullDiagonal + ' >'};
 		//
 		var copy = this.nativeCopy();
-		for(var i=0; i<mi1; i++) { 
+		for(var i=0; i<mi1; i++) {
 			min = (isNullDiagonal) ? jsar.toolset.arrayMin(copy[i].slice(0, i).concat(copy[i].slice(i + 1))) : jsar.toolset.arrayMin(copy[i]);
 			for(var j=0; j<mj1; j++) {
 				if(isNullDiagonal && (i === j)) continue;
@@ -986,7 +986,7 @@ jsar.utils.matrix = function(spec) {
 		if(isNullDiagonal == null) throw {name: 'ValueError', message: 'incorrect parameter: diagonal values included < ' + isNullDiagonal + ' >'};
 		//
 		var copy = this.transpose().nativeCopy();
-		for(var i=0; i<mj1; i++) { 
+		for(var i=0; i<mj1; i++) {
 			min = (isNullDiagonal) ? jsar.toolset.arrayMin(copy[i].slice(0, i).concat(copy[i].slice(i + 1))) : jsar.toolset.arrayMin(copy[i]);
 			for(var j=0; j<mi1; j++) {
 				if(isNullDiagonal && (i === j)) continue;
@@ -1277,4 +1277,3 @@ jsar.utils.matrix = function(spec) {
 	return that;
 };
 //--------------------------------------------------------------
- 

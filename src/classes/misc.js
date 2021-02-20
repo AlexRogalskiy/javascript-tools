@@ -274,7 +274,7 @@ jsar.misc.isArmStrongNumber = function(num) {
 jsar.misc.isLatinSquare = function(array) {
 	if(!jsar.toolset.isArray(array)) { throw {
 											name: 'ValueError',
-											message: 'incorrect array value: < ' + arrray + ' >'
+											message: 'incorrect array value: < ' + array + ' >'
 										};
 	}
 	var w = array.length ? array.length : 0, h = (array[0] && isArray(array[0])) ? array[0].length : 0;
@@ -509,7 +509,7 @@ jsar.misc.getYearRate = function(s, n, m, eps) {
 																															};
 	}
 	eps = (eps == null) ? 1e-6 : (jsar.toolset.isNumber(eps) && eps > 0) ? eps : null;
-	if(eps == null) throw {name: 'ValueError', mesage: 'incorrect \'precision\' value: < ' + eps + ' >'};
+	if(eps == null) throw {name: 'ValueError', message: 'incorrect \'precision\' value: < ' + eps + ' >'};
 	//
 	var r = 0.1;
 	do {
@@ -893,9 +893,9 @@ jsar.misc.absPath = function(url) {
 										message: 'incorrect url value: < ' + url + ' >'
 									};
 	}
-	var Loc = location.href;    
+	var Loc = location.href;
 	Loc = Loc.substring(0, Loc.lastIndexOf('/'));
-	while (/^\.\./.test(url)){       
+	while (/^\.\./.test(url)){
 		Loc = Loc.substring(0, Loc.lastIndexOf('/'));
 		url= url.substring(3);
 	}
@@ -937,13 +937,13 @@ jsar.misc.getDomain = function(url) {
 	}
 	return url.split('/',3).join('/');
 };
-//jsar.misc.getDomain("http://www.aneventapart.com/2010/seattle/slides/"); 
+//jsar.misc.getDomain("http://www.aneventapart.com/2010/seattle/slides/");
 //"http://www.aneventapart.com"
-//jsar.misc.getDomain("https://addons.mozilla.org/en-US/firefox/bookmarks/"); 
+//jsar.misc.getDomain("https://addons.mozilla.org/en-US/firefox/bookmarks/");
 //"https://addons.mozilla.org"
 //--------------------------------------------------------------
 (function(globals) {
-	
+
 	var negate = function(a) {
 		var neg = 0;
 		var d = a < 0 ? 1 : -1;
@@ -953,7 +953,7 @@ jsar.misc.getDomain = function(url) {
 		}
 		return neg;
 	};
-	
+
 	var minus = function(a, b) {
 		if(!jsar.toolset.isIntNumber(a) || !jsar.toolset.isIntNumber(b)) { throw {
 																			name: 'ValueError',
@@ -962,7 +962,7 @@ jsar.misc.getDomain = function(url) {
 		}
 		return a + negate(b);
 	};
-	
+
 	var abs = function(a) {
 		if(a < 0) {
 			return negate(a);
@@ -970,9 +970,9 @@ jsar.misc.getDomain = function(url) {
 			return a;
 		}
 	};
-	
+
 	var multiply = (function() {
-		
+
 		var multiply_ = function(a, b) {
 			if(a < b) {
 				return multiply_(b, a);
@@ -986,7 +986,7 @@ jsar.misc.getDomain = function(url) {
 			}
 			return sum;
 		};
-		
+
 		return function(a, b) {
 			if(!jsar.toolset.isIntNumber(a) || !jsar.toolset.isIntNumber(b)) { throw {
 																				name: 'ValueError',
@@ -996,7 +996,7 @@ jsar.misc.getDomain = function(url) {
 			return multiply_(a, b);
 		};
 	}());
-	
+
 	var divide = function(a, b) {
 		if(!jsar.toolset.isIntNumber(a) || !jsar.toolset.isIntNumber(b)) { throw {
 																			name: 'ValueError',
@@ -1006,21 +1006,21 @@ jsar.misc.getDomain = function(url) {
 		if(b == 0) throw { name: 'ArithmeticException', message: 'Division by zero' };
 		var absa = abs(a);
 		var absb = abs(b);
-		
+
 		var product = 0;
 		var x = 0;
 		while(product + absb <= absa) {
 			product += absb;
 			x++;
 		}
-		
+
 		if((a < 0 && b < 0) || (a > 0 && b > 0)) {
 			return x;
 		} else {
 			return negate(x);
 		}
 	};
-	
+
 }(globals));
 //--------------------------------------------------------------
 jsar.misc.pluralize = function(str, num) {
@@ -1067,40 +1067,40 @@ jsar.misc.calculateDistance = function(lat1, lon1, lat2, lon2, radius) {
 																		};
 	}
 	radius = (radius == null) ? 6378.135 : (jsar.toolset.isNumber(radius) && radius > 0) ? radius : null;
-	if(radius == null) throw {name: 'ValueError', mesage: 'incorrect {radius} value: < ' + radius + ' >'};
-	
+	if(radius == null) throw {name: 'ValueError', message: 'incorrect {radius} value: < ' + radius + ' >'};
+
 	var rad = globals.toolset.convertToRadians(Math.PI / 180);
 	lat1 = globals.toolset.convertToRadians(lat1) * rad;
 	lon1 = globals.toolset.convertToRadians(lon1) * rad;
 	lat2 = globals.toolset.convertToRadians(lat2) * rad;
 	lon2 = globals.toolset.convertToRadians(lon2) * rad;
-	
+
 	var theta = lon2 - lon1;
 	var dist = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(theta));
 	if(dist < 0) dist += Math.PI;
 	return (dist * radius);
 };
 jsar.misc.calculateDistance = (function() {
-	
+
 	const EARTH_RADIUS = 3959;
-	
+
 	return function(lat1, lon1, lat2, lon2) {
-		
+
 		if(!jsar.toolset.isNumber(lat1) || !jsar.toolset.isNumber(lon1)) { throw {
 																			name: 'TypeError',
 																			message: 'incorrect input arguments: start point latitude < ' + lat1 + ' > and longitude < ' + lon1 + ' >'
 																		};
 		}
-		
+
 		if(!jsar.toolset.isNumber(lat2) || !jsar.toolset.isNumber(lon2)) { throw {
 																			name: 'TypeError',
 																			message: 'incorrect input arguments: start point latitude < ' + lat2 + ' > and longitude < ' + lon2 + ' >'
 																		};
 		}
-	
+
 		var dLat = globals.toolset.convertToRadians(lat2 - lat1);
 		var dLon = globals.toolset.convertToRadians(lon2 - lon1);
-		
+
 		var temp = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(globals.toolset.convertToRadians(lat1)) * Math.cos(globals.toolset.convertToRadians(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
 		var temp2 = 2 * Math.atan2(Math.sqrt(temp), Math.sqrt(1 - temp));
 		return (EARTH_RADIUS * temp2).toFixed(2);
@@ -1124,7 +1124,7 @@ jsar.misc.calculateBearing = function(lat1, lon1, lat2, lon2) {
 }
 */
 jsar.misc.intersection = function(obj1, obj2) {
-	
+
 	if(!jsar.toolset.isObject(obj1)) { throw {
 										name: 'TypeError',
 										message: 'incorrect input argument: {obj1} is not an object < ' + obj1 + ' >'
@@ -1140,7 +1140,7 @@ jsar.misc.intersection = function(obj1, obj2) {
 	return (x > 0 && y > 0);
 };
 jsar.misc.penetration = function(obj1, obj2) {
-	
+
 	if(!jsar.toolset.isObject(obj1)) { throw {
 										name: 'TypeError',
 										message: 'incorrect input argument: {obj1} is not an object < ' + obj1 + ' >'
@@ -1159,7 +1159,7 @@ jsar.misc.penetration = function(obj1, obj2) {
 	return null;
 };
 jsar.misc.direction = function(obj1, obj2) {
-	
+
 	if(!jsar.toolset.isObject(obj1)) { throw {
 										name: 'TypeError',
 										message: 'incorrect input argument: {obj1} is not an object < ' + obj1 + ' >'
@@ -1175,7 +1175,7 @@ jsar.misc.direction = function(obj1, obj2) {
 	return {x: x / Math.abs(x), y: y / Math.abs(y)};
 };
 jsar.misc.distance = function(obj1, obj2) {
-	
+
 	if(!jsar.toolset.isObject(obj1)) { throw {
 										name: 'TypeError',
 										message: 'incorrect input argument: {obj1} is not an object < ' + obj1 + ' >'
@@ -1191,7 +1191,7 @@ jsar.misc.distance = function(obj1, obj2) {
 	return Math.sqrt(x * x + y * Y);
 };
 jsar.misc.getVictim = function(obj1, data) {
-	
+
 	if(!jsar.toolset.isObject(obj1)) { throw {
 										name: 'TypeError',
 										message: 'incorrect input argument: {obj1} is not an object < ' + obj1 + ' >'
@@ -1275,7 +1275,7 @@ jsar.misc.nearestDown = function(data) {
 	return (data[index] || null);
 };
 jsar.misc.intersectionSegments = function(obj1, obj2) {
-	
+
 	if(!jsar.toolset.isObject(obj1)) { throw {
 										name: 'TypeError',
 										message: 'incorrect input argument: {obj1} is not an object < ' + obj1 + ' >'
@@ -1294,17 +1294,17 @@ jsar.misc.intersectionSegments = function(obj1, obj2) {
 };
 //--------------------------------------------------------------
 	jsar.misc.fibonacci = (function() {
-		
+
 		var map = ['0', '1', '1', '2', '3', '5', '8', '13', '21', '34', '55', '89', '144', '233', '377', '610', '987', '1597', '2584', '4181', '6765', '10946', '17711', '28657', '46368', '75025', '121393', '196418', '317811', '514229', '832040', '1346269', '2178309', '3524578', '5702887', '9227465', '14930352', '24157817', '39088169', '63245986', '102334155', '165580141', '267914296', '433494437', '701408733', '1134903170', '1836311903', '2971215073', '4807526976', '7778742049', '12586269025', '20365011074', '32951280099', '53316291173', '86267571272', '139583862445', '225851433717', '365435296162', '591286729879', '956722026041', '1548008755920', '2504730781961', '4052739537881', '6557470319842', '10610209857723', '17167680177565', '27777890035288', '44945570212853', '72723460248141', '117669030460994', '190392490709135', '308061521170129', '498454011879264', '806515533049393', '1304969544928657', '2111485077978050', '3416454622906707', '5527939700884757', '8944394323791464', '14472334024676221', '23416728348467685', '37889062373143906', '61305790721611591', '99194853094755497', '160500643816367088', '259695496911122585', '420196140727489673', '679891637638612258', '1100087778366101931', '1779979416004714189', '2880067194370816120', '4660046610375530309', '7540113804746346429', '12200160415121876738', '19740274219868223167', '31940434634990099905', '51680708854858323072', '83621143489848422977', '135301852344706746049', '218922995834555169026', '354224848179261915075'];
-		
+
 		return function (n) {
-			
+
 			if(!jsar.toolset.isIntNumber(n)) { throw {
 												name: 'TypeError',
 												message: 'incorrect input argument: fibonacci sequence number < ' + n + ' >'
 											};
 			}
-			
+
 			if(n < 0 || n >= map.length) {
 				throw {
 					name: 'ValueError',
@@ -1560,7 +1560,7 @@ function stopDefault( e ) {
 	// Prevent the default browser action (W3C)
 	if ( e && e.preventDefault )
 		e.preventDefault();
-		// A shortcut for stoping the browser action in IE
+		// A shortcut for stopping the browser action in IE
 	else
 		window.event.returnValue = false;
 	return false;
@@ -1705,7 +1705,7 @@ function resetCSS( elem, prop ) {
 		// And set the new value
 		elem.style[ i ] = prop[i];
 	};
-	// Retun the set of changed values, to be used by restoreCSS
+	// Return the set of changed values, to be used by restoreCSS
 	return old;
 }
 // A function for restoring the side effects of the resetCSS function
@@ -1824,7 +1824,7 @@ function scrollY() {
 	var de = document.documentElement;
 	// If the pageYOffset of the browser is available, use that
 	return (self.pageYOffset ||
-	// Otherwise, try to get the scroll top off of the root node 
+	// Otherwise, try to get the scroll top off of the root node
 	 de && de.scrollTop ) ||
 	// Finally, try to get the scroll top off of the body element
 	document.body.scrollTop);
@@ -2075,7 +2075,7 @@ function hideErrors( elem ) {
 function showErrors( elem, errors ) {
 	// Find the next element after the field
 	var next = elem.nextSibling;
-	
+
 	// If the field isn't one of our special error-holders.
 	if ( next && ( next.nodeName != "UL" || next.className != "errors" ) ) {
 		// We need to make one instead
@@ -2084,7 +2084,7 @@ function showErrors( elem, errors ) {
 		// and then insert into the correct place in the DOM
 		elem.paretNode.insertBefore( next, elem.nextSibling );
 	}
-	
+
 	// Now that we have a reference to the error holder UL
 	// We then loop through all the error messages
 	for ( var i = 0; i < errors.length; i++ ) {
@@ -2148,7 +2148,7 @@ function text(e) { var t = "";
 	e = e.childNodes || e;
 	// Look through all child nodes
 	for ( var j = 0; j < e.length; j++ ) {
-		// If it's not an element, append its text value 
+		// If it's not an element, append its text value
 		// Otherwise, recurse through all the element's children
 		t += e[j].nodeType != 1 ? e[j].nodeValue : text(e[j].childNodes);
 	}
@@ -2168,7 +2168,7 @@ var box = { locked: true,
 					throw new Error("Locked!");
 				return this._content;
 			}
-		}; 
+		};
 //--------------------------------------------------------------
 function stripComments(code) {
 	return code.replace(/\/\/.*|\/\*[^]*\*\//g, "");
@@ -2182,7 +2182,7 @@ var number = /\b(\d+)\b/g;
 var match;
 while (match = number.exec(input))
 	console.log("Found", match[1], "at", match.index);
-// → Found 3 at 14 // Found 42 at 33 // Found 88 at 40 
+// → Found 3 at 14 // Found 42 at 33 // Found 88 at 40
 //--------------------------------------------------------------
 function parseINI(string) {
 	// Start with an object to hold the top-level fields
@@ -2224,11 +2224,11 @@ module.exports = function(string) {
 	return string.split("").map(function(ch) {
 		return String.fromCharCode(ch.charCodeAt(0) + 5);
 	}).join("");
-}; 
+};
 function getDay(day,mon,year) {
 	var days = ["воскресенье","понедельник","вторник","среда","четверг","пятница","суббота"];
-	day=parseInt(day, 10); //если день двухсимвольный и <10 
-	mon=parseInt(mon, 10); //если месяц двухсимвольный и <10 
+	day=parseInt(day, 10); //если день двухсимвольный и <10
+	mon=parseInt(mon, 10); //если месяц двухсимвольный и <10
 	var a=parseInt((14-mon)/12, 10);
 	var y=year-a;
 	var m=mon+12*a-2;
@@ -2265,7 +2265,7 @@ function getDay(day,mon,year) {
     window.log = Function.prototype.bind.call(console.log, console);
   }
   else {
-    window.log = function() { 
+    window.log = function() {
       Function.prototype.apply.call(console.log, console, arguments);
     };
   }

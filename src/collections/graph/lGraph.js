@@ -44,7 +44,7 @@
 //----------------------------------------------------------------------------------------------
 			(function() {
 				var _vertice = null;
-				
+
 				var that = {};
 				that.getVertice = function() {
 					return _vertice;
@@ -76,21 +76,21 @@
 				};
 				that.hashCode = function() {
 					var hashValue = 11;
-					
+
 					var sfVal = (_vertice == null) ? 0 : _vertice.hashCode();
 					hashValue = 31 * hashValue + sfVal;
-					
+
 					return hashValue;
 				};
 				that.toString = function() {
 					return '(end vertice: {' + _vertice.toString() + '})';
 				};
-				
+
 				function ArcNode(vertice) {
 					_vertice = Object.clone(vertice);
 				};
 				ArcNode.prototype = that;
-				
+
 				globals.collections.graph.node.ArcNode = ArcNode;
 			}());
 		}());
@@ -98,11 +98,11 @@
 		(function() {
 			var _size = null;
 			var _graph = null;
-			
+
 			var isInRange = function(num) {
 				return (num < _size && num >= 0);
 			};
-			
+
 			var that = {};
 			that.add = function(a, b) {
 				if(!globals.toolset.isIntNumber(a)) { throw {
@@ -172,14 +172,14 @@
 				return s;
 			};
 			that.dfs = function() {
-				
+
 				var _dfs = function _dfs(pos) {
-					
+
 					if(visited[pos]) return;
-					
+
 					visited[pos] = 1;
 					res.push(pos);
-					
+
 					var iterator = _graph[pos].iterator(), temp;
 					while(iterator.hasNext()) {
 						temp = iterator.next().getVertice();
@@ -188,7 +188,7 @@
 						}
 					}
 				};
-				
+
 				/*if(!globals.toolset.isIntNumber(a)) { throw {
 															name: 'TypeError',
 															message: 'incorrect input value: not integer number < ' + a + ' >'
@@ -197,25 +197,25 @@
 				if(!isInRange(a) {
 					throw globals.exception.argumentException('OutOfBoundsError', 'incorrect input argument: vertex < ' + a + ' > is out of range {0,' + this.size() + '}');
 				}*/
-				
+
 				var visited = globals.toolset.vector(this.size(), 0);
 				var res = globals.toolset.vector(this.size());
-				
+
 				for(var i=0; i<this.size(); i++) {
 					_dfs(_graph[i]);
 				}
 				return res;
 			};
 			that.bfs = function() {
-				
+
 				var _bfs = function(pos) {
-					
+
 					if(visited[pos]) return;
-					
+
 					visited[pos] = 1;
 					queue.push(pos);
 					res.push(pos);
-					
+
 					while(queue.length > 0) {
 						var next = queue.pop(), temp;
 						var iterator = _graph[temp].iterator();
@@ -229,12 +229,12 @@
 						}
 					}
 				};
-				
+
 				var visited = globals.toolset.vector(this.size(), 0);
 				var queue = globals.toolset.vector();
-				
+
 				var res = globals.toolset.vector(this.size());
-				
+
 				for(var i=0; i<this.size(); i++) {
 					_bfs(_graph[i]);
 				}
@@ -287,7 +287,7 @@
 				//	}
 				//}
 			};
-			
+
 			var initialize = function(nodes) {
 				if(!globals.toolset.isNull(nodes)) {
 					if(!globals.toolset.isArray(nodes)) { throw {
@@ -316,11 +316,11 @@
 					//}
 				}
 			};
-			
+
 			function LGraph(nodes, size, cmp) {
 				_size = (size == null) ? DEFAULT_SIZE : ((globals.toolset.isIntNumber(size) && size >= 0) ? size : null);
-				if(_size == null) throw {name: 'ValueError', mesage: 'incorrect size value: not positive integer number < ' + _size + ' >'};
-				
+				if(_size == null) throw {name: 'ValueError', message: 'incorrect size value: not positive integer number < ' + _size + ' >'};
+
 				_graph = globals.toolset.vector(_size, null);//{}
 				for(var i=0; i<_size; i++) {
 					_graph[i] = new globals.collections.list.List(nodes, null);
@@ -329,7 +329,7 @@
 				compare = globals.toolset.isFunction(cmp) ? cmp : compare;
 			};
 			LGraph.prototype = that;
-			
+
 			globals.collections.graph.LGraph = LGraph;
 		}());
 //----------------------------------------------------------------------------------------------

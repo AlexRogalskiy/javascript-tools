@@ -53,7 +53,7 @@
 						}
 						//
 						eps = (eps == null) ? 0.0001 : (globals.toolset.isNumber(eps) && eps > 0) ? eps : null;
-						if(eps == null) throw {name: 'ValueError', mesage: 'incorrect \'precision\' value: < ' + eps + ' >'};
+						if(eps == null) throw {name: 'ValueError', message: 'incorrect \'precision\' value: < ' + eps + ' >'};
 						//
 						var x, result = [];
 						var sinx = function(x, eps) {
@@ -82,7 +82,7 @@
 														};
 						}
 						n = (n == null) ? 100 : (globals.toolset.isIntNumber(n) && n > 0) ? n : null;
-						if(n == null) throw {name: 'ValueError', mesage: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
+						if(n == null) throw {name: 'ValueError', message: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
 						//
 						var q = x;
 						for(i=0; i<n; i++) {
@@ -100,10 +100,10 @@
 						}
 						//
 						n = (n == null) ? 100 : (globals.toolset.isIntNumber(n) && n > 0) ? n : null;
-						if(n == null) throw {name: 'ValueError', mesage: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
+						if(n == null) throw {name: 'ValueError', message: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
 						//
 						eps = (eps == null) ? 0.0001 : (globals.toolset.isNumber(eps) && eps > 0) ? eps : null;
-						if(eps == null) throw {name: 'ValueError', mesage: 'incorrect \'precision\' value: < ' + eps + ' >'};
+						if(eps == null) throw {name: 'ValueError', message: 'incorrect \'precision\' value: < ' + eps + ' >'};
 						//
 						var r = s = x; i = 1;
 						while(Math.abs(r) > eps && i <= n) {
@@ -123,10 +123,10 @@
 						}
 						//
 						n = (n == null) ? 100 : (globals.toolset.isIntNumber(n) && n > 0) ? n : null;
-						if(n == null) throw {name: 'ValueError', mesage: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
+						if(n == null) throw {name: 'ValueError', message: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
 						//
 						eps = (eps == null) ? 0.0001 : (globals.toolset.isNumber(eps) && eps > 0) ? eps : null;
-						if(eps == null) throw {name: 'ValueError', mesage: 'incorrect \'precision\' value: < ' + eps + ' >'};
+						if(eps == null) throw {name: 'ValueError', message: 'incorrect \'precision\' value: < ' + eps + ' >'};
 						//
 						var r = s = 1; i = 1;
 						while(Math.abs(r) > eps && i <= n) {
@@ -141,7 +141,7 @@
 					//document.writeln(globals.toolset.quarterPI());
 					const quarterPI = function(n) {
 						n = (n == null) ? 100 : (globals.toolset.isIntNumber(n) && n > 0) ? n : null;
-						if(n == null) throw {name: 'ValueError', mesage: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
+						if(n == null) throw {name: 'ValueError', message: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
 						//
 						var sum = 0;
 						for(var i=n; i>0; i--) {
@@ -220,7 +220,7 @@
 						};
 					}());
 //----------------------------------------------------------------------------------------------
-					
+
 //----------------------------------------------------------------------------------------------
 					const geron = function(a, eps) {
 						if(!globals.toolset.isNumber(a) || a < 0) { throw {
@@ -230,7 +230,7 @@
 						}
 						//
 						eps = (eps == null) ? 0.0001 : (globals.toolset.isNumber(eps) && eps > 0) ? eps : null;
-						if(eps == null) throw {name: 'ValueError', mesage: 'incorrect \'precision\' value: < ' + eps + ' >'};
+						if(eps == null) throw {name: 'ValueError', message: 'incorrect \'precision\' value: < ' + eps + ' >'};
 						//
 						var rad = 1.0. z;
 						do {
@@ -247,13 +247,13 @@
 																};
 						}
 						var c = 0x8000, g = 0x8000;
-						 for(;;) {  
+						 for(;;) {
 							if(g*g > a)
-								g ^= c;  
-							c >>= 1;  
-							if(c == 0)  
-								return g;  
-							g |= c;  
+								g ^= c;
+							c >>= 1;
+							if(c == 0)
+								return g;
+							g |= c;
 						}
 					};
 //----------------------------------------------------------------------------------------------
@@ -267,7 +267,7 @@
 						var s = q = z;
 						//
 						n = (n == null) ? 100 : (globals.toolset.isIntNumber(n) && n >= 1) ? n : null;
-						if(n == null) throw {name: 'ValueError', mesage: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
+						if(n == null) throw {name: 'ValueError', message: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
 						//
 						for(var i=1; i<=n; i++) {
 							q *= z * z / (2 * i) / (2 * i + 1);
@@ -286,7 +286,7 @@
 						var s = q = 1;
 						//
 						n = (n == null) ? 100 : (globals.toolset.isIntNumber(n) && n >= 1) ? n : null;
-						if(n == null) throw {name: 'ValueError', mesage: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
+						if(n == null) throw {name: 'ValueError', message: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
 						//
 						for(var i=1; i<=n; i++) {
 							q *= z * z / (2 * i - 1) / (2 * i);
@@ -307,7 +307,7 @@
 						}
 						//
 						eps = (eps == null) ? 0.0001 : (globals.toolset.isNumber(eps) && eps > 0) ? eps : null;
-						if(eps == null) throw {name: 'ValueError', mesage: 'incorrect \'precision\' value: < ' + eps + ' >'};
+						if(eps == null) throw {name: 'ValueError', message: 'incorrect \'precision\' value: < ' + eps + ' >'};
 						//
 						var x0 = a, h = (b - a) / 2, ymin, xmin, y, x;
 						while(h >= eps) {
@@ -359,7 +359,7 @@
 														};
 						}
 						n = (n == null) ? 100 : (globals.toolset.isIntNumber(n) && n > 0) ? n : null;
-						if(n == null) throw {name: 'ValueError', mesage: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
+						if(n == null) throw {name: 'ValueError', message: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
 						//
 						var s = 1, q = value, i;
 						for(i=1; i<=n; i++) {
@@ -479,7 +479,7 @@
 						};
 						//
 						n = (n == null) ? 9 : (globals.toolset.isIntNumber(n) && n > 0) ? n : null;
-						if(n == null) throw {name: 'ValueError', mesage: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
+						if(n == null) throw {name: 'ValueError', message: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
 						//
 						if(x < 0 || x > n) { throw {
 												name: 'ValueError',
@@ -499,7 +499,7 @@
 																						};
 						}
 						n = (n == null) ? 100 : (globals.toolset.isIntNumber(n) && n > 0) ? n : null;
-						if(n == null) throw {name: 'ValueError', mesage: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
+						if(n == null) throw {name: 'ValueError', message: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
 						//
 						var b = [], f, df;
 						for(var i=0; i<array.length; i++) {
@@ -529,7 +529,7 @@
 																							};
 						}
 						n = (n == null) ? 100 : (globals.toolset.isIntNumber(n) && n > 0) ? n : null;
-						if(n == null) throw {name: 'ValueError', mesage: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
+						if(n == null) throw {name: 'ValueError', message: 'incorrect \'number of iterations\' value: < ' + n + ' >'};
 						//
 						var x = init, df, h = 0.00001;
 						df = (func(x + h) - func(x)) / h;
@@ -547,7 +547,7 @@
 																					};
 						}
 						N = (N == null) ? 150 : (globals.toolset.isIntNumber(N) && N > 0) ? N : null;
-						if(N == null) throw {name: 'ValueError', mesage: 'incorrect \'number of iterations\' value: < ' + N + ' >'};
+						if(N == null) throw {name: 'ValueError', message: 'incorrect \'number of iterations\' value: < ' + N + ' >'};
 						//
 						var n = 0;
 						var v, v0 = 4 * r * r * (h + r);
@@ -603,7 +603,7 @@
 							}
 							return true;
 						};
-						
+
 						return function(n) {
 							return _isPrime(n);
 						};
@@ -612,23 +612,23 @@
 					globals.math.algebra.sin = sin;
 					globals.math.algebra.cos = cos;
 					globals.math.algebra.quarterPI = quarterPI;
-					
+
 					globals.math.algebra.fibonacci = fibonacci;
 					globals.math.algebra.factorial = factorial;
 					globals.math.algebra.geron = geron;
 					globals.math.algebra.sqrt32 = sqrt32;
-					
+
 					globals.math.algebra.sinh = sinh;
 					globals.math.algebra.cosh = cosh;
 					globals.math.algebra.getFuncMinimum = getFuncMinimum;
 					globals.math.algebra.permutation = permutation;
 					globals.math.algebra.exp = exp;
-					
+
 					globals.math.algebra.fourier = fourier;
 					globals.math.algebra.interpolate = interpolate;
 					globals.math.algebra.polinom = polinom;
 					globals.math.algebra.monteCarlo = monteCarlo;
-					
+
 					globals.math.algebra.toRadians = toRadians;
 					globals.math.algebra.toDegrees = toDegrees;
 				}());
@@ -766,11 +766,11 @@
 					};
 //----------------------------------------------------------------------------------------------
 					const tabulate = function(low, high, num, func) {
-						
+
 						var point = function(x, y) {
 							return { 'x': x, 'y': y };
 						};
-						
+
 						if(!globals.toolset.isIntNumber(high) || num < 1) { throw {
 																				name: 'TypeError',
 																				message: 'incorrect input argument: {number of points} is not positive integer number < ' + num + ' >'
@@ -816,7 +816,7 @@
 						const b = 6356863.019;											# Малая (полярная) полуось
 						const e2 = (Math.pow(a, 2) - Math.pow(b, 2)) / Math.pow(a, 2);	# Эксцентриситет
 						const n = (a - b) / (a + b);									# Приплюснутость
-						
+
 						return function(point) {
 							if(!globals.toolset.isObject(point)) { throw {
 																		name: 'ValueError',
@@ -835,22 +835,22 @@
 									message: 'incorrect type value: not a number {\'lon\': ' + point['lon'] + ', \'lat\': ' + point['lat'] + '}'
 								};
 							}
-							
+
 							//Номер зоны Гаусса-Крюгера (если точка рассматривается в системе
 							//координат соседней зоны, то номер зоны следует присвоить вручную)
 							var zone = (point['lon']/6 + 1).integer();
-							
+
 							//Параметры зоны Гаусса-Крюгера
 							var F = 1.0;                  				# Масштабный коэффициент
 							var Lat0 = 0.0;                				# Начальная параллель (в радианах)
 							var Lon0 = (zone * 6 - 3) * Math.PI / 180;  	# Центральный меридиан (в радианах)
 							var N0 = 0.0;                  				# Условное северное смещение для начальной параллели
 							var E0 = zone * 1e6 + 500000.0;    			# Условное восточное смещение для центрального меридиана
-							
+
 							//Перевод широты и долготы в радианы
 							var Lat = globals.math.algebra.toRadians(point['lat']);
 							var Lon = globals.math.algebra.toRadians(point['lon']);
-							
+
 							//Вычисление переменных для преобразования
 							var v = a * F * Math.pow(1 - e2 * (Math.pow(Math.sin(Lat), 2)), -0.5);
 							var p = a * F * (1 - e2) * Math.pow(1 - e2 * (Math.pow(Math.sin(Lat), 2)), -1.5);
@@ -867,11 +867,11 @@
 							var IV = v * Math.cos(Lat);
 							var V = v / 6 * (Math.pow(Math.cos(Lat), 3)) * (v / p - (Math.pow(Math.tan(Lat), 2)));
 							var VI = v / 120 * (Math.pow(Math.cos(Lat), 5)) * (5 - 18 * (Math.pow(Math.tan(Lat), 2)) + (Math.pow(Math.tan(Lat), 4)) + 14 * n2 - 58 * (Math.pow(Math.tan(Lat), 2)) * n2);
-							
+
 							//Вычисление северного и восточного смещения (в метрах)
 							var N = I + II * Math.pow((Lon - Lon0), 2) + III * Math.pow((Lon - Lon0), 4) + IIIA * Math.pow((Lon - Lon0), 6);
 							var E = E0 + IV * (Lon - Lon0) + V * Math.pow((Lon-Lon0), 3) + VI * Math.pow((Lon - Lon0), 5);
-							
+
 							return {'north': N; 'east': E};
 						};
 					}());
@@ -1021,7 +1021,7 @@
 										arguments.callee(t.substr(1), s) + 1,
 										arguments.callee(s.substr(1), t.substr(1)) + (s[0] !== t[0] ? 1 : 0)) + 1;
 					};
-					
+
 					//var myLDistance = var levenshteinDistance("слон", "море");
 					/*number of operations to get <b> from <a>*/
 					const levenshteinDistance = function(a, b) {
@@ -1360,7 +1360,7 @@
 						}
 						return c / 2 * ((t -= 2) * t * t + 2) + b;
 					};
-//----------------------------------------------------------------------------------------------	
+//----------------------------------------------------------------------------------------------
 					/**
 					* Quartic easing in
 					* @memberOf fabric.util.ease
@@ -1490,7 +1490,7 @@
 					const easeOutCirc = function(t, b, c, d) {
 						return c * Math.sqrt(1 - (t = t / d - 1) * t) + b;
 					};
-//----------------------------------------------------------------------------------------------		
+//----------------------------------------------------------------------------------------------
 					/**
 					* Circular easing in and out
 					* @memberOf fabric.util.ease

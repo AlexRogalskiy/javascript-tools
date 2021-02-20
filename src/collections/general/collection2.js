@@ -33,12 +33,12 @@
 				var _objects = [];
 				var that = Object.create(globals.collections.common.collection2);
 				that.prototype = globals.collections.common.collection2;
-				
+
 				var init = function() {
 					if(!globals.toolset.isNull(spec)) {
 						if(!globals.toolset.isArray(spec)) { throw {
 															name: 'ValueError',
-															message: 'incorrect initialization value: array of elemens [any type]'
+															message: 'incorrect initialization value: array of elements [any type]'
 														};
 						}
 						spec.forEach(function(value, index) {

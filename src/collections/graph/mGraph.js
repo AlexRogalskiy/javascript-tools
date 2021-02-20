@@ -32,7 +32,7 @@
 				var _size = null;
 				var _path = null;
 				var _dir = null;
-				
+
 				var that = {};
 				that.getPath = function(a, b) {
 					return _path[a][b];
@@ -78,29 +78,29 @@
 				};
 				that.hashCode = function() {
 					var hashValue = 11;
-					
+
 					var sfVal = (_size == null) ? 0 : _size.hashCode();
 					hashValue = 31 * hashValue + sfVal;
-					
+
 					sfVal = (_path == null) ? 0 : _path.hashCode();
 					hashValue = 31 * hashValue + sfVal;
-					
+
 					sfVal = (_dir == null) ? 0 : _dir.hashCode();
 					hashValue = 31 * hashValue + sfVal;
-					
+
 					return hashValue;
 				};
 				that.toString = function() {
 					return '(path: {' + _path.join(', ').toString() + '}, direction: {' + _dir.join(', ').toString() + '})';
 				};
-				
+
 				function Paths(size) {
 					_size = size;
 					_path = globals.toolset.matrix(size, size, 0);
 					_dir = globals.toolset.matrix(size, size, 0);
 				};
 				Paths.prototype = that;
-				
+
 				globals.collections.graph.node.Paths = Paths;
 			}());
 		}());
@@ -109,11 +109,11 @@
 			var _size = null;
 			var _graph = null;
 			//var _weights = null;
-			
+
 			var isInRange = function(num) {
 				return (num < _size && num >= 0);
 			};
-			
+
 			var that = {};
 			that.has = function(a, b) {
 				if(!globals.toolset.isIntNumber(a) || !globals.toolset.isIntNumber(b)) { throw {
@@ -156,10 +156,10 @@
 					throw globals.exception.argumentException('OutOfBoundsError', 'incorrect input argument: end vertice < ' + b + ' > is out of range {0,' + this.size() + '}');
 				}
 				_graph[a][b] = DEFAULT_EDGE;
-				
+
 				//weight = (weight == null) ? DEFAULT_WEIGHT : (globals.toolset.isNumber(weight) ? weight : null);
-				//if(weight == null) throw {name: 'ValueError', mesage: 'incorrect {weight} argument: not number < ' + weight + ' >'};
-				
+				//if(weight == null) throw {name: 'ValueError', message: 'incorrect {weight} argument: not number < ' + weight + ' >'};
+
 				//_weights[a][b] = weight;
 			};
 			that.set = function(a, b, value) {
@@ -174,10 +174,10 @@
 				if(!isInRange(b)) {
 					throw globals.exception.argumentException('OutOfBoundsError', 'incorrect input argument: end vertice < ' + b + ' > is out of range {0,' + this.size() + '}');
 				}
-				
+
 				value = (value == null) ? DEFAULT_EDGE : (globals.toolset.isNumber(value) ? value : null);
-				if(value == null) throw {name: 'ValueError', mesage: 'incorrect {edge} argument: not number < ' + value + ' >'};
-				
+				if(value == null) throw {name: 'ValueError', message: 'incorrect {edge} argument: not number < ' + value + ' >'};
+
 				_graph[a][b] = value;
 			};
 			that.remove = function(a, b) {
@@ -296,14 +296,14 @@
 						message: 'incorrect input argument: not {MGraph} instance < ' + graph + ' >'
 					};
 				}
-				
+
 				if(this.size() != graph.size()) {
 					throw {
 						name: 'ValueError',
 						message: 'incorrect input argument: incompatible graph size < ' + graph.size() + ' >'
 					};
 				}
-				
+
 				var n = this.size();
 				var res = new globals.collections.graph.MGraph(null, n);
 				for(var i=0; i<n; i++) {
@@ -331,14 +331,14 @@
 						message: 'incorrect input argument: not {MGraph} instance < ' + graph + ' >'
 					};
 				}
-				
+
 				if(this.size() != graph.size()) {
 					throw {
 						name: 'ValueError',
 						message: 'incorrect input argument: incompatible graph size < ' + graph.size() + ' >'
 					};
 				}
-				
+
 				var n = this.size();
 				var res = new globals.collections.graph.MGraph(null, n);
 				for(var i=0; i<n; i++) {
@@ -387,14 +387,14 @@
 																			message: 'incorrect matrix size {' + this.size() + '}: paths {rows < ' + n1 + ' >, columns < ' + nn1 + ' >}, dirs {rows < ' + n2 + ' >, columns < ' + nn2 + ' >}'
 																		};
 				}
-				
+
 				for(var i=0; i<n; i++) {
 					for(var j=0; j<n; j++) {
 						paths[i][j] = (_graph[i][j] ? _graph[i][j] : Number.MAX_VALUE);
 						dirs[i][j] = (_graph[i][j] ? j : -1);
 					}
 				}
-				
+
 				for(var k=1; k<n; k++) {
 					for(var i=0; i<n; i++) {
 						for(var j=0; j<n; j++) {
@@ -419,21 +419,21 @@
 						message: 'incorrect input argument: not {Paths} instance  < ' + path + ' >'
 					};
 				}
-				
+
 				if(this.size() != path.size()) {
 					throw {
 						name: 'ValueError',
 						message: 'incorrect input argument: incompatible {path} size < ' + path.size() + ' >'
 					};
 				}
-				
+
 				for(var i=0; i<n; i++) {
 					for(var j=0; j<n; j++) {
 						path.setPath(i, j, (_graph[i][j] ? _graph[i][j] : Number.MAX_VALUE));
 						path.setDirection(i, j, (_graph[i][j] ? j : -1));
 					}
 				}
-				
+
 				for(var k=1; k<n; k++) {
 					for(var i=0; i<n; i++) {
 						for(var j=0; j<n; j++) {
@@ -458,7 +458,7 @@
 				//	}
 				//}
 			};
-			
+
 			var initialize = function(nodes) {
 				if(!globals.toolset.isNull(nodes)) {
 					if(!globals.toolset.isArray(nodes)) { throw {
@@ -481,18 +481,18 @@
 					}
 				}
 			};
-			
+
 			function MGraph(nodes, size) {
 				_size = (size == null) ? DEFAULT_SIZE : ((globals.toolset.isIntNumber(size) && size >= 0) ? size : null);
-				if(_size == null) throw {name: 'ValueError', mesage: 'incorrect {number of rows} argument: not positive integer number < ' + _size + ' >'};
-				
+				if(_size == null) throw {name: 'ValueError', message: 'incorrect {number of rows} argument: not positive integer number < ' + _size + ' >'};
+
 				_graph = globals.toolset.matrix(_size, _size, EMPTY_EDGE);
 				//_weights = globals.toolset.matrix(_size, _size, EMPTY_WEIGHT);
-				
+
 				initialize(nodes);
 			};
 			MGraph.prototype = that;
-			
+
 			globals.collections.graph.MGraph = MGraph;
 		}());
 //----------------------------------------------------------------------------------------------

@@ -266,7 +266,7 @@ for i in range(len(square)):
     for j in range(len(square[i])):
         print '%d\t' %square[i][j],
     print
-	
+
 //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 //Тест Пепина
 base = 3
@@ -350,7 +350,7 @@ public class Hungarian {
 			int primedRow = primedLocation[0];
 			int starCol = this.findStarColInRow(primedRow);
 			if (starCol != -1) {
-				// cover ther row of the primedLocation and uncover the star column
+				// cover the row of the primedLocation and uncover the star column
 				rowsCovered[primedRow] = true;
 				colsCovered[starCol] = false;
 			} else { // otherwise we need to find an augmenting path and start over.

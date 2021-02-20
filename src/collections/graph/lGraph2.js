@@ -48,7 +48,7 @@
 				var _setNotPassed = null;
 				var _current = null;
 				var _components = null;
-				
+
 				var that = {};
 				that.hasNext = function() {
 					return (_setNotPassed.getCount() > 0);
@@ -119,7 +119,7 @@
 					}
 					_index++;*/
 				};
-				
+
 				function GraphDepthIterator(graph) {
 					_graph = graph;
 					_arcs = new globals.collections.stack.Stack();
@@ -128,19 +128,19 @@
 					_components = 0;
 				};
 				GraphDepthIterator.prototype = that;
-				
+
 				globals.collections.graph.iterator.GraphDepthIterator = GraphDepthIterator;
 			}());
 		}());
 //----------------------------------------------------------------------------------------------
-		(function() {	
+		(function() {
 			globals.collections.graph.iterator = globals.collections.graph.iterator || {};
 //----------------------------------------------------------------------------------------------
 			(function() {
 				var _graph = null;
 				var _qNext = null;
 				var _setNotPassed = null;
-				
+
 				var that = {};
 				that.hasNext = function() {
 					return !(_qNext.isEmpty() && (_setNotPassed.getCount() == 0));
@@ -171,14 +171,14 @@
 				that.add = function(node) {
 					return null;
 				};
-				
+
 				function GraphBreadthIterator(graph) {
 					_graph = graph;
 					_qNext = new globals.collections.queue.Queue();
 					_setNotPassed = (new globals.collections.set.BitSet(null, 0, _graph.size() - 1)).inverse();
 				};
 				GraphBreadthIterator.prototype = that;
-				
+
 				globals.collections.graph.iterator.GraphBreadthIterator = GraphBreadthIterator;
 			}());
 		}());
@@ -186,9 +186,9 @@
 		(function() {
 			globals.collections.graph.node = globals.collections.graph.node || {};
 //----------------------------------------------------------------------------------------------
-			(function() {	
+			(function() {
 				var _path = null;
-				
+
 				var that = {};
 				that.getPath = function() {
 					return _path;
@@ -223,7 +223,7 @@
 				};
 				that.hashCode = function() {
 					var hashValue = 11;
-					
+
 					var sfVal = (_path == null) ? 0 : _path.hashCode();
 					hashValue = 31 * hashValue + sfVal;
 					return hashValue;
@@ -231,12 +231,12 @@
 				that.toString = function() {
 					return '(path: {' + _path.join(', ').toString() + '})';
 				};
-				
+
 				function Path() {
 					_path = globals.toolset.vector();
 				};
 				Path.prototype = that;
-				
+
 				globals.collections.graph.node.Path = Path;
 			}());
 		}());
@@ -244,10 +244,10 @@
 		(function() {
 			globals.collections.graph.node = globals.collections.graph.node || {};
 //----------------------------------------------------------------------------------------------
-			(function() {	
+			(function() {
 				var _end = null;
 				var _next = null;
-				
+
 				var that = {};//Object.create(null);
 				that.getEnd = function() {
 					return _end;
@@ -286,25 +286,25 @@
 				};
 				that.hashCode = function() {
 					var hashValue = 11;
-					
+
 					var sfVal = (_end == null) ? 0 : _end.hashCode();
 					hashValue = 31 * hashValue + sfVal;
-					
+
 					sfVal = (_next == null) ? 0 : _next.hashCode();
 					hashValue = 31 * hashValue + sfVal;
-					
+
 					return hashValue;
 				};
 				that.toString = function() {
 					return '(end vertice: {' + _end.toString() + '})';
 				};
-				
+
 				function ArcNode(end, next) {
 					_end = Object.clone(end);
 					_next = next;
 				};
 				ArcNode.prototype = that;
-				
+
 				globals.collections.graph.node.ArcNode = ArcNode;
 			}());
 		}());
@@ -331,19 +331,19 @@
 				};
 				that.hashCode = function() {
 					var hashValue = 11;
-					
+
 					var sfVal = (_begin == null) ? 0 : _begin.hashCode();
 					hashValue = 31 * hashValue + sfVal;
-					
+
 					sfVal = globals.collections.graph.node.ArcNode.prototype.hashCode.apply(this);
 					hashValue = 31 * hashValue + sfVal;
-					
+
 					return hashValue;
 				};
 				that.toString = function() {
 					return '(begin vertice: {' + _begin.toString() + '}, end vertice: {' + globals.collections.graph.node.ArcNode.prototype.getEnd.apply(this).toString() + '})';
 				};
-				
+
 				function ExtendedArcNode(begin, arc) {
 					if(arc == null) {
 						throw {
@@ -362,7 +362,7 @@
 				};
 				ExtendedArcNode.prototype = that;
 				ExtendedArcNode.prototype.constructor = ExtendedArcNode;
-				
+
 				globals.collections.graph.node.ExtendedArcNode = ExtendedArcNode;
 			}());
 		}());
@@ -389,26 +389,26 @@
 				};
 				that.hashCode = function() {
 					var hashValue = 11;
-					
+
 					var sfVal = (_len == null) ? 0 : _len.hashCode();
 					hashValue = 31 * hashValue + sfVal;
-					
+
 					sfVal = globals.collections.graph.node.ArcNode.prototype.hashCode.apply(this);
 					hashValue = 31 * hashValue + sfVal;
-					
+
 					return hashValue;
 				};
 				that.toString = function() {
 					return '(begin vertice: {' + _begin.toString() + '}, end vertice: {' + globals.collections.graph.node.ArcNode.prototype.getEnd.apply(this).toString() + '})';
 				};
-				
+
 				function ExtendedArcNode2(end, arc, len) {
 					globals.collections.graph.node.ArcNode.call(this, end, arc);
 					_len = len;
 				};
 				ExtendedArcNode2.prototype = that;
 				ExtendedArcNode2.prototype.constructor = ExtendedArcNode2;
-				
+
 				globals.collections.graph.node.ExtendedArcNode2 = ExtendedArcNode2;
 			}());
 		}());
@@ -433,11 +433,11 @@
 				that.newSelection = function(vertex) {
 					return null;
 				};
-			
+
 				function IGraphDepthVisitor() {
 				};
 				IGraphDepthVisitor.prototype = that;
-				
+
 				globals.collections.graph.visitor.IGraphDepthVisitor = IGraphDepthVisitor;
 			}());
 		}());
@@ -459,7 +459,7 @@
 				function IGraphBreadthVisitor() {
 				};
 				IGraphBreadthVisitor.prototype = that;
-				
+
 				globals.collections.graph.visitor.IGraphBreadthVisitor = IGraphBreadthVisitor;
 			}());
 		}());
@@ -469,7 +469,7 @@
 //----------------------------------------------------------------------------------------------
 			(function() {
 				var _componentNo = null;
-				
+
 				var that = Object.create(globals.collections.graph.visitor.IGraphDepthVisitor.prototype);
 				that.vertexIn = function(vertex) {
 					console.log("vertexIn: " + vertex);
@@ -486,14 +486,14 @@
 				that.newSelection = function(vertex) {
 					console.log("newSelection: #{" + (++_componentNo) + "} " + vertex);
 				};
-			
+
 				function GraphDepthVisitor() {
 					globals.collections.graph.visitor.IGraphDepthVisitor.call(this);
 					_componentNo = 0;
 				};
 				GraphDepthVisitor.prototype = that;
 				GraphDepthVisitor.prototype.constructor = GraphDepthVisitor;
-				
+
 				globals.collections.graph.visitor.GraphDepthVisitor = GraphDepthVisitor;
 			}());
 		}());
@@ -504,16 +504,16 @@
 			(function() {
 				var _graph = null;
 				var _vertices = null;
-				
+
 				var that = Object.create(globals.collections.graph.visitor.IGraphDepthVisitor.prototype);
-				
+
 				that.vertexOut = function(vertex) {
 					_graph.setMark(vertex, --_vertices);
 				};
 				that.getGraph = function() {
 					return _graph;
 				};
-			
+
 				function GraphTopologicalSortVisitor(graph) {
 					globals.collections.graph.visitor.IGraphDepthVisitor.call(this);
 					if(graph == null) {
@@ -533,7 +533,7 @@
 				};
 				GraphTopologicalSortVisitor.prototype = that;
 				GraphTopologicalSortVisitor.prototype.constructor = GraphTopologicalSortVisitor;
-				
+
 				globals.collections.graph.visitor.GraphTopologicalSortVisitor = GraphTopologicalSortVisitor;
 			}());
 		}());
@@ -545,9 +545,9 @@
 				//var _graph = null;
 				//var _vertices = null;
 				var _hasCycle = null;
-				
+
 				var that = Object.create(globals.collections.graph.visitor.graphTopologicalSortVisitor.prototype);
-				
+
 				//that.vertexOut = function(vertex) {
 				//	_graph.setMark(vertex, --_vertices);
 				//};
@@ -559,7 +559,7 @@
 				that.hasCycle = function() {
 					return _hasCycle;
 				};
-			
+
 				function GraphCycleVisitor(graph) {
 					globals.collections.graph.visitor.graphTopologicalSortVisitor.call(this, graph);
 					//_graph = graph;
@@ -568,7 +568,7 @@
 				};
 				GraphCycleVisitor.prototype = that;
 				GraphCycleVisitor.prototype.constructor = GraphCycleVisitor;
-				
+
 				globals.collections.graph.visitor.GraphCycleVisitor = GraphCycleVisitor;
 			}());
 		}());
@@ -578,11 +578,11 @@
 			var _graph = null;
 			var _markedVerticesArray = null;
 			var _count = null;
-			
+
 			var isInRange = function(num) {
 				return (num < _size && num >= 0);
 			};
-			
+
 			var that = {};
 			that.add = function(a, b) {
 				if(!globals.toolset.isIntNumber(a)) { throw {
@@ -734,12 +734,12 @@
 						message: 'incorrect input argument: not Visitor instance  < ' + visitor + ' >'
 					};
 				}
-				
+
 				var setNotPassed = (new globals.collections.set.BitSet(0, this.size() - 1)).inverse();
 				var arcs = new globals.collections.stack.Stack();
 				var current = -1;
 				var selected = -1;
-				
+
 				while(setNotPassed.getCount() != 0) {
 					if(current == -1) {
 						selected = current = setNotPassed.first();
@@ -787,10 +787,10 @@
 						message: 'incorrect input argument: not Visitor instance  < ' + visitor + ' >'
 					};
 				}
-				
+
 				var qNext = new globals.collections.queue.Queue();
 				var setNotPassed = (new globals.collections.set.BitSet(null, 0, this.size() - 1)).inverse();
-				
+
 				while(!(qNext.isEmpty() && (setNotPassed.getCount() == 0))) {
 					if(qNext.isEmpty()) {
 						var selected = setNotPassed.first();
@@ -811,7 +811,7 @@
 				}
 			};
 			that.traverseDepthRec = function(visitor) {
-				
+
 				var traverseRec = function(vertex, visitor, setNotPassed) {
 					visitor.vertexIn(vertex);
 					setNotPassed.remove(vertex);
@@ -825,7 +825,7 @@
 					}
 					visitor.vertexOut(vertex);
 				};
-				
+
 				if(visitor == null) {
 					throw {
 						name: 'NullPointerError',
@@ -863,15 +863,15 @@
 					throw globals.exception.argumentException('OutOfBoundsError', 'incorrect input argument: end vertex < ' + end + ' > is out of range {0,' + this.size() + '}');
 				}
 				if(begin == end) return [begin];
-				
+
 				var selected = begin;
 				var qNext = new globals.collections.queue.Queue();
 				var setNotPassed = (new globals.collections.set.BitSet(null, 0, this.size() - 1)).inverse();
 				var marks = globals.toolset.vector(this.size(), -1);
-				
+
 				setNotPassed.remove(selected);
 				qNext.enqueue(selected);
-				
+
 				loop:
 				while(!qNext.isEmpty()) {
 					var vertex = qNext.dequeue();
@@ -887,7 +887,7 @@
 						}
 					}
 				}
-				
+
 				if(marks[end] == -1) {
 					return null;
 				} else {
@@ -922,7 +922,7 @@
 				if(!isInRange(end) {
 					throw globals.exception.argumentException('OutOfBoundsError', 'incorrect input argument: end vertex < ' + end + ' > is out of range {0,' + this.size() + '}');
 				}
-				
+
 				if(path == null) {
 					throw {
 						name: 'NullPointerError',
@@ -935,7 +935,7 @@
 						message: 'incorrect input argument: not {Path} instance  < ' + path + ' >'
 					};
 				}
-				
+
 				if(begin == end) {
 					path.insertAsLast(begin);
 					return 0;
@@ -945,10 +945,10 @@
 				var setNotPassed = (new globals.collections.set.BitSet(null, 0, this.size() - 1)).inverse();
 				var marks = globals.toolset.vector(this.size(), -1);
 				var len = globals.toolset.vector(this.size(), 0);
-				
+
 				setNotPassed.remove(selected);
 				arrNext.push(selected);
-				
+
 				while(setNotPassed.getCount() > 0) {
 					var minArc = new globals.collections.graph.node.ExtendedArcNode2(0, null, Number.MAX_VALUE);
 					var minVertex = -1;
@@ -961,17 +961,17 @@
 							}
 						}
 					}
-					
+
 					if(minArc.getLength() == Number.MAX_VALUE) break;
-					
+
 					arrNext.push(minArc.getEnd());
 					marks[minArc.getEnd()] = minVertex;
 					len[minArc.getEnd()] = minArc.getLength();
 					setNotPassed.remove(minArc.getEnd());
-					
+
 					if(minArc.getEnd() == end) break;
 				}
-				
+
 				if(marks[end] == -1) {
 					//path = [];
 					return 0;
@@ -1092,7 +1092,7 @@
 				}
 				return (_markedVerticesArray[vertex] != -1);
 			};
-			
+
 			var initialize = function(nodes) {
 				if(!globals.toolset.isNull(nodes)) {
 					if(!globals.toolset.isArray(nodes)) { throw {
@@ -1121,11 +1121,11 @@
 					//}
 				}
 			};
-			
+
 			function LGraph2(nodes, size, cmp) {
 				_size = (size == null) ? DEFAULT_SIZE : ((globals.toolset.isIntNumber(size) && size >= 0) ? size : null);
-				if(_size == null) throw {name: 'ValueError', mesage: 'incorrect size value: not positive integer number < ' + _size + ' >'};
-				
+				if(_size == null) throw {name: 'ValueError', message: 'incorrect size value: not positive integer number < ' + _size + ' >'};
+
 				_graph = globals.toolset.vector(_size, null);
 				_markedVerticesArray = globals.toolset.vector(_size, -1);//new globals.collections.set.BitSet(null, 0, _size - 1);
 				_count = 0;
@@ -1134,7 +1134,7 @@
 				compare = globals.toolset.isFunction(cmp) ? cmp : compare;
 			};
 			LGraph2.prototype = that;
-			
+
 			globals.collections.graph.LGraph2 = LGraph2;
 		}());
 //----------------------------------------------------------------------------------------------

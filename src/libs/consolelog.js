@@ -1,22 +1,31 @@
 /*global log:false*/
 
 // Tell IE9 to use its built-in console
-if (Function.prototype.bind && (typeof console === 'object' || typeof console === 'function') && typeof console.log === 'object') {
-  ['log','info','warn','error','assert','dir','clear','profile','profileEnd']
-    .forEach(function (method) {
-      console[method] = this.call(console[method], console);
-    }, Function.prototype.bind);
+if (
+  Function.prototype.bind &&
+  (typeof console === 'object' || typeof console === 'function') &&
+  typeof console.log === 'object'
+) {
+  ['log', 'info', 'warn', 'error', 'assert', 'dir', 'clear', 'profile', 'profileEnd'].forEach(function (
+    method
+  ) {
+    console[method] = this.call(console[method], console);
+  },
+  Function.prototype.bind);
 }
 
 // log() -- The complete, cross-browser (we don't judge!) console.log wrapper for his or her logging pleasure
 if (!window.log) {
   window.log = function () {
-    var args = arguments,
-        isReallyIE8 = false,
-        isReallyIE8Plus = false,
-        ua, winRegexp, script, i;
+    let args = arguments,
+      isReallyIE8 = false,
+      isReallyIE8Plus = false,
+      ua,
+      winRegexp,
+      script,
+      i;
 
-    log.history = log.history || [];  // store logs to an array for reference
+    log.history = log.history || []; // store logs to an array for reference
     log.history.push(arguments);
 
     // If the detailPrint plugin is loaded, check for IE10- pretending to be an older version,
@@ -50,10 +59,12 @@ if (!window.log) {
         }
       }
       // Single argument, which is a string
-      else if ((Array.prototype.slice.call(args)).length === 1 && typeof Array.prototype.slice.call(args)[0] === 'string') {
-        console.log((Array.prototype.slice.call(args)).toString());
-      }
-      else {
+      else if (
+        Array.prototype.slice.call(args).length === 1 &&
+        typeof Array.prototype.slice.call(args)[0] === 'string'
+      ) {
+        console.log(Array.prototype.slice.call(args).toString());
+      } else {
         console.log(Array.prototype.slice.call(args));
       }
     }
@@ -70,8 +81,7 @@ if (!window.log) {
           Function.prototype.call.call(console.log, console, Array.prototype.slice.call([args[i]]));
           i++;
         }
-      }
-      else {
+      } else {
         // No detailed print, just pass the arguments straight through
         Function.prototype.call.call(console.log, console, Array.prototype.slice.call(args));
       }
@@ -90,11 +100,14 @@ if (!window.log) {
         // If you want to expand the console window by default, uncomment this line
         //document.getElementsByTagName('HTML')[0].setAttribute('debug','true');
         document.getElementsByTagName('HEAD')[0].appendChild(script);
-        setTimeout(function () { window.log.apply(window, args); }, 2000);
-      }
-      else {
+        setTimeout(function () {
+          window.log.apply(window, args);
+        }, 2000);
+      } else {
         // FBL was included but it hasn't finished loading yet, so try again momentarily
-        setTimeout(function () { window.log.apply(window, args); }, 500);
+        setTimeout(function () {
+          window.log.apply(window, args);
+        }, 500);
       }
     }
   };

@@ -30,13 +30,13 @@
 			* @return {Integer} -1 - lower, 0 - equals, 1 - greater
 			*/
 			var cmpByDefault_ = function(a, b) {
-				
+
 				var hasProperty = function(obj, prop) {
 					var proto = obj.__proto__ || obj.constructor.prototype;
 					return (prop in obj) || ((prop in proto) || proto[prop] === obj[prop]);
 					//return (prop in obj) && (!(prop in proto) || proto[prop] !== obj[prop]);
 				}
-				
+
 				if(a === b) {
 					return 0;
 				}
@@ -116,13 +116,13 @@
 			var cmpByLocaleLang_ = (function() {
 				var options_ = { sensitivity: 'base' };
 				var locale_ = 'i';
-					
+
 				return function(a, b, locale, options) {
 					a = (a === null) ? '' : '' + a;
 					b = (b === null) ? '' : '' + b;
 					locale = (globals.toolset.isString(locale)) ? locale : locale_;
 					options = (globals.toolset.isObject(options)) ? options : options_;
-					
+
 					var localeCompareSupportsCollator = function() {
 						try {
 							return (new Intl.Collator(locale, options).compare(a, b));
@@ -131,7 +131,7 @@
 						}
 						return false;
 					};
-					
+
 					var localeCompareSupportsLocales = function() {
 						try {
 							return (new Intl.Collator(locale, options).compare(a, b));
@@ -140,7 +140,7 @@
 						}
 						return false;
 					};
-					
+
 					var result = localeCompareSupportsCollator();
 					if(result === false) {
 						result = localeCompareSupportsLocales();
@@ -202,7 +202,7 @@
 					if(globals.toolset.isObject(o) && globals.toolset.isObject(p)) {
 						a = o[name];
 						b = p[name];
-						
+
 						cmp = globals.toolset.isFunction(cmp) ? cmp ? null;
 						if(cmp) {
 							return cmp(o, p);
@@ -262,7 +262,7 @@
 											};
 			}
 			cmp = globals.toolset.isFunction(cmp) ? cmp : globals.sorting.comparator.cmpByDefault;
-			
+
 			var n = array.length, swapped;
 			do {
 				swapped = false;
@@ -275,7 +275,7 @@
 			} while(swapped != false);
 			return res;
 		};
-//----------------------------------------------------------------------------------------------	
+//----------------------------------------------------------------------------------------------
 		/**
 		* @public
 		* @module sorting
@@ -293,11 +293,11 @@
 												};
 			}
 			cmp = globals.toolset.isFunction(cmp) ? cmp : globals.sorting.comparator.cmpByDefault;
-			
+
 			if(array.length < 2) {
 				return;
 			}
-			
+
 			var minVal = maxVal = array[0];
 			for(var i=1; i<array.length; i++) {
 				if(cmp(array[i], maxVal) > 0) {
@@ -307,7 +307,7 @@
 					minVal = array[i];
 				}
 			}
-			
+
 			// Создание временного массива "карманов" в количестве,
             // достаточном для хранения всех возможных элементов,
             // чьи значения лежат в диапазоне между minValue и maxValue.
@@ -319,7 +319,7 @@
 				// Занесение значений в пакеты
 				bucket[array[i]-minVal].push(array[i]);
 			}
-			
+
 			// Восстановление элементов в исходный массив
             // из карманов в порядке возрастания значений
 			var pos = 0;
@@ -330,7 +330,7 @@
 					}
 				}
 			}
-			
+
 			return array;
 		};
 //----------------------------------------------------------------------------------------------
@@ -350,7 +350,7 @@
 		*/
 		var shellSort = (function() {
 			var steps = [701, 301, 132, 57, 23, 10, 4, 1];
-			
+
 			return function (array, cmp) {
 				if(!globals.toolset.isArray(array)) { throw {
 														name: 'ValueError',
@@ -388,7 +388,7 @@
 		* var initArraySorted = shellSort(initArray, initArray.length);
 		* document.writeln("shellSort: " + initArraySorted);
 		*
-		*/	
+		*/
 		var shellSort2 = function(array, step, cmp) {
 			if(!globals.toolset.isArray(array)) { throw {
 												name: 'ValueError',
@@ -397,7 +397,7 @@
 			}
 			step = (globals.toolset.isIntNumber(step) && step > 0) ? step : array.length;
 			cmp = globals.toolset.isFunction(cmp) ? cmp : globals.sorting.comparator.cmpByDefault;
-			
+
 			var isSorted;
 			for(var gap=Math.floor(step/2); gap>0; gap=Math.floor(gap/2)) {
 				do {
@@ -434,7 +434,7 @@
 												};
 			}
 			cmp = globals.toolset.isFunction(cmp) ? cmp : globals.sorting.comparator.cmpByDefault;
-			
+
 			var temp, gap = 1, n = array.length;
 			do {
 				gap = 3 * gap + 1;
@@ -470,7 +470,7 @@
 		*/
 		var hooraSort = (function() {
 			var cmp_ = globals.sorting.comparator.cmpByDefault;
-			
+
 			var hoora = function(l, r) {
 				if(l >= r) return;
 				swap_(array, l, Math.floor((l + r) / 2));
@@ -484,9 +484,9 @@
 				arguments.callee(l, las-1);
 				arguments.callee(las+1, r);
 			};
-			
+
 			return function(array, left, right, cmp) {
-				
+
 				if(!globals.toolset.isArray(array)) { throw {
 													name: 'ValueError',
 													message: 'incorrect input parameters: array < ' + array + ' >'
@@ -495,7 +495,7 @@
 				left = (globals.toolset.isIntNumber(left) && left > 0) ? left : 0;
 				right = (globals.toolset.isIntNumber(right) && right > 0) ? right : array.length;
 				cmp_ = globals.toolset.isFunction(cmp) ? cmp : cmp_;
-				
+
 				hoora(left, right);
 				return array;
 			}
@@ -527,9 +527,9 @@
 													message: 'incorrect input parameter: array < ' + array + ' >'
 												};
 			}
-			
+
 			cmp = globals.toolset.isFunction(cmp) ? cmp : globals.sorting.comparator.cmpByDefault;
-			
+
 			var temp;
 			for(var i=1; i<array.length; i++) {
 				temp = array[i];
@@ -557,7 +557,7 @@
 		*/
 		var selectionSort = (function() {
 			var cmp_ = globals.sorting.comparator.cmpByDefault;
-			
+
 			var findMinimumIndex = function(data, start) {
 					var minPos = start;
 					for(var i=start+1; i<data.length; i++) {
@@ -567,12 +567,12 @@
 					}
 				return minPos;
 			};
-			
+
 			var selectionSortRecursive = function(data, start) {
 				swap_(data, start, findMinimumIndex(data, start));
 				selectionSortRecursive(data, start + 1);
 			};
-			
+
 			return function(array, start, cmp) {
 				if(!globals.toolset.isArray(array)) { throw {
 														name: 'ValueError',
@@ -603,10 +603,10 @@
 		*/
 		var mergeSort = (function() {
 			var cmp_ = globals.sorting.comparator.cmpByDefault;
-			
+
 			var MIN_LENGTH = 10;
-			
-			var merge = function(dest, left, right) { 
+
+			var merge = function(dest, left, right) {
 				var dind = lind = rind = 0, order;
 				while(lind < left.length && rind < right.length) {
 					order = cmp_(left[lind], right[rind]);
@@ -620,7 +620,7 @@
 				while(rind < right.length) dest[dind++] = right[rind++];
 				return dest;
 			};
-			
+
 			var mergeSortSimple = function(data) {
 				if(data.length < 2) {
 					return data;
@@ -636,7 +636,7 @@
 				mergeSortSimple(right);
 				return merge(data, left, right);
 			};
-			
+
 			return function(array, cmp) {
 				if(!globals.toolset.isArray(array)) { throw {
 													name: 'ValueError',
@@ -650,8 +650,8 @@
 //----------------------------------------------------------------------------------------------
 		var mergeSort2 = (function() {
 			var cmp_ = globals.sorting.comparator.cmpByDefault;
-			
-			var merge = function(data, low, middle, high) { 
+
+			var merge = function(data, low, middle, high) {
 				var helper = globals.toolset.vector(data.length);
 				for(var i=low; i<=high; i++) {
 					helper[i] = data[i];
@@ -659,7 +659,7 @@
 				var helperLeft = low;
 				var helperRight = middle + 1;
 				var current = low;
-				
+
 				while(helperLeft <= middle && helperRight <= high) {
 					if(helper[helperLeft] <= helper[helperRight]) {
 						data[current] = helper[helperLeft];
@@ -675,7 +675,7 @@
 					data[current + i] = helper[helperLeft + i];
 				}
 			};
-			
+
 			var mergeSort_ = function(data, low, high) {
 				if(low < high) {
 					var middle = Math.floor((low + high) / 2);
@@ -684,7 +684,7 @@
 					merge(data, low, middle, high);
 				}
 			};
-			
+
 			return function(array, cmp) {
 				if(!globals.toolset.isArray(array)) { throw {
 													name: 'ValueError',
@@ -712,7 +712,7 @@
 		*/
 		var quicksortOptimized = (function() {
 			var cmp_ = globals.sorting.comparator.cmpByDefault;
-			
+
 			var quicksort = function(data, left, right) {
 				var pivotValue = data[Math.floor((left + right) / 2)];
 				var i = left, j = right;
@@ -732,7 +732,7 @@
 					quicksort(data, i, right);
 				}
 			};
-				
+
 			return function(array, cmp) {
 				if(!jsar.toolset.isArray(array)) { throw {
 													name: 'ValueError',
@@ -771,7 +771,7 @@
 											};
 			}
 			cmp = globals.toolset.isFunction(cmp) ? cmp : globals.sorting.comparator.cmpByDefault;
-			
+
 			var sp = 1, stackl = [], stackr = [], left, right, i, j, temp;
 			stackl[1] = 1;
 			stackr[1] = array.length - 1;
@@ -824,13 +824,13 @@
 												message: 'incorrect input parameter: array < ' + array + ' >'
 											};
 			}
-			
+
 			min = ((globals.toolset.isIntNumber(min) && min > 0 && min < array.length) ? min : 0;
 			max = (globals.toolset.isIntNumber(max) && max > 0 && max < array.length) ? max : array.length-1;
-			if(min > max) return;//throw {name: 'ValueError', mesage: 'incorrect min or max value: min < ' + min + ' >, max < ' + max + ' >'};
-			
+			if(min > max) return;//throw {name: 'ValueError', message: 'incorrect min or max value: min < ' + min + ' >, max < ' + max + ' >'};
+
 			cmp = globals.toolset.isFunction(cmp) ? cmp : globals.sorting.comparator.cmpByDefault;
-			
+
 			var heap = globals.collections.maxHeap(array.slice(min, max+1), cmp), result = [];
 			while(!heap.isEmpty()) {
 				result.push(heap.poll());
@@ -854,7 +854,7 @@
 		*/
 		var heapsort2 = (function() {
 			var cmp_ = globals.sorting.comparator.cmpByDefault;
-			
+
 			var adjust = function(m, n) {
 					var j = m, k = 2 * m;
 					while(k <= n) {
@@ -871,7 +871,7 @@
 												};
 				}
 				cmp_ = globals.toolset.isFunction(cmp) ? cmp : cmp_;
-				
+
 				var n = array.length;
 				for(var j=Math.floor(n/2); j>0; j--) {
 					adjust(j, n);
@@ -899,7 +899,7 @@
 		*/
 		var heapsort3 = (function() {
 			var cmp_ = globals.sorting.comparator.cmpByDefault;
-			
+
 			var siftup = function(pos, n) {
 				var temp, order;
 				while((temp = 2 * pos + 1) < n) {
@@ -928,7 +928,7 @@
 					swap_(c, i);
 				}
 			};
-			
+
 			return function(array, cmp) {
 				if(!globals.toolset.isArray(array)) { throw {
 													name: 'ValueError',
@@ -936,7 +936,7 @@
 												};
 				}
 				cmp_ = globals.toolset.isFunction(cmp) ? cmp : cmp_;
-				
+
 				var n = array.length;
 				for(var i=n-1; i>=0; i--) {
 					siftup(i, n);
@@ -969,7 +969,7 @@
 											};
 			}
 			cmp = globals.toolset.isFunction(cmp) ? cmp : globals.sorting.comparator.cmpByDefault;
-			
+
 			var pq = globals.collections.priqueue(array, cmp);
 			//for(var i=0; i<array.length; i++) {
 			//	pq.insert(array[i]);
@@ -995,7 +995,7 @@
 											};
 			}
 			cmp = globals.toolset.isFunction(cmp) ? cmp : globals.sorting.comparator.cmpByDefault;
-			
+
 			var temp;
 			for(var i=1; i<array.length; i++) {
 				temp = array[i];
@@ -1025,8 +1025,8 @@
 			min = (globals.toolset.isIntNumber(min) && min > 0) ? min : 0;
 			max = (globals.toolset.isIntNumber(max) && max > 0) ? max : array.length-1;
 			cmp = globals.toolset.isFunction(cmp) ? cmp : globals.sorting.comparator.cmpByDefault;
-			
-			if(min > max) return;//throw {name: 'ValueError', mesage: 'incorrect min or max value: min < ' + min + ' >, max < ' + max + ' >'};l..return;
+
+			if(min > max) return;//throw {name: 'ValueError', message: 'incorrect min or max value: min < ' + min + ' >, max < ' + max + ' >'};l..return;
 			for(var i=min; i<max; i++) {
 				for(var j=i; j>0 && cmp(array[j-1], array[j]) > 0; j--) {
 					swap_(array, j-1, j);
@@ -1049,7 +1049,7 @@
 											};
 			}
 			cmp = globals.toolset.isFunction(cmp) ? cmp : globals.sorting.comparator.cmpByDefault;
-			
+
 			var n = array.length; i = 1; j = 2;
 			while(i < n) {
 				if(cmp(array[i-1], array[i]) < 0) {
@@ -1080,7 +1080,7 @@
 											};
 			}
 			cmp = globals.toolset.isFunction(cmp) ? cmp : globals.sorting.comparator.cmpByDefault;
-			
+
 			var j = array.length-1; i = 0; flag = true, t;
 			while(i < j && flag) {
 				flag = false;
@@ -1120,7 +1120,7 @@
 											};
 			}
 			cmp = globals.toolset.isFunction(cmp) ? cmp : globals.sorting.comparator.cmpByDefault;
-			
+
 			var n = array.length;
 			var count = globals.toolset.vector(n, 0), res = globals.toolset.vector(n, 0);
 			for(var i=0; i<n-1; i++) {
@@ -1148,23 +1148,23 @@
 		* @return {Array} Sorted Array
 		*/
 		var combSort = (function() {
-			
+
 			var getGap = function(gap) {
 				gap = Math.floor(gap/1.3);
 				if(gap == 9 || gap == 10) gap = 11;
 				if(gap < 1) return 1;
 				return gap;
 			};
-			
+
 			return function(array, cmp) {
-			
+
 				if(!globals.toolset.isArray(array)) { throw {
 													name: 'TypeError',
 													message: 'incorrect input argument: not array < ' + array + ' >'
 												};
 				}
 				cmp = globals.toolset.isFunction(cmp) ? cmp : globals.sorting.comparator.cmpByDefault;
-				
+
 				var n = array.length; gap = n, flag;
 				do {
 					flag = false;
@@ -1184,7 +1184,7 @@
 	{
 		var splitters = string_array.map(makeSplitter),
 			sorted = splitters.sort(compareSplitters);
-		return sorted.map(function(splitter){ return splitter.item });    
+		return sorted.map(function(splitter){ return splitter.item });
 		function makeSplitter(item){ return new Splitter(item) }
 		function Splitter(item)
 		{ var index = 0, from = 0, parts = [], completed = false;

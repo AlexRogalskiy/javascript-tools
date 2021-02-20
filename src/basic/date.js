@@ -111,7 +111,7 @@
 			m = this.getMonth() + mn;
 			if(m !== 0) { this.setYear(this.getFullYear() + Math.floor(m/12)); }
 			if(m < 0) {
-				this.setMonth(12 + (m%12));	
+				this.setMonth(12 + (m%12));
 			} else if(m > 0) {
 				this.setMonth(m%12);
 			}
@@ -207,7 +207,7 @@
 					return thi.H(date) < 12 ? 'AM' : 'PM';
 				}
 			};
-			
+
 			if(!globals.toolset.isString(pattern)) { throw {
 														name: 'ValueError',
 														message: 'incorrect format string: < ' + pattern + ' >'
@@ -234,7 +234,7 @@
 		});
 //----------------------------------------------------------------------------------------------
 	}());
-}(typeof exports !== 'undefined' ? exports : this));
+}(typeof exports !== 'undefined' ? exports : this);
 
 //new Date().format("yyyy-MM-dd")
 //new Date("january 12 2008 11:12:30").format("yyyy-MM-dd h:mm:ss")

@@ -52,7 +52,7 @@
 		// var x = 0 | Math.random() * 10; // ~~ = Math.floor
 		// i=-~i; // increment
 		/*
-		* 
+		*
 		*/
 		Number.method('toRadians', function() {
 			return (this * Math.PI / 180).toFixed(3);
@@ -116,9 +116,9 @@
 //----------------------------------------------------------------------------------------------
 		Number.method('toInteger', function(thousandsSeparator) {
 			var startAt, intLen;
-			
+
 			thousandsSeparator = globals.toolset.isString(thousandsSeparator) ? thousandsSeparator: ',';
-			
+
 			var num = this.round(0, true);
 			var intLen = num.length;
 			if ((startAt = intLen%3) == 0) startAt = 3;
@@ -130,17 +130,17 @@
 //----------------------------------------------------------------------------------------------
 		Number.method('round', function(decimals, returnAsString, decimalSeparator) {
 			var frac;
-			
+
 			decimals = globals.toolset.isIntNumber(decimals) ? decimals : 0;
-			
+
 			var factor = Math.pow(10, decimals);
 			var n = (this.valueOf() + '');
 			if(!returnAsString) {
 				return Math.round(n * factor) / factor;
 			}
-			
+
 			decimalSeparator = globals.toolset.isString(decimalSeparator) ? decimalSeparator: '.';
-			
+
 			if (n == 0) return '0.' + ((factor + '').substr(1));
 			var breakPoint =(n = Math.round(n * factor) + '').length - decimals;
 			var whole = n.substr(0, breakPoint);
@@ -170,7 +170,7 @@
 																					};
 			}
 			precision = (precision == null) ? 0.0001 : (globals.toolset.isRealNumber(precision) && precision > 0 && precision < 1) ? precision : null;
-			if(precision == null) throw {name: 'ValueError', mesage: 'incorrect precision value: < ' + precision + ' >'};
+			if(precision == null) throw {name: 'ValueError', message: 'incorrect precision value: < ' + precision + ' >'};
 			return (Math.abs(left - right) < precision);
 		});
 //----------------------------------------------------------------------------------------------
@@ -181,9 +181,9 @@
 																					};
 			}
 			precision = (precision == null) ? 0.0001 : (globals.toolset.isRealNumber(precision) && precision > 0 && precision < 1) ? precision : null;
-			if(precision == null) throw {name: 'ValueError', mesage: 'incorrect precision value: < ' + precision + ' >'};
+			if(precision == null) throw {name: 'ValueError', message: 'incorrect precision value: < ' + precision + ' >'};
 			isEqual = (isEqual == null) ? false : (globals.toolset.isBoolean(isEqual)) ? isEqual : null;
-			if(isEqual == null) throw {name: 'ValueError', mesage: 'incorrect isEqual value: < ' + isEqual + ' >'};
+			if(isEqual == null) throw {name: 'ValueError', message: 'incorrect isEqual value: < ' + isEqual + ' >'};
 			if(Math.abs(left - right) < precision) return (isEqual);
 			return (left < right);
 		});
@@ -195,9 +195,9 @@
 																					};
 			}
 			precision = (precision == null) ? 0.0001 : (globals.toolset.isRealNumber(precision) && precision > 0 && precision < 1) ? precision : null;
-			if(precision == null) throw {name: 'ValueError', mesage: 'incorrect precision value: < ' + precision + ' >'};
+			if(precision == null) throw {name: 'ValueError', message: 'incorrect precision value: < ' + precision + ' >'};
 			isEqual = (isEqual == null) ? false : (globals.toolset.isBoolean(isEqual)) ? isEqual : null;
-			if(isEqual == null) throw {name: 'ValueError', mesage: 'incorrect isEqual value: < ' + isEqual + ' >'};
+			if(isEqual == null) throw {name: 'ValueError', message: 'incorrect isEqual value: < ' + isEqual + ' >'};
 			if(Math.abs(left - right) < precision) return (isEqual);
 			return (left > right);
 		});

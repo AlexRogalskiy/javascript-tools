@@ -24,11 +24,11 @@
 		(function() {
 			var _size = null;
 			var _graph = null;
-			
+
 			var isInRange = function(num) {
 				return (num < _size && num >= 0);
 			};
-			
+
 			var that = {};
 			that.has = function(a, b) {
 				if(!globals.toolset.isIntNumber(a)) { throw {
@@ -129,7 +129,7 @@
 				//	}
 				//}
 			};
-			
+
 			var initialize = function(nodes) {
 				if(!globals.toolset.isNull(nodes)) {
 					if(!globals.toolset.isArray(nodes)) { throw {
@@ -158,10 +158,10 @@
 					//}
 				}
 			};
-			
+
 			function SGraph(nodes, size) {
 				_size = (size == null) ? DEFAULT_SIZE : ((globals.toolset.isIntNumber(size) && size >= 0) ? size : null);
-				if(_size == null) throw {name: 'ValueError', mesage: 'incorrect {size} value: not positive integer number < ' + _size + ' >'};
+				if(_size == null) throw {name: 'ValueError', message: 'incorrect {size} value: not positive integer number < ' + _size + ' >'};
 
 				_graph = globals.toolset.vector(_size, null);
 				for(var i=0; i<_size; i++) {
@@ -170,7 +170,7 @@
 				initialize(nodes);
 			};
 			SGraph.prototype = that;
-			
+
 			globals.collections.graph.SGraph = SGraph;
 		}());
 //----------------------------------------------------------------------------------------------

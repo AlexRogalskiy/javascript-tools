@@ -206,9 +206,9 @@
 			let result = "";
 			for(let i=0;i<substitutions.length;i++) {
 				result += literals[i];
-				result += substitutions[i];	
+				result += substitutions[i];
 			}
-			result += literals[literals.lenght - 1];
+			result += literals[literals.length - 1];
 			return result;
 		};
 //----------------------------------------------------------------------------------------------
@@ -217,9 +217,9 @@
 			let result = "";
 			for(let i=0;i<substitutions.length;i++) {
 				result += literals.raw[i];
-				result += substitutions[i];	
+				result += substitutions[i];
 			}
-			result += literals[literals.lenght - 1];
+			result += literals[literals.length - 1];
 			return result;
 		};
 //----------------------------------------------------------------------------------------------
@@ -348,7 +348,7 @@
 		const run = function(tasks) {
 			let task = tasks();
 			let result = task.next();
-			
+
 			function step() {
 				if(!result.done) {
 					if(isFunction(result.value)) {
@@ -505,7 +505,7 @@
 //----------------------------------------------------------------------------------------------
 				const isRegExp = function(value) {
 					return (value !== null && Object.toType(value) === 'regexp');
-				};	
+				};
 //----------------------------------------------------------------------------------------------
 				globals.toolset.helpers.toUint32 = toUint32;
 				globals.toolset.helpers.toFixed = toFixed;
@@ -609,10 +609,10 @@
 			var res = globals.toolset.vector();
 			//
 			min = (globals.toolset.isNumber(min)) ? min : null;
-			if(min == null) throw {name: 'ValueError', mesage: 'incorrect {min} value: < ' + min + ' >'};
+			if(min == null) throw {name: 'ValueError', message: 'incorrect {min} value: < ' + min + ' >'};
 			//
 			max = (globals.toolset.isNumber(max)) ? max : null;
-			if(max == null) throw {name: 'ValueError', mesage: 'incorrect {max} value: < ' + max + ' >'};
+			if(max == null) throw {name: 'ValueError', message: 'incorrect {max} value: < ' + max + ' >'};
 			//
 			if(min > max) { throw {
 								name: 'ValueError',
@@ -621,8 +621,8 @@
 			}
 			//
 			delta = (delta == null) ? 1 : (globals.toolset.isNumber(delta) && delta > 0) ? delta : null;
-			if(delta == null) throw {name: 'ValueError', mesage: 'incorrect {delta} value: < ' + delta + ' >'};
-			
+			if(delta == null) throw {name: 'ValueError', message: 'incorrect {delta} value: < ' + delta + ' >'};
+
 			for (var i=min; i<=max; i+=delta) {
 				res.push(i);
 			};
@@ -634,10 +634,10 @@
 		//document.writeln(unique);
 		const serialMaker = function(prefix, seq) {
 			prefix = (prefix == null) ? '' : (globals.toolset.isString(prefix)) ? prefix : null;
-			if(prefix == null) throw {name: 'ValueError', mesage: 'incorrect prefix value: < ' + prefix + ' >'};
+			if(prefix == null) throw {name: 'ValueError', message: 'incorrect prefix value: < ' + prefix + ' >'};
 			//
 			seq = (seq == null) ? 0 : (globals.toolset.isNumber(seq)) ? seq : null;
-			if(seq == null) throw {name: 'ValueError', mesage: 'incorrect sequence value: < ' + seq + ' >'};
+			if(seq == null) throw {name: 'ValueError', message: 'incorrect sequence value: < ' + seq + ' >'};
 			//
 			return {
 				gensym: function() {
@@ -714,13 +714,13 @@
 			var initTransitionTable = function() {
 				var trans = [];
 				for (var i = 0x410; i <= 0x44F; i++) {
-					trans[i] = i - 0x350; // А-Яа-я	
+					trans[i] = i - 0x350; // А-Яа-я
 				}
 				trans[0x401] = 0xA8;    // Ё
 				trans[0x451] = 0xB8;    // ё
 				return trans;
 			};
-			
+
 			return function(str) {
 				if(!globals.toolset.isString(str)) { throw {
 													name: 'ValueError',
@@ -879,14 +879,14 @@
 												};
 			}
 			var total = 0, dist = {};
-			for(var index in numbers) { 
+			for(var index in numbers) {
 			   if (numbers.hasOwnProperty(index)) {
 				   total += numbers[index];
 				   dist[index] = total;
 			   }
 			}
 			var rand = globals.toolset.randInt(0, total);
-			for(var index in dist) { 
+			for(var index in dist) {
 			   if (dist.hasOwnProperty(index)) {
 				   if(rand < dist[index]) return index;
 			   }
@@ -894,7 +894,7 @@
 		};
 //----------------------------------------------------------------------------------------------
 		var randWeightedArrayGen = function(numbers) {
-			
+
 			var incrementTotal = function(numbers) {
 				var total = 0;
 				numbers.forEach(function(item, index){
@@ -902,7 +902,7 @@
 					yield index => total;
 				});
 			}:
-			
+
 			if(!globals.toolset.isArray(numbers)) { throw {
 													name: 'TypeError',
 													message: 'incorrect input argument: {numbers} is not array < ' + numbers + ' >'
@@ -919,30 +919,30 @@
 		};
 //----------------------------------------------------------------------------------------------
 		var randWeightedObjGen = function(numbers) {
-			
+
 			var incrementTotal = function(numbers) {
 				var total = 0;
-				for(var index in numbers) { 
+				for(var index in numbers) {
 				   if (numbers.hasOwnProperty(index)) {
 					   total += numbers[index];
 					   yield index => total;
 				   }
 				}
 			}:
-			
+
 			if(!globals.toolset.isObject(numbers)) { throw {
 													name: 'TypeError',
 													message: 'incorrect input argument: {numbers} is not object < ' + numbers + ' >'
 												};
 			}
 			var total = 0;
-			for(var index in numbers) { 
+			for(var index in numbers) {
 			   if (numbers.hasOwnProperty(index)) {
 				   total += numbers[index];
 			   }
 			}
 			var rand = globals.toolset.randInt(0, total);
-			for(var index in incrementTotal(numbers)) { 
+			for(var index in incrementTotal(numbers)) {
 			   if (numbers.hasOwnProperty(index)) {
 				   if(rand < numbers[index]) return index;
 			   }
@@ -1003,7 +1003,7 @@
 		};
 //----------------------------------------------------------------------------------------------
 		var md5 = function(str) {
-		
+
 			var md5_ = (function() {
 				var l='length',
 				h=[
@@ -1061,7 +1061,7 @@
 					return X(v[0])+X(v[1])+X(v[2])+X(v[3]);
 				};
 			}());
-			
+
 			var init = function(str) {
 				// Инициализируем таблицу перевода
 				var trans = [];
@@ -1069,7 +1069,7 @@
 				trans[i] = i - 0x350; // А-Яа-я
 				trans[0x401] = 0xA8; // Ё
 				trans[0x451] = 0xB8; // ё
-				
+
 				var ret = [];
 				for (var i = 0; i < str.length; i++) {
 					var n = str.charCodeAt(i);
@@ -1078,7 +1078,7 @@
 				}
 				return ret;
 			};
-			
+
 			if(!globals.toolset.isString(str)) { throw {
 													name: 'ValueError',
 													message: 'incorrect input value: string < ' + str + ' >'
@@ -1098,7 +1098,7 @@
 			let g = (c & 0x00FF00) >> 8;
 			let b = (c & 0x0000FF);
 			return (params.r * r + params.g * g + params.b * b);
-		};	
+		};
 //----------------------------------------------------------------------------------------------
 		/**
 		 * Adapted from <a href="https://rawgithub.com/mjijackson/mjijackson.github.com/master/2008/02/rgb-to-hsl-and-rgb-to-hsv-color-model-conversion-algorithms-in-javascript.html">https://github.com/mjijackson</a>
@@ -1200,10 +1200,10 @@
 			brk = brk || 'n';
 			width = width || 75;
 			cut = cut || false;
-		   
+
 			if (!str) { return str; }
 			var regex = '.{1,' + width + '}(\s|$)' + (cut ? '|.{' + width + '}|.+': '|\S+?(\s|$)');
-		   
+
 			return str.match(RegExp(regex, 'g')).join(brk);
 		};
 //----------------------------------------------------------------------------------------------
@@ -1216,8 +1216,8 @@
 			}
 			var out = '';
 			while(length--)
-				out += (dec >> length) & 1;    
-			return out;  
+				out += (dec >> length) & 1;
+			return out;
 		};
 //----------------------------------------------------------------------------------------------
 		var copyOfArray = function(array) {
@@ -1253,7 +1253,7 @@
 			var randomStr = '';
 			//
 			strLength = (strLength == null) ? 8 : (globals.toolset.isIntNumber(strLength) && strLength > 0) ? strLength : null;
-			if(strLength == null) throw {name: 'ValueError', mesage: 'incorrect string length: < ' + strLength + ' >'};
+			if(strLength == null) throw {name: 'ValueError', message: 'incorrect string length: < ' + strLength + ' >'};
 			//
 			for(var i=0; i<strLength; i++) {
 				var rnum = Math.floor(Math.random() * chars.length);
@@ -1322,10 +1322,10 @@
 			if(globals.toolset.isObject(obj)) return String(obj);
 			if(globals.toolset.isNumber(obj)) return String(obj);
 			if(globals.toolset.isBoolean(obj)) return String(obj);
-			
+
 			indent = (indent == null) ? " " : (globals.toolset.isString(indent)) ? indent : null;
 			if(indent == null) throw {name: 'ValueError', message: 'incorrect indent value: < ' + indent + ' >'};
-			
+
 			var str = "{\n";
 			for(var key in obj) {
 				str += indent + " " + key + " = ";
@@ -1335,12 +1335,12 @@
 		};
 //----------------------------------------------------------------------------------------------
 		var tabExpand = function(str) {
-			
+
 			var tabExpand_ = function(str, p1, p2, offset, s) {
 				var tab = 8;
 				return p1 + ' '.repeat(p2.length * tab - (p1.length % tab));
 			};
-			
+
 			if(!globals.toolset.isString(str)) { throw {
 												name: 'TypeError',
 												message: 'incorrect parameter argument: not a string < ' + str + ' >'
@@ -1353,18 +1353,18 @@
 		};
 //----------------------------------------------------------------------------------------------
 		var tabUnexpand = function(str) {
-			
+
 			var tabExpand_ = function(str, p1, p2, offset, s) {
 				var tab = 8;
 				return p1 + ' '.repeat(p2.length * tab - (p1.length % tab));
 			};
-			
+
 			var chunkString = function(str, length) {
 				return str.match(new RegExp('.{1,' + length + '}', 'g'));
-				//str.match(/.{1,n}/g); 
+				//str.match(/.{1,n}/g);
 				//str.match(/(.|[\r\n]){1,n}/g);
 			};
-			
+
 			if(!globals.toolset.isString(str)) { throw {
 												name: 'TypeError',
 												message: 'incorrect parameter argument: not a string < ' + str + ' >'

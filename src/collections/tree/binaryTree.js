@@ -20,7 +20,7 @@
 			}
 		}
 		return typeof a < typeof b ? -1 : 1;
-	};	
+	};
 //----------------------------------------------------------------------------------------------
 	const isBinaryTree = (value) => (value instanceof globals.collections.tree.BinaryTree);
 //----------------------------------------------------------------------------------------------
@@ -37,7 +37,7 @@
 	*/
 	(function() {
 		globals.collections.tree = globals.collections.tree || {};
-//----------------------------------------------------------------------------------------------	
+//----------------------------------------------------------------------------------------------
 		var createMinimalBST = function(array, min, max) {
 			var createMinimalBST_ = function(array, start, end) {
 				if(end < start) {
@@ -49,20 +49,20 @@
 				node.right = createMinimalBST_(array, mid + 1, end);
 				return node;
 			};
-			
+
 			if(!globals.toolset.isArray(array)) { throw {
 													name: 'ValueError',
-													message: 'incorrect initialization value: array of elemens < ' + array + ' >'
+													message: 'incorrect initialization value: array of elements < ' + array + ' >'
 												};
 			}
 			min = (min == null) ? 0 : (globals.toolset.isIntNumber(min) && min >= 0) ? min : null;
-			if(min == null) throw {name: 'ValueError', mesage: 'incorrect lower border value: < ' + min + ' >'};
-			
+			if(min == null) throw {name: 'ValueError', message: 'incorrect lower border value: < ' + min + ' >'};
+
 			max = (max == null) ? array.length - 1 : (globals.toolset.isIntNumber(max) && max >= 0) ? max : null;
-			if(max == null) throw {name: 'ValueError', mesage: 'incorrect uppder border value: < ' + max + ' >'};
-			
+			if(max == null) throw {name: 'ValueError', message: 'incorrect uppder border value: < ' + max + ' >'};
+
 			if(max < min || max >= array.length) return null;
-		
+
 			return createMinimalBST_(array, min, max);
 		};
 //----------------------------------------------------------------------------------------------
@@ -73,8 +73,8 @@
 				var _data = null;
 				var _left = null;
 				var _right = null;
-				
-				var that = {};	
+
+				var that = {};
 				that.getData = function() {
 					return _data;
 				};
@@ -122,26 +122,26 @@
 					var hashValue = 11;
 					var sfVal = (_data == null) ? 0 : _data.hashCode();
 					hashValue = 31 * hashValue + sfVal;
-					
+
 					sfVal = (_left == null) ? 0 : _left.hashCode();
 					hashValue = 31 * hashValue + sfVal;
-					
+
 					sfVal = (_right == null) ? 0 : _right.hashCode();
 					hashValue = 31 * hashValue + sfVal;
-					
+
 					return hashValue;
 				};
 				that.toString = function() {
 					return '(data: {' + _data.toString() + '})';
 				};
-				
+
 				function BinaryBinaryTreeNode(data, left, right) {
 					_data = Object.clone(data);
 					_left = left;
 					_right = right;
 				};
 				BinaryBinaryTreeNode.prototype = that;
-				
+
 				globals.collections.tree.node.BinaryBinaryTreeNode = BinaryTreeNode;
 			}());
 		}());
@@ -153,7 +153,7 @@
 				var _queue = null;
 				var _current = null;
 				var _index = null;
-				
+
 				var that = {};
 				that.hasNext = function() {
 					return (!_queue.isEmpty());
@@ -176,7 +176,7 @@
 				};
 				that.remove = function() {
 					/*if(_current == null) return false;
-					
+
 					var current = _root, previous, a, b;
 					while(current && compare(current, _current) != 0) {
 						previous = current;
@@ -216,7 +216,7 @@
 					}
 					_index++;*/
 				};
-				
+
 				function BreadthFirstIterator(head) {
 					_queue = new globals.collections.queue.Queue();
 					_queue.enqueue(head);
@@ -224,14 +224,14 @@
 					_index = -1;
 				};
 				BreadthFirstIterator.prototype = that;
-				
+
 				globals.collections.tree.iterator.BreadthFirstIterator = BreadthFirstIterator;
 			}());
 		}());
-//----------------------------------------------------------------------------------------------		
+//----------------------------------------------------------------------------------------------
 		(function() {
 			var _root = null;
-			
+
 			var that = {};
 			that.add = function(data) {
 				var node = new globals.collections.tree.node.Node(data, null, null);
@@ -256,14 +256,14 @@
 			that.insertRoot = function(item) {
 				const LEFT = 1;
 				const RIGHT = 2;
-				
+
 				var current = _root;
 				var nodeLeft = new globals.collections.tree.node.BinaryTreeNode(item, null, null);
-				
+
 				var leftPos = LEFT;
 				var nodeRight = nodeLeft;
 				var rightPos = RIGHT;
-				
+
 				_root = nodeLeft;
 				while(current != null) {
 					if(compare(current.getData(), item) < 0) {
@@ -406,12 +406,12 @@
 				const LEFT = -1;
 				const RIGHT = 1;
 				const IDLE = 0;
-				
+
 				var parent = null;
 				var current = _root;
 				var comp = 0;
 				var lastStep = IDLE;
-				
+
 				while(current != null && (comp = compare(current.getData(), data)) != 0) {
 					parent = current;
 					if(comp < 0) {
@@ -422,7 +422,7 @@
 						current = current.getLeft();
 					}
 				}
-				
+
 				if(current == null) return false;
 				if(current.getLeft() == null) {
 					if(lastStep == RIGHT) {
@@ -462,7 +462,7 @@
 				}
 			};
 			that.remove = function(data) {
-				
+
 				var removeMaxNode = function(node, maxNode) {
 					if(node == null) return null;
 					if(compare(node, maxNode) == 0) {
@@ -471,7 +471,7 @@
 					node.setRight(removeMaxNode(node.getRight(), maxNode));
 					return node;
 				};
-				
+
 				/*var removeMaxNode = function(node) {
 					if(current == null) return null;
 					if(!current.getRight()) {
@@ -480,7 +480,7 @@
 					current.setRight(removeMaxNode(current.getRight()));
 					return current;
 				};*/
-				
+
 				var remove_ = function(current) {
 					if(current == null) return null;
 					if(compare(current.getData(), data) == 0) {
@@ -499,7 +499,7 @@
 						//current.setLeft(removeMaxNode(removed.getLeft()));
 						//current.setRight(removed.getRight());
 						//delete removed;
-						
+
 						var maxNode = this.max(current.getLeft());
 						maxNode.setLeft(removeMaxNode(current.getLeft(), maxNode));
 						maxNode.setRight(current.getRight());
@@ -515,7 +515,7 @@
 				_root = remove_(_root);
 			}:
 			that.remove = function(data) {
-				
+
 				var removeMinNode = function(current) {
 					if(current == null) return null;
 					if(!current.getLeft()) {
@@ -524,7 +524,7 @@
 					current.setLeft(removeMinNode(current.getLeft()));
 					return current;
 				};
-				
+
 				var remove_ = function(current) {
 					if(current == null) return null;
 					var order = compare(data, current.getData());
@@ -594,7 +594,7 @@
 				return -1;
 			};
 			that.depth = function(node) {
-				
+
 				var depth_ = function(node) {
 					if(node == null) {
 						return 0;
@@ -602,7 +602,7 @@
 						return 1 + Math.max(depth_(node.getLeft()), depth_(node.getRight()));
 					}
 				};
-				
+
 				if(node != null && !(node instanceof globals.collections.tree.node.BinaryTreeNode)) {
 					throw {
 						name: 'TypeError',
@@ -612,29 +612,29 @@
 				return depth_(node);
 			};
 			that.commonAncestor = function(node, p, q) {
-				
+
 				var covers = function(_root, p) {
 					if(_root == null) return false
 					if(_root == p) return true;
 					return (covers(_root.getLeft(), p) || covers(_root.getRight(), p));
 				};
-				
+
 				var commonAncestor_ = function(node, p, q) {
 					var isPOnLeft = covers(node.getLeft(), p);
 					var isQOnLeft = covers(_root.getLeft(), q);
-					
+
 					if(isPOnLeft != isQOnLeft) return node;
 					var childSide = isPOnLeft ? node.getLeft(): node.getRight();
 					return commonAncestor_(childSide, p, q);
 				};
-				
+
 				if(node != null && !(node instanceof globals.collections.tree.node.BinaryTreeNode)) {
 					throw {
 						name: 'TypeError',
 						message: 'incorrect input argument: not BinaryTreeNode instance < ' + node + ' >'
 					};
 				}
-				
+
 				var current = node || _root;
 				if(!covers(current, p) || !covers(current, q)) {
 					return null;
@@ -642,11 +642,11 @@
 				return commonAncestor_(current, p, q);
 			};
 			/*that.commonAncestor = function(node, p, q) {
-				
+
 				var result = function(node, isAncestor) {
 					return {'node': node, 'isAncestor': isAncestor};
 				};
-				
+
 				var commonAncestor_ = function(node, p, q) {
 					if(node == null) {
 						return result(null, false);
@@ -654,17 +654,17 @@
 					if(node == p && node == q) {
 						return result(node, true);
 					}
-					
+
 					var rx = commonAncestor_(node.left, p, q);
 					if(rx.isAncestor) {
 						return rx;
 					}
-					
+
 					var ry = commonAncestor_(node.right, p, q);
 					if(ry.isAncestor) {
 						return ry;
 					}
-					
+
 					if(rx.node != null && ry.node != null) {
 						return result(node, true);
 					} else if(node == p || node == q) {
@@ -674,14 +674,14 @@
 						return result(((rx.node != null) ? rx.node : ry.node), false);
 					}
 				};
-				
+
 				if(node != null && !(node instanceof globals.collections.tree.node.BinaryTreeNode)) {
 					throw {
 						name: 'TypeError',
 						message: 'incorrect input argument: not BinaryTreeNode instance < ' + node + ' >'
 					};
 				}
-				
+
 				var r = commonAncestor_(node, p, q);
 				if(r.isAncestor) {
 					return r.node;
@@ -689,7 +689,7 @@
 				return null;
 			};*/
 			/*that.inorderSucc = function(node) {
-				
+
 				var leftMostChild = function(node) {
 					if(node == null) {
 						return null;
@@ -699,14 +699,14 @@
 					}
 					return node;
 				};
-				
+
 				if(node != null && !(node instanceof globals.collections.tree.node.BinaryTreeNode)) {
 					throw {
 						name: 'TypeError',
 						message: 'incorrect input argument: not BinaryTreeNode instance < ' + node + ' >'
 					};
 				}
-				
+
 				if(node == null) return null;
 				if(node.parent == null || node.right != null) {
 					return leftMostChild(node.right);
@@ -758,14 +758,14 @@
 				return false;
 			};
 			that.find = function(node, data, func) {
-				
+
 				if(node != null && !(node instanceof globals.collections.tree.node.BinaryTreeNode)) {
 					throw {
 						name: 'TypeError',
 						message: 'incorrect input argument: not BinaryTreeNode instance < ' + node + ' >'
 					};
 				}
-				
+
 				var current = node || _root;
 				while(current && compare(current.getData(), data) != 0) {
 					if(compare(current.getData(), data) > 0) {
@@ -777,7 +777,7 @@
 				return current;
 			};
 			that.findSum = function(node, sum) {
-				
+
 				var getPath = function(path, start, end) {
 					var res = [];
 					for(var i=start; i<=end; i++) {
@@ -785,7 +785,7 @@
 					}
 					return res;
 				};
-				
+
 				var findSum_ = function(node, sum, path, level, res) {
 					if(node == null) {
 						return null;
@@ -798,22 +798,22 @@
 							res.push(getPath(path, i, level));
 						}
 					}
-					
+
 					findSum_(node.getLeft(), sum, path, level + 1, res);
 					findSum_(node.getRight(), sum, path, level + 1, res);
-					
+
 					path[level] = Number.MIN_VALUE;
 				};
-				
+
 				if(node != null && !(node instanceof globals.collections.tree.node.BinaryTreeNode)) {
 					throw {
 						name: 'TypeError',
 						message: 'incorrect input argument: not BinaryTreeNode instance < ' + node + ' >'
 					};
 				}
-				
+
 				if(this.isEmpty()) return null;
-				
+
 				if(!globals.toolset.isNumber(sum)) { throw {
 														name: 'ValueError',
 														message: 'incorrect input parameter: number < ' + sum + ' >'
@@ -824,7 +824,7 @@
 				return findSum_(node, sum, path, 0, res);
 			};
 			that.containsTree = function(node1, node2) {
-				
+
 				var matchTree = function(r1, r2) {
 					if(r2 == null && r1 == null) {
 						return true;
@@ -837,7 +837,7 @@
 					}
 					return (matchTree(r1.getLeft(), r2.getLeft()) && matchTree(r1.getRight(), r2.getRight()));
 				};
-				
+
 				var subTree = function(r1, r1) {
 					if(r1 == null) {
 						return false;
@@ -847,21 +847,21 @@
 					}
 					return (subTree(r1.getLeft(), r2) || subTree(r1.getRight(), r2));
 				};
-				
+
 				if(node1 != null && !(node1 instanceof globals.collections.tree.node.BinaryTreeNode)) {
 					throw {
 						name: 'TypeError',
 						message: 'incorrect input argument: {node1} is not BinaryTreeNode instance < ' + node1 + ' >'
 					};
 				}
-				
+
 				if(node2 != null && !(node2 instanceof globals.collections.tree.node.BinaryTreeNode)) {
 					throw {
 						name: 'TypeError',
 						message: 'incorrect input argument: {node2} is not BinaryTreeNode instance < ' + node2 + ' >'
 					};
 				}
-				
+
 				if(node2 == null) return true;
 				return subTree(node1, node2);
 			};
@@ -875,7 +875,7 @@
 				return -1;
 			};
 			that.rank = function(data) {
-				
+
 				var rank_ = function(current) {
 					if(current == null) return 0;
 					var order = compare(data, current.getData());
@@ -891,7 +891,7 @@
 				return rank_(_root);
 			};
 			that.ceil = function(data) {
-				
+
 				var ceil_ = function(current) {
 					if(current == null) return null;
 					var order = compare(data, current.getData());
@@ -907,7 +907,7 @@
 				return ceil_(_root);
 			};
 			that.floor = function(data) {
-				
+
 				var floor_ = function(current) {
 					if(current == null) return null;
 					var order = compare(data, current.getData());
@@ -923,7 +923,7 @@
 				return floor_(_root);
 			};
 			that.isBalanced = function(node) {
-				
+
 				var checkHeight = function(node) {
 					if(node == null) {
 						return 0;
@@ -943,7 +943,7 @@
 						return Math.max(leftHeight, rightHeight) + 1;
 					}
 				};
-				
+
 				if(node != null && !(node instanceof globals.collections.tree.node.BinaryTreeNode)) {
 					throw {
 						name: 'TypeError',
@@ -967,7 +967,7 @@
 				return new_root;
 			};
 			that.heapify = function(node) {
-				
+
 				var traverse = function(node, count, arr) {
 					if(null == node) return count;
 					if(null != arr) arr[count] = node;
@@ -976,15 +976,15 @@
 					count = traverse(node.getRight(), count, arr);
 					return count;
 				};
-				
+
 				if(node != null && !(node instanceof globals.collections.tree.node.BinaryTreeNode)) {
 					throw {
 						name: 'TypeError',
 						message: 'incorrect input argument: not BinaryTreeNode instance < ' + node + ' >'
 					};
 				}
-			
-				if(this.isEmpty()) return null;			
+
+				if(this.isEmpty()) return null;
 				//подсчет узлов
 				node = node || _root;
 				var size = traverse(node, 0, null);
@@ -1002,16 +1002,16 @@
 				return nodeArray;
 			};
 			that.findLowestCommonAncestor = function(node, value1, value2) {
-				
+
 				if(node!= null && !(node instanceof globals.collections.tree.node.BinaryTreeNode)) {
 					throw {
 						name: 'TypeError',
 						message: 'incorrect input argument: not BinaryTreeNode instance < ' + node + ' >'
 					};
 				}
-				
+
 				if(this.isEmpty()) return null;
-				
+
 				var current = node || _root;
 				while(current != null) {
 					var value = current.getData();
@@ -1026,28 +1026,28 @@
 				return null;
 			};
 			that.findLowestCommonAncestor2 = function(node, child1, child2) {
-				
+
 				if(node != null && !(node instanceof globals.collections.tree.node.BinaryTreeNode)) {
 					throw {
 						name: 'TypeError',
 						message: 'incorrect input argument: {node} is not BinaryTreeNode instance < ' + node + ' >'
 					};
 				}
-				
+
 				if(!(child1 instanceof globals.collections.tree.node.BinaryTreeNode)) {
 					throw {
 						name: 'TypeError',
 						message: 'incorrect input argument: {child1} is not BinaryTreeNode instance < ' + child1 + ' >'
 					};
 				}
-				
+
 				if(!(child2 instanceof globals.collections.tree.node.BinaryTreeNode)) {
 					throw {
 						name: 'TypeError',
 						message: 'incorrect input argument: {child2} is not BinaryTreeNode instance < ' + child2 + ' >'
 					};
 				}
-				
+
 				if(node == null || child1 == null || child2 == null) return null;
 				return this.findLowestCommonAncestor(node, child1.getData(), child2.getData());
 			};
@@ -1078,7 +1078,7 @@
 				}
 			);*/
 			that.isBST = function(node) {
-				
+
 				var isBST_ = function(node, min, max) {
 					if(node == null) {
 						return true;
@@ -1091,7 +1091,7 @@
 					}
 					return true;
 				};
-		
+
 				if(node != null && !(node instanceof globals.collections.tree.node.BinaryTreeNode)) {
 					throw {
 						name: 'TypeError',
@@ -1102,7 +1102,7 @@
 				return isBST_(current, Number.MIN_VALUE, Number.MAX_VALUE);
 			};
 			that.createLevelLinkedList = function() {
-				
+
 				var createLevelLinkedList_ = function(node, lists, level) {
 					if(node == null) return null;
 					var list = null;
@@ -1116,7 +1116,7 @@
 					createLevelLinkedList_(node.getLeft(), lists, level + 1);
 					createLevelLinkedList_(node.getRight(), lists, level + 1);
 				};
-				
+
 				var lists = globals.toolset.vector();
 				createLevelLinkedList(_root, lists, 0);
 				return lists;
@@ -1145,13 +1145,13 @@
 				return result;
 			};
 			that.nodesOnLevel = function(level) {
-				
+
 				var nodesOnLevel_ = function(node, level) {
 					if(node == null) return 0;
 					if(level == 1) return 1;
 					return nodesOnLevel_(node.getLeft(), level - 1) + nodesOnLevel_(node.getRight(), level - 1);
 				};
-				
+
 				if(!globals.toolset.isIntNumber(level)) { throw {
 															name: 'TypeError',
 															message: 'incorrect input argument: not positive integer number < ' + level + ' >'
@@ -1187,7 +1187,7 @@
 				return new globals.collections.tree.iterator.BreadthFirstIterator(_root);
 			};
 			that.max = function(node) {
-				
+
 				var max_ = function(current) {
 					if(current == null) return null;
 					//if(current.getRight() == null) return current.getData();
@@ -1197,7 +1197,7 @@
 					}
 					return current;
 				};
-				
+
 				if(node != null && !(node instanceof globals.collections.tree.node.BinaryTreeNode)) {
 					throw {
 						name: 'TypeError',
@@ -1208,7 +1208,7 @@
 				return max_(current);
 			};
 			that.min = function(node) {
-				
+
 				var min_ = function(current) {
 					if(current == null) return null;
 					//if(current.getRight() == null) return current.getData();
@@ -1218,7 +1218,7 @@
 					}
 					return current;
 				};
-				
+
 				if(node != null && !(node instanceof globals.collections.tree.node.BinaryTreeNode)) {
 					throw {
 						name: 'TypeError',
@@ -1239,7 +1239,7 @@
 			that.clone = function() {
 				return new globals.collections.tree.BinaryTree(this.outputAsc(), compare);
 			};
-			
+
 			var initialize = function(nodes) {
 				if(!globals.toolset.isNull(nodes)) {
 					if(!globals.toolset.isArray(nodes)) { throw {
@@ -1253,14 +1253,14 @@
 					//}
 				}
 			};
-			
+
 			function BinaryTree(nodes, cmp) {
 				_root = null;
 				initialize(nodes);
 				compare = globals.toolset.isFunction(cmp) ? cmp : compare;
 			};
 			BinaryTree.prototype = that;
-			
+
 			globals.collections.tree.BinaryTree = BinaryTree;
 		}());
 //----------------------------------------------------------------------------------------------

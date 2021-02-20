@@ -48,7 +48,7 @@ jsar.toolset.operations = (function() {
 //var data = [4, 8, 15, 16, 23, 42];
 //var sum = data.compute(jsar.toolset.operations.add, 1);
 //var data1 = data.process(jsar.toolset.operations.add, 2);
-//var substract = data.compute(jsar.toolset.operations.sub, 0);
+//var subtract = data.compute(jsar.toolset.operations.sub, 0);
 //var product = data.compute(jsar.toolset.operations.mult, 1);
 //var divide = data.compute(jsar.toolset.operations.div, 1);
 
@@ -167,7 +167,7 @@ var try_it = function() {
 		add("seven");
 	} catch(e) {
 		document.writeln(e.name + ": " + e.message);
-	}	
+	}
 };
 //try_it();
 //--------------------------------------------------------------
@@ -181,7 +181,7 @@ var try_it = function() {
 //--------------------------------------------------------------
 //--------------------------------------------------------------
 //--------------------------------------------------------------
-//-------------------------------------------------------------- 
+//--------------------------------------------------------------
 //--------------------------------------------------------------
 //--------------------------------------------------------------
 //--------------------------------------------------------------
@@ -307,22 +307,22 @@ var PolyFunc = polymorph(
     function(a,b,c) {
         return "Three arguments version -- any types";
     },
-    
+
     {i: Number, str: String},
     function(i, str) {
         return "Number and string passed";
     },
-    
+
     {re: RegExp},
     function(re,a) {
         return "RegExp and something else passed";
     },
-    
+
     {f: Function, b: Boolean},
     function(f,b) {
         return "Function and boolean passed";
     },
-    
+
     {f: Function, i: Number},
     function(f,i) {
         return "Function and number passed";
@@ -364,11 +364,11 @@ alert(PolyFunc(/a/, "str")); // "RegExp and something else passed"
 //var hiddenMammal = [].map.call('rhinocerous',increment).join(''); // "sijopdfspvt"
 
 //"".trim.apply([" a","b "]).split(","); //["a","b"]
- 
+
 //"".toLowerCase.apply(["DIV","H1","SPAN"]).split(","); //["div","h1","span"]
- 
+
 //"".match.call(["a16","b44","b bar"],/[a-z][0-9]+/g); //["a16", "b44"]
- 
+
 //"".replace.call(['argentina','brazil','chile'], /\b./g, function(a){ return a.toUpperCase(); }).split(','); //['Argentina',"Brazil","Chile"]
 
 /*Object.defineProperty(Object.prototype, 'values', {enumerable: false});
@@ -394,14 +394,14 @@ document.writeln(competitors); //["Mary", "Ana", "Evelyn"]*/
 
 //console.group("Overlord");
 //console.log("Overlord stuff");
- 
+
 //console.group("Lord");
 //console.log("Overlord stuff");
- 
+
 //console.group("Minion");
 //console.log("Minion stuff");
 //console.groupEnd();
- 
+
 //console.groupCollapsed("Servant");
 //console.log("Servant stuff");
 
@@ -433,17 +433,17 @@ for(var i=0, s1=s2=0; i<n; i++) {
 /*var subsys1 = {}, subsys2 = {};
 var nextIdMod = function(startId) {
     var id = startId || 0;
- 
+
     this.next = function() {
-        return id++;    
+        return id++;
     };
- 
+
     this.reset = function() {
-        id = 0;     
+        id = 0;
     }
 };
-nextIdMod.call(subsys1);    
-nextIdMod.call(subsys2,1000);   
+nextIdMod.call(subsys1);
+nextIdMod.call(subsys2,1000);
 window.console && console.log(
     subsys1.next(),
     subsys1.next(),
@@ -454,7 +454,7 @@ window.console && console.log(
 ) //0, 1, 1000, undefined, 1001, 0*/
 
 /*//library code
-var protoQueryMooJo = function() {  
+var protoQueryMooJo = function() {
     //everything
 }
 //user code
@@ -471,25 +471,25 @@ badData; //["carlos,mary"]
 var callLater = function(fn, args, context) {
     setTimeout(function(){fn.apply(context, args)}, 2000);
 }
- 
-callLater(alert,['hello']); 
+
+callLater(alert,['hello']);
 */
 
 /*
 //Good Example
-//Create an array of functions that add 1,2 and 3 respectively 
+//Create an array of functions that add 1,2 and 3 respectively
 var createAdders = function() {
     var fns = [];
-    for (var i=1; i<4; i++) { 
+    for (var i=1; i<4; i++) {
         (function(i) {
             fns[i] = (function(n) {
                 return i+n;
             });
-        })(i)    
+        })(i)
     }
     return fns;
 }
- 
+
 var adders = createAdders();
 adders[1](7); //8 (-:
 adders[2](7); //9 (-:
@@ -505,25 +505,25 @@ var pluck = function(name) {
         return object[name];
     }
 }
- 
+
 var getLength = pluck('length');
 getLength("SF Giants are going to the World Series!"); //40
 */
 
 /*
 var autoCurry = (function () {
- 
+
     var toArray = function toArray(arr, from) {
         return Array.prototype.slice.call(arr, from || 0);
     },
- 
+
     curry = function curry(fn) { // variadic number of args
         var args = toArray(arguments, 1);
         return function curried() {
             return fn.apply(this, args.concat(toArray(arguments)));
         };
     };
- 
+
     return function autoCurry(fn, numArgs) {
         numArgs = numArgs || fn.length;
         return function autoCurried() {
@@ -536,7 +536,7 @@ var autoCurry = (function () {
             }
         };
     };
- 
+
 }());
 
 var foo = function(a, b) {
@@ -549,7 +549,7 @@ document.writeln(auto(2, 2));
 
 /*
 "(penalty)Lampard, Frank(1-0)".match(/\b([\w]+),\s?([\w]+)/g);
- 
+
 RegExp.leftContext //"(penalty)"
 RegExp.rightContext //"(1-0)"
 RegExp.$1 //"Lampard"
@@ -568,7 +568,7 @@ Here’s a method to return the first n cards from the “pack”, such that the
 var expr = /\b([^@\(]+)\(?(\d*)\)?@([^\s]+)\s?/g
 <pre>var theString = '3@Clubs King(10)@Hearts 3@Spades 5@Diamonds 7@Clubs 2@Hearts 9@Spades Jack(10)@Clubs 4@Diamonds 9@Hearts';
 var result = [], total=0, matching = true;
- 
+
 while(true) {
     var matching = expr.exec(theString);
     var value = parseInt(RegExp.$2 ? RegExp.$2 : RegExp.$1);
@@ -578,14 +578,14 @@ while(true) {
     alert('&' + RegExp.$1);
     result.push(RegExp.$1 + " of " + RegExp.$3);
 }
- 
+
 result; //["3 of Clubs", "King of Hearts", "3 of Spades", "5 of Diamonds"]
 */
 
 /*
 var a = "Smith, Bob; Raman, Ravi; Jones, Mary";
 a.replace(/([\w]+), ([\w]+)/g,"$2 $1"); //"Bob Smith; Ravi Raman; Mary Jones"
- 
+
 var a  = "California, San Francisco, O'Rourke, Gerry";
 a.replace(/([\w'\s]+), ([\w'\s]+), ([\w'\s]+), ([\w'\s]+)/,"$4 $3 lives in $2, $1"); //"Gerry O'Rourke lives in San Francisco, California"
 */
@@ -607,8 +607,8 @@ parseInt("035"); //29 ( literals starting with 0 assumed to be base 8 )
 var toInt = parseInt.partial(___,10); //specifies base 10
 toInt("035"); //35
 
-var incrementAll = jQuery.map.partial(___,function(x) {return x+1});
-incrementAll([0,2,4,6,8]); //[1,3,5,7,9];
+var incremental = jQuery.map.partial(___,function(x) {return x+1});
+incremental([0,2,4,6,8]); //[1,3,5,7,9];
 
 var a = [1,2,3,4];
 var b = [5,6,7,8];
@@ -622,7 +622,7 @@ pushFirst.apply(a,b); //a = [1,2,3,4,5]
 /*
 //use curry  to make a slice(0,x) function, then use compose to wrap it around  search.
 var sliceToRegEx =  String.prototype.slice.curry(0).compose(String.prototype.search);
- 
+
 //now curry with a regEx that returns first non alpha character
 var parseAlpha = sliceToRegEx.curry(/[^ a-zA-Z]/);
 parseAlpha.call("Pork Bellies #45678"); //Pork Bellies
@@ -658,7 +658,7 @@ var  mostFrequent = longestEqualRun.compose(function(myEnum){return myEnum.split
 mostFrequent("The quick brown fox jumps over the lazy dog"); //o  (4)
 
 function getInnerText(elem) {
-    return elem.innerText || elem.textContent;    
+    return elem.innerText || elem.textContent;
 };
 var  mostFrequentInPage = mostFrequent.compose(function() {return getInnerText(document.body)});
 mostFrequentInPage(); //e (263)
@@ -688,7 +688,7 @@ system.shutdown = function() {
     };
     lengthyShutdownProcess();
 }
- 
+
 system.shutdown();
 system.shutdown(); //"don't worry - we're already processing your shutdown request"
 
@@ -700,7 +700,7 @@ var URL = function(protocol, domain, queryParams) {
     this.domain = domain;
     this.queryParams = queryParams || {};
 }
- 
+
 URL.prototype.paramsToString = function() {
     var stringArray = [];
     for (var prop in this.queryParams) {
@@ -709,11 +709,11 @@ URL.prototype.paramsToString = function() {
     delete this.printParam;//reset so prototype version used on first pass of next call
     return stringArray.join('');
 }
- 
+
 URL.prototype.addParam = function(name,value) {
     this.queryParams[name] = value;
 }
- 
+
 URL.prototype.printParam = function(param) {
     var queryParams = this.queryParams;
     var printAssignment = function(delimiter, prop) {
@@ -722,15 +722,15 @@ URL.prototype.printParam = function(param) {
     this.printParam = printAssignment.curry('&amp;'); //define new function on instance that will be used on next pass
    return printAssignment.curry('?')(param); //used on this pass only
 }
- 
+
 URL.prototype.toString = function() {
     return this.protocol + "://" +
     this.domain + this.paramsToString();
 }
- 
+
 var googleURL = new URL('http','news.google.com',{q:'earthquake','geo':'California'});
 googleURL.toString(); //"http://news.google.com?q=earthquake&geo=California"</span>
- 
+
 googleURL.addParam('as_nsrc','New York Times');
 googleURL.toString(); //"http://news.google.com?q=earthquake&amp;geo=California&as_nsrc=New%20York%20Times"</span>
 */
@@ -741,21 +741,21 @@ var formatElement(elem, instructions) {
         instructions[i](elem);
     }
 }
- 
+
 var formatCorrectAnswer  = [
     function(elem) {elem.innerHTML="you are right!"}
     function(elem) {elem.className="correct"},
     function(elem) {Effect.Scale(elem,400)},
     function(elem) {Effect.Pulsate(elem, {pulses: 5, duration: 1.5 })
 ];
- 
+
 var formatIncorrectAnswer  = [
     function(elem) {elem.innerHTML="try again"}
     function(elem) {elem.className="incorrect"},
     function(elem) {Effect.Scale(elem,200)},
     function(elem) {Effect.Shake(elem, {pulses: 2, duration: 1.5 })
 ];
- 
+
 formatElement(myElement, answer.correct ? formatCorrectAnswer : formatIncorrectAnswer);
 */
 
@@ -780,7 +780,7 @@ var whatToBring = {
     "Cold" : "Scarf and Gloves",
     "Default" : "Play it by ear"
 }
- 
+
 var gear = whatToBring[weather] || whatToBring["Default"];
 */
 
@@ -805,7 +805,7 @@ var counter = {
             console.log(this.name+' knows '+friend);
         }.bind(this));
     }
-	
+
 	loop: function () {
         'use strict';
         this.friends.forEach(function (friend) {
@@ -924,7 +924,7 @@ StringBuilder.prototype.toString = function() {
 	return this.data;
 };
 
-function addd(value) {
+function add(value) {
 	return {
 		valueOf: function() {
 			console.log("internal valueOf");
@@ -934,7 +934,7 @@ function addd(value) {
 };
 
 //var sb = new StringBuilder();
-//sb << addd('abc') << addd('def');
+//sb << add('abc') << add('def');
 //console.log(sb.toString());
 */
 
@@ -955,7 +955,7 @@ function addd(value) {
 		SubC._super = SuperC.prototype;
         SubC.prototype = subProto;
     };
-	
+
 	function ColorPoint(x, y, color) {
         ColorPoint._super.constructor.call(this, x, y);
         this.color = color;
@@ -1005,7 +1005,7 @@ Point.prototype.add = function() {
 	}
 	return this;
 };
-Point.prototype.substract = function() {
+Point.prototype.subtract = function() {
 	for(var i=0; i<arguments.length; i++) {
 		this.x -= arguments[i].x;
 		this.y -= arguments[i].y;
@@ -1018,7 +1018,7 @@ Object.defineProperty(Point.prototype, "_", {
 		if(ops.length >= 2 && (value === 3 * ops.length)) {
 			operator = this.add;
 		} else if(ops.length === 2 && value === 0) {
-			operator = this.substract;
+			operator = this.subtract;
 		} //else
 		Point.operands = []; //reset
 		return operator.apply(this, ops);
@@ -1211,7 +1211,7 @@ var obj = {
             }
         }
     };
-	
+
 	var obj = {
         __proto__: {
             get foo() {
@@ -1219,7 +1219,7 @@ var obj = {
             }
         }
     };
-	
+
 	var proto = Object.defineProperty({},
         "foo",
         {

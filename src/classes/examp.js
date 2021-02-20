@@ -1,7 +1,7 @@
 for(var i=0: i < a.length; a[i++]=0);
 for(var i=0, j=10; i < j; i++,j--) console.log(i+j);
 
-var hasStrictMode = (function() { "use strict"; return this === undefined; } ()); 
+var hasStrictMode = (function() { "use strict"; return this === undefined; } ());
 
 
 // Объект оЗ аналогичен {} или пеw Object()
@@ -9,7 +9,7 @@ var оЗ = Object.create(Object.prototype);
 
 
 
-va р = {
+var р = {
 	х: 1.0,
 	у: 1.0,
 // Не забудьте добавить запятые
@@ -20,7 +20,7 @@ va р = {
 		var oldvalue = Math.sqrt(this.x*this.x + this.y*this у);
 		var ratio = newvalue/oldvalue;
 		this.x *= ratio;
-		this.у *= ratio; 
+		this.у *= ratio;
 	},
 	get theta() {
 		return Math.atan2(this.y, this.x);
@@ -48,8 +48,8 @@ var р = Object.defineProperties({},
 		у: { value: 1, writable: true, enumerable:true, configurable:true },
 		r: {get: function() { return Math.sqrt(this. x•this.x+this.y•this.y) }, enumerable:true, configurable:true }
 	});
-	
-	
+
+
 function classof(o) {
 	if (о === null) return "Null";
 	if (о === undefined) return "Undefined";
@@ -106,7 +106,7 @@ if(result != null) {
 	var fullurl = result[0]; // полное соответствие
 	var protocol = result[1]; // => "http"
 	var host = result[2]; // => "www.example.соm
-	var path = result[3]; // => "-david" 
+	var path = result[3]; // => "-david"
 };
 
 "1 2, 3 ".split(/\s*,\s*/); // => ["1", "2'," 3"]
@@ -129,7 +129,7 @@ function getElements(/•знaчeния id ...• /) {
 		}
 		elements[id] = elt; // Привязка к элементу
 	}
-	return elements; // Возвращение объекта 
+	return elements; // Возвращение объекта
 };
 
 // Возвращает неформатированное текстовое
@@ -162,11 +162,11 @@ function insertAt(parent, child, n) {
 
 
 
-localStorage.lastRead = (new Date()).toUTCString(); 
-var last = new Date(Date.parse(localStorage.lastRead)); 
+localStorage.lastRead = (new Date()).toUTCString();
+var last = new Date(Date.parse(localStorage.lastRead));
 
 localStorage.data = JSON.stringify(data);
-var data = JSON.parse(localStorage.data); 
+var data = JSON.parse(localStorage.data);
 
 
 var	power =	function(base, exponent) {
@@ -196,16 +196,16 @@ function randomPointOnCircle(radius) {
 	return {x: radius * Math.cos(angle), y: radius * Math.sin(angle)};
 };
 
-function logEach(array)	{ 
+function logEach(array)	{
 	for	(var	i	=	0;	i	<	array.length;	i++) {
 		console.log(array[i]);
 	}
 };
 
 
-function transparentWrapping(f)	{	
+function transparentWrapping(f)	{
 	return	function()	{
-		return	f.apply(null,	arguments);	
+		return	f.apply(null,	arguments);
 	};
 };
 
@@ -216,7 +216,7 @@ function	rowHeights(rows)	{
 		},	0);
 	});
 };
-function	colWidths(rows)	{ 
+function	colWidths(rows)	{
 	return	rows[0].map(function(_,	i)	{
 		return	rows.reduce(function(max,	row) {
 			return	Math.max(max,	row[i].minWidth());
@@ -279,10 +279,10 @@ for	(var	i	=	0;	i	<	5;	i++)	{
 		}
 	rows.push(row);
 };
-console.log(drawTable(rows)); 
+console.log(drawTable(rows));
 
 
-var	pile	=	{	
+var	pile	=	{
 	elements:	["скорлупа",	"кожура",	"червяк"],
 	get	height()	{
 		return	this.elements.length;
@@ -298,7 +298,7 @@ Object.defineProperty(TextCell.prototype,	"heightProp",	{
 	}
 });
 //var	cell	=	new	TextCell("да\nну");
-//console.log(cell.heightProp); 
+//console.log(cell.heightProp);
 
 //<![CDATA[
 //]]
@@ -412,9 +412,9 @@ var factorial = (function f(num) {
 var application = function() {
 		var comp = new Array();
 		comp.push(new BaseComponent());
-		
+
 		var app = new BaseComponent();
-		
+
 		app.getComponentCount = function() {
 			return comp.length();
 		};
@@ -474,7 +474,7 @@ function getElement(id) {
 	}
 };
 function isHostCollection(object, property) {
-	var t = typeof object[property];  
+	var t = typeof object[property];
 	return (!!(t == 'object' && object[property])) || t == 'function';
 };
 function isHostObject(object, property) {
@@ -484,7 +484,7 @@ function isHostObject(object, property) {
 var client = function(){
 
     //rendering engines
-    var engine = {            
+    var engine = {
         ie: 0,
         gecko: 0,
         webkit: 0,
@@ -492,12 +492,12 @@ var client = function(){
         opera: 0,
 
         //complete version
-        ver: null  
+        ver: null
     };
-    
+
     //browsers
     var browser = {
-        
+
         //browsers
         ie: 0,
         firefox: 0,
@@ -511,13 +511,13 @@ var client = function(){
         ver: null
     };
 
-    
+
     //platform/device/OS
     var system = {
         win: false,
         mac: false,
         x11: false,
-        
+
         //mobile devices
         iphone: false,
         ipod: false,
@@ -526,21 +526,21 @@ var client = function(){
         android: false,
         nokiaN: false,
         winMobile: false,
-        
+
         //game systems
         wii: false,
-        ps: false 
-    };    
+        ps: false
+    };
 
     //detect rendering engines/browsers
-    var ua = navigator.userAgent;    
+    var ua = navigator.userAgent;
     if (window.opera){
         engine.ver = browser.ver = window.opera.version();
         engine.opera = browser.opera = parseFloat(engine.ver);
     } else if (/AppleWebKit\/(\S+)/.test(ua)){
         engine.ver = RegExp["$1"];
         engine.webkit = parseFloat(engine.ver);
-        
+
         //figure out if it's Chrome or Safari
         if (/Chrome\/(\S+)/.test(ua)){
             browser.ver = RegExp["$1"];
@@ -559,31 +559,31 @@ var client = function(){
                 safariVersion = 1.3;
             } else {
                 safariVersion = 2;
-            }   
-            
-            browser.safari = browser.ver = safariVersion;        
+            }
+
+            browser.safari = browser.ver = safariVersion;
         }
     } else if (/KHTML\/(\S+)/.test(ua) || /Konqueror\/([^;]+)/.test(ua)){
         engine.ver = browser.ver = RegExp["$1"];
         engine.khtml = browser.konq = parseFloat(engine.ver);
-    } else if (/rv:([^\)]+)\) Gecko\/\d{8}/.test(ua)){    
+    } else if (/rv:([^\)]+)\) Gecko\/\d{8}/.test(ua)){
         engine.ver = RegExp["$1"];
         engine.gecko = parseFloat(engine.ver);
-        
+
         //determine if it's Firefox
         if (/Firefox\/(\S+)/.test(ua)){
             browser.ver = RegExp["$1"];
             browser.firefox = parseFloat(browser.ver);
         }
-    } else if (/MSIE ([^;]+)/.test(ua)){    
+    } else if (/MSIE ([^;]+)/.test(ua)){
         engine.ver = browser.ver = RegExp["$1"];
         engine.ie = browser.ie = parseFloat(engine.ver);
     }
-    
+
     //detect browsers
     browser.ie = engine.ie;
     browser.opera = engine.opera;
-    
+
 
     //detect platform
     var p = navigator.platform;
@@ -591,9 +591,9 @@ var client = function(){
     system.mac = p.indexOf("Mac") == 0;
     system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
 
-    //detect windows operating systems
+    //detect winsubtract operating systems
     if (system.win){
-        if (/Win(?:dows )?([^do]{2})\s?(\d+\.\d+)?/.test(ua)){
+        if (/Win(?:subtract )?([^do]{2})\s?(\d+\.\d+)?/.test(ua)){
             if (RegExp["$1"] == "NT"){
                 switch(RegExp["$2"]){
                     case "5.0":
@@ -610,8 +610,8 @@ var client = function(){
                         break;
                     default:
                         system.win = "NT";
-                        break;                
-                }                            
+                        break;
+                }
             } else if (RegExp["$1"] == "9x"){
                 system.win = "ME";
             } else {
@@ -619,14 +619,14 @@ var client = function(){
             }
         }
     }
-    
+
     //mobile devices
     system.iphone = ua.indexOf("iPhone") > -1;
     system.ipod = ua.indexOf("iPod") > -1;
     system.ipad = ua.indexOf("iPad") > -1;
     system.nokiaN = ua.indexOf("NokiaN") > -1;
     system.winMobile = (system.win == "CE");
-    
+
     //determine iOS version
     if (system.mac && ua.indexOf("Mobile") > -1){
         if (/CPU (?:iPhone )?OS (\d+_\d+)/.test(ua)){
@@ -635,21 +635,21 @@ var client = function(){
             system.ios = 2;  //can't really detect - so guess
         }
     }
-    
+
     //determine Android version
     if (/Android (\d+\.\d+)/.test(ua)){
         system.android = parseFloat(RegExp.$1);
     }
-    
+
     //gaming systems
     system.wii = ua.indexOf("Wii") > -1;
     system.ps = /playstation/i.test(ua);
-    
+
     //return it
     return {
         engine:     engine,
         browser:    browser,
-        system:     system        
+        system:     system
     };
 
 }();
@@ -658,13 +658,13 @@ var client = function(){
 var myAppState = function() {
 	var that = {};
 	that.init = function() {
-		
+
 	};
 	that.save = function() {
-		
+
 	};
 	that.load = function () {
-		
+
 	};
 	that.init();
 	return that;
@@ -808,7 +808,7 @@ function loadPNGData(strFileName, fnCallback) {
 		if(oCtx.getImageData) {
 			bCanvas = true;
 		}
-	}	
+	}
 	if(bCanvas) {
 		var oImg = new Image();
 		oImg.style.position = "absolute";
@@ -1054,15 +1054,15 @@ function generateRandomString( length, chars ) {
     return string;
 };
 //------------------------------------------------------------------------------------
-function listAllProperties(o){     
-	var objectToInspect;     
+function listAllProperties(o){
+	var objectToInspect;
 	var result = [];
-	
-	for(objectToInspect = o; objectToInspect !== null; objectToInspect = Object.getPrototypeOf(objectToInspect)){  
-		result = result.concat(Object.getOwnPropertyNames(objectToInspect));  
+
+	for(objectToInspect = o; objectToInspect !== null; objectToInspect = Object.getPrototypeOf(objectToInspect)){
+		result = result.concat(Object.getOwnPropertyNames(objectToInspect));
 	}
-	
-	return result; 
+
+	return result;
 };
 //------------------------------------------------------------------------------------
 function validate(obj, lowval, hival) {
@@ -1147,7 +1147,7 @@ Object.defineProperty(obj, 'key', withValue('static'));
 
 // if freeze is available, prevents adding or
 // removing the object prototype properties
-// (value, get, set, enumerable, writable, configurable)  
+// (value, get, set, enumerable, writable, configurable)
 (Object.freeze || Object)(Object.prototype);
 
 var o = {}; // Creates a new object
@@ -1371,25 +1371,25 @@ var removeChars = function(str, remove) {
 //------------------------------------------------------------------------------------
 ASCII characters reference
 {
-"31": "",    "32": " ",    "33": "!",    "34": "\"",    "35": "#",    
-"36": "$",    "37": "%",    "38": "&",    "39": "'",    "40": "(",    
-"41": ")",    "42": "*",    "43": "+",    "44": ",",    "45": "-",    
-"46": ".",    "47": "/",    "48": "0",    "49": "1",    "50": "2",    
-"51": "3",    "52": "4",    "53": "5",    "54": "6",    "55": "7",    
-"56": "8",    "57": "9",    "58": ":",    "59": ";",    "60": "<",    
-"61": "=",    "62": ">",    "63": "?",    "64": "@",    "65": "A",    
-"66": "B",    "67": "C",    "68": "D",    "69": "E",    "70": "F",    
-"71": "G",    "72": "H",    "73": "I",    "74": "J",    "75": "K",    
-"76": "L",    "77": "M",    "78": "N",    "79": "O",    "80": "P",    
-"81": "Q",    "82": "R",    "83": "S",    "84": "T",    "85": "U",    
-"86": "V",    "87": "W",    "88": "X",    "89": "Y",    "90": "Z",    
-"91": "[",    "92": "\\",    "93": "]",    "94": "^",    "95": "_",    
-"96": "`",    "97": "a",    "98": "b",    "99": "c",    "100": "d",    
-"101": "e",    "102": "f",    "103": "g",    "104": "h",    "105": "i",    
-"106": "j",    "107": "k",    "108": "l",    "109": "m",    "110": "n",    
-"111": "o",    "112": "p",    "113": "q",    "114": "r",    "115": "s",    
-"116": "t",    "117": "u",    "118": "v",    "119": "w",    "120": "x",    
-"121": "y",    "122": "z",    "123": "{",    "124": "|",    "125": "}",    
+"31": "",    "32": " ",    "33": "!",    "34": "\"",    "35": "#",
+"36": "$",    "37": "%",    "38": "&",    "39": "'",    "40": "(",
+"41": ")",    "42": "*",    "43": "+",    "44": ",",    "45": "-",
+"46": ".",    "47": "/",    "48": "0",    "49": "1",    "50": "2",
+"51": "3",    "52": "4",    "53": "5",    "54": "6",    "55": "7",
+"56": "8",    "57": "9",    "58": ":",    "59": ";",    "60": "<",
+"61": "=",    "62": ">",    "63": "?",    "64": "@",    "65": "A",
+"66": "B",    "67": "C",    "68": "D",    "69": "E",    "70": "F",
+"71": "G",    "72": "H",    "73": "I",    "74": "J",    "75": "K",
+"76": "L",    "77": "M",    "78": "N",    "79": "O",    "80": "P",
+"81": "Q",    "82": "R",    "83": "S",    "84": "T",    "85": "U",
+"86": "V",    "87": "W",    "88": "X",    "89": "Y",    "90": "Z",
+"91": "[",    "92": "\\",    "93": "]",    "94": "^",    "95": "_",
+"96": "`",    "97": "a",    "98": "b",    "99": "c",    "100": "d",
+"101": "e",    "102": "f",    "103": "g",    "104": "h",    "105": "i",
+"106": "j",    "107": "k",    "108": "l",    "109": "m",    "110": "n",
+"111": "o",    "112": "p",    "113": "q",    "114": "r",    "115": "s",
+"116": "t",    "117": "u",    "118": "v",    "119": "w",    "120": "x",
+"121": "y",    "122": "z",    "123": "{",    "124": "|",    "125": "}",
 "126": "~",    "127": ""
 };
 //------------------------------------------------------------------------------------
@@ -1476,7 +1476,7 @@ console.log(
 	// Вызов функции
 	var id = getUrlVars()["id"];
 	var page = getUrlVars()["page"];
-	
+
 	// Сама функция
 	function getUrlVars() {
 		var vars = {};
@@ -1536,7 +1536,7 @@ function addMethod(object, name, fn){
             return old.apply( this, arguments );
     };
 }
- 
+
 // Примеры вызова перегруженной функции:
 function Users(){
   addMethod(this, "find", function(){
@@ -1696,12 +1696,12 @@ var clz = function(x) {
 			currentWord = words[i];
 			if(!currentWord.localeCompare(word1)) {
 				lastPosWord1 = i;
-				
+
 				distance = lastPosWord1 - lastPosWord2;
 				if(lastPosWord2 >= 0 && min > distance) {
 					min = distance;
 				}
-				
+
 			} else if(!currentWord.localeCompare(word2)) {
 				lastPosWord2 = i;
 				distance = lastPosWord2 - lastPosWord1;
@@ -1814,7 +1814,7 @@ var clz = function(x) {
 //------------------------------------------------------------------------------------
 function test(foo, bar) {
 	Args(arguments).defaults(30, 'test');
-	
+
 	console.log(foo, bar)
 }
 
@@ -1829,7 +1829,7 @@ test(1,2); // Error: 3 args required, 2 given
 
 function test(foo, bar) {
 	Args(arguments).types(Foo, Bar);
-	
+
 	// code
 }
 
@@ -1840,7 +1840,7 @@ function test(foo) {
 	Args(arguments)
 		.defaults(10)
 		.cast(Number);
-	
+
 	console.log(foo)
 }
 
@@ -1943,7 +1943,7 @@ var str = '12345';
 }).reverse().join('');
 //------------------------------------------------------------------------------------
 Object.preventExtensions(yourObject)
-Object.seal(yourObject) 
+Object.seal(yourObject)
 Object.freeze(yourObject)
 //------------------------------------------------------------------------------------
 var colors = [
@@ -2043,11 +2043,11 @@ tools.getPageSize = function(){
 	if (document.documentElement.clientHeight && document.documentElement.clientWidth) {// Firefox
 		t['height'] = document.documentElement.clientHeight;
 		t['width'] = document.documentElement.clientWidth;
-	} 
+	}
 	else if (document.body.scrollHeight > document.body.offsetHeight){ // all but Explorer Mac
 		t['height'] = document.body.scrollHeight;
 		t['width'] = document.body.scrollWidth;
-	} 
+	}
 	else { // works in Explorer 6 Strict, Mozilla (not FF) and Safari
 		t['height'] = document.body.offsetHeight;
 		t['width'] = document.body.offsetWidth;
@@ -2115,7 +2115,7 @@ tools.colorRows = function(el, overwrite){
 	while(el && el.tagName != 'TABLE')
 		el = el.parentNode;
 	if(!el)	return
-	
+
 	var rows = new Array();
 	for(var i=0; i<el.childNodes.length; i++){
 		if(el.childNodes[i] && el.childNodes[i].tagName == 'TBODY'){
@@ -2126,13 +2126,13 @@ tools.colorRows = function(el, overwrite){
 			}
 		}
 	}
-	
+
 	for(var i=0; i<rows.length; i++){
 		//don't lose specifically defined classes
 		if(overwrite || rows[i].className == '' || rows[i].className == 'even' || rows[i].className == 'odd')
 			alert(i);
 			rows[i].className = (i % 2 == 0)? 'even' : 'odd';
-	}	
+	}
 }
 tools.getClassSelector = function(stylesheet, selector){
 	var css = (document.styleSheets[stylesheet].cssRules)? document.styleSheets[0].cssRules : document.styleSheets[0].rules;
@@ -2157,7 +2157,7 @@ http://www.navioo.com/DOMReference/HTML/reference/api/cssstylerule.php
 			Specifies the name of the CSS selector that the rule applies to.
 		style : CSSStyleDeclaration
 			Style values for the CSS selector.
-	
+
 CSSStyleDeclaration: Object
 http://www.navioo.com/DOMReference/html/reference/api/cssstyledeclaration.php
 	Properties
@@ -2187,13 +2187,13 @@ http://www.navioo.com/DOMReference/html/reference/api/cssstyledeclaration.php
 			Parameters
 				String 	propertyName 	Name of the CSS attribute to delete.
 		setProperty(String propertyName, String value, String priority) : void
-			Sets the value for a CSS attribute for a CSS style declaration block.	
+			Sets the value for a CSS attribute for a CSS style declaration block.
 	*/
 }
 tools.deselect = function(){
 	if(document.selection && document.selection.empty) {
 		document.selection.empty();
-    } 
+    }
 	else if(window.getSelection) {
         var sel = window.getSelection();
         sel.removeAllRanges();
@@ -2214,7 +2214,7 @@ public int findArray(int[] array, int[] subArray) {
 
         }
 
- 
+
 
         int len = arrayLen - subArrayLen;
 
@@ -2244,7 +2244,7 @@ public int findArray(int[] array, int[] subArray) {
 
     }
 
-               
+
 
                 private boolean isSubArrayExists(int[] array, int[] subArray, int index) {
 

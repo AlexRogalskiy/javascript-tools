@@ -29,11 +29,11 @@
 			var _data = null;
 			var _count = null;
 			var _maxSize = null;
-			
+
 			var set = function(i) {
 				_data[i>>SHIFT] |= (1<<(i & MASK));
 			};
-		
+
 			var clr = function(i) {
 				_data[i>>SHIFT] &= ~(1<<(i & MASK));
 			};
@@ -45,11 +45,11 @@
 			var check = function(i) {
 				return (i <= (_data.length * BITSPERWORD));
 			};
-			
+
 			var isInRange = function(num) {
 				return (num <= (_data.length * BITSPERWORD) && num >= 0);
 			};
-			
+
 			var that = {};
 			that.report = function() {
 				if(this.isEmpty()) return null;
@@ -173,11 +173,11 @@
 			};
 			that.subSet = function(low, high) {
 				low = (low == null) ? 0 : ((globals.toolset.isIntNumber(low) && low >= 0) ? low : null;
-				if(low == null) throw {name: 'ValueError', mesage: 'incorrect lower value: < ' + low + ' >'};
-				
+				if(low == null) throw {name: 'ValueError', message: 'incorrect lower value: < ' + low + ' >'};
+
 				high = (high == null) ? this.size() : ((globals.toolset.isIntNumber(high) && high >= 0) ? high : null;
-				if(high == null) throw {name: 'ValueError', mesage: 'incorrect upper value: < ' + high + ' >'};
-				
+				if(high == null) throw {name: 'ValueError', message: 'incorrect upper value: < ' + high + ' >'};
+
 				if(low > high) { throw {
 									name: 'ValueError',
 									message: 'incorrect input values: low border < ' + low + ' >, high border < ' + high + ' >'
@@ -247,18 +247,18 @@
 					_data = globals.toolset.vector(Math.floor((_maxSize % BITSPERWORD) ? (1 + _maxSize / BITSPERWORD) : (_maxSize / BITSPERWORD)), 0);
 				}
 			};
-			
+
 			function BitSet(nodes, maxVal) {
 				_data = null;
 				_count = 0;
-				
+
 				_maxSize = (maxVal == null) ? DEFAULT_SIZE : ((globals.toolset.isIntNumber(maxVal) && maxVal > 0) ? maxVal : null);
-				if(_maxSize == null) throw {name: 'ValueError', mesage: 'incorrect max size value: not positive integer number < ' + _maxSize + ' >'};
-				
+				if(_maxSize == null) throw {name: 'ValueError', message: 'incorrect max size value: not positive integer number < ' + _maxSize + ' >'};
+
 				initialize(nodes);
 			};
 			BitSet.prototype = that;
-			
+
 			globals.collections.set.BitSet = BitSet;
 		}());
 //----------------------------------------------------------------------------------------------

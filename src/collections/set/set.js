@@ -27,7 +27,7 @@
 	/* @public
 	* @module collections
 	* @param {Array} nodes Input array of items.
-	* @param {Integer} size Collecton _size.
+	* @param {Integer} size Collection _size.
 	* @param {Integer} maxVal Collection is limited by maximum value.
 	* @param {Function} cmp Optional. A function that defines an
 	* alternative sort order. The function should return a negative,
@@ -47,7 +47,7 @@
 			var _maxVal = null;
 			var _dict = null;
 			var _count = null;
-			
+
 			var that = {};
 			that.has = function(value) {
 				if(this.isEmpty()) return -1;
@@ -134,7 +134,7 @@
 			that.clone = function() {
 				return new globals.collections.set.Set(this.entries(), this.size(), _maxVal, compare);
 			};
-			
+
 			var initialize = function(nodes) {
 				if(!globals.toolset.isNull(nodes)) {
 					if(!globals.toolset.isArray(nodes)) { throw {
@@ -147,25 +147,25 @@
 					}
 				}
 			};
-			
+
 			function Set(nodes, size, maxVal, cmp) {
 				_size = (size == null) ? DEFAULT_SIZE : ((globals.toolset.isIntNumber(size) && size > 0) ? size : null;
-				if(_size == null) throw {name: 'ValueError', mesage: 'incorrect size value: < ' + _size + ' >'};
+				if(_size == null) throw {name: 'ValueError', message: 'incorrect size value: < ' + _size + ' >'};
 
 				_maxVal = (maxVal == null) ? Number.MAX_VALUE : ((globals.toolset.isIntNumber(maxVal) && maxVal > 0) ? maxVal : null);
-				if(_maxVal == null) throw {name: 'ValueError', mesage: 'incorrect max value: < ' + _maxVal + ' >'};
-				
+				if(_maxVal == null) throw {name: 'ValueError', message: 'incorrect max value: < ' + _maxVal + ' >'};
+
 				_dict = globals.toolset.vector(_size + 1, null);
 				_dict[0] = _maxVal;
-				
+
 				_count = 0;
-				
+
 				initialize(nodes);
 
 				compare = globals.toolset.isFunction(cmp) ? cmp : compare;
 			};
 			Set.prototype = that;
-			
+
 			globals.collections.set.Set = Set;
 		}());
 //----------------------------------------------------------------------------------------------

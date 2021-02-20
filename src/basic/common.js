@@ -163,7 +163,7 @@
 	   * @return {fabric.Object} thisArg
 	   * @chainable
 	   */
-		function toogle(property) {
+		function toggle(property) {
 			var value = this.get(property);
 			if (typeof value === 'boolean') {
 				this.set(property, !value);
@@ -351,7 +351,7 @@
 				if (typeof properties[0] === 'function') {
 					parent = properties.shift();
 				}
-				
+
 				function klass() {
 					this.initialize.apply(this, arguments);
 				}
@@ -603,14 +603,14 @@
 			return this;
 		};
 //----------------------------------------------------------------------------------------------
-		//Exports block	
+		//Exports block
 		globals.common.setOptions = setOptions;
 		globals.common.set = set;
 		globals.common.get = get;
 		globals.common.toggle = toggle;
 		globals.common.populateWithProps = populateWithProps;
 		globals.common.populate = populate;
-		
+
 		globals.common.observable =
 		{
 			observe: observe,

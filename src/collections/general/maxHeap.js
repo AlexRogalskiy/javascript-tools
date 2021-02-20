@@ -38,7 +38,7 @@
 		globals.collections.heap = globals.collections.heap || {};
 //----------------------------------------------------------------------------------------------
 		var maxHeap = (function() {
-			
+
 			var makeNode = function(data) {
 				return {"data": Object.clone(data)};
 			};
@@ -91,13 +91,13 @@
 						if(Object.prototype.hasOwnProperty.call(spec, 'array')) {
 							if(!globals.toolset.isArray(spec['array']) || spec['array'].length == 0) { throw {
 																									name: 'ValueError',
-																									message: 'incorrect initialization value: array of elemens <' + spec['array'] + '>'
+																									message: 'incorrect initialization value: array of elements <' + spec['array'] + '>'
 																								};
 							}
-							
+
 							size = (!Object.prototype.hasOwnProperty.call(spec, 'range')) ? spec['array'].length : ((globals.toolset.isIntNumber(spec['range']) && spec['range'] > 0) ? spec['range'] : null);
-							if(size == null) throw {name: 'ValueError', mesage: 'incorrect size value: < ' + spec['range'] + ' >'};
-							
+							if(size == null) throw {name: 'ValueError', message: 'incorrect size value: < ' + spec['range'] + ' >'};
+
 							spec['array'].foreach(function(value, index) {
 								that.insertNode(value);
 							});

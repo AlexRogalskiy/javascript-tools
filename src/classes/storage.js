@@ -5,9 +5,9 @@ globals = globals || {};
 
 (function (globals) {
 	'use strict';
-	
+
 	globals.collections = globals.collections || {};
-	
+
 	/* @public
 	* @module collections
 	* @param {Array} spec Input array of items.
@@ -20,18 +20,18 @@ globals = globals || {};
 	* var myQueue = new globals.collections.graph.LGraph([1, 4, 5, 5, 6, 7]);
 	*/
 	(function() {
-		
+
 		globals.utils.cache = globals.utils.cache || {};
-		
+
 		const BACON_NUMBER = -1;
-		
+
 		var compare = function(a, b) {
-			
+
 			var hasProperty = function(obj, prop) {
 				var proto = obj.__proto__ || obj.constructor.prototype;
 				return (prop in obj) || ((prop in proto) || proto[prop] === obj[prop]);
 			}
-			
+
 			if(a === b) {
 				return 0;
 			}
@@ -44,22 +44,22 @@ globals = globals || {};
 			}
 			return typeof a < typeof b ? -1 : 1;
 		};
-		
+
 		var isStorage = function(x) {
 			return (x instanceof globals.utils.cache.Storage);
 		};
-		
+
 		var block = (function() {
-			
+
 			globals.utils.cache.block = globals.collections.graph.block || {};
 
 			(function() {
-				
+
 				const DEFAULT_SIZE = 0;
-				
+
 				var _data = null;
 				var _size = null;
-				
+
 				var that = {};
 				that.elementAt = function(index) {
 					return _data[index];
@@ -106,26 +106,26 @@ globals = globals || {};
 				that.toString = function() {
 					console.log("block (data: {" + _data.toString() + "}, size: {" + _size + "})");
 				};
-				
+
 				function MemoryBlock(data, size) {
 					_data = Object.clone(data);
 					_size = (size == null) ? DEFAULT_SIZE : ((globals.toolset.isIntNumber(size) && size >= 0) ? size : null);
-					if(_size == null) throw {name: 'ValueError', mesage: 'incorrect size value: not positive integer number < ' + _size + ' >'};
+					if(_size == null) throw {name: 'ValueError', message: 'incorrect size value: not positive integer number < ' + _size + ' >'};
 				};
 				MemoryBlock.prototype = that;
-				
+
 				globals.utils.cache.block.MemoryBlock = MemoryBlock;
-				
+
 			}());
 		}());
-			
+
 		var storage = (function() {
-			
+
 			var _queue = null;
-			
+
 			var that = {};
 			that.getBlock = function(size) {
-				
+
 			}:
 			that.putBlock = function(block) {
 				if(block == null) {
@@ -141,8 +141,8 @@ globals = globals || {};
 					};
 				}
 			};
-			
-			
+
+
 			that.clone = function() {
 				return new globals.collections.graph.Graph(_queue.entries(), compare);
 			};
@@ -152,7 +152,7 @@ globals = globals || {};
 			that.size = function() {
 				return _queue.size();
 			};
-			
+
 			var initialize = function(nodes) {
 				if(!globals.toolset.isNull(nodes)) {
 					if(!globals.toolset.isArray(nodes)) { throw {
@@ -165,17 +165,17 @@ globals = globals || {};
 					}
 				}
 			};
-			
+
 			function Storage() {
 				_queue = new globals.collections.list.LinkedList();
 				//_src = globals.toolset.vector();
-				
+
 				initialize(nodes);
 			};
 			Storage.prototype = that;
-			
+
 			globals.utils.cache.Storage = Storage;
-			
+
 		}());
 	}());
 

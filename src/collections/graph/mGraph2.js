@@ -32,7 +32,7 @@
 				var _begin = null;
 				var _end = null;
 				var _weight = null;
-				
+
 				var that = {};
 				that.getBegin = function() {
 					return _begin;
@@ -81,29 +81,29 @@
 				};
 				that.hashCode = function() {
 					var hashValue = 11;
-					
+
 					var sfVal = (_begin == null) ? 0 : _begin.hashCode();
 					hashValue = 31 * hashValue + sfVal;
-					
+
 					sfVal = (_end == null) ? 0 : _end.hashCode();
 					hashValue = 31 * hashValue + sfVal;
-					
+
 					sfVal = (_weight == null) ? 0 : _weight.hashCode();
 					hashValue = 31 * hashValue + sfVal;
-					
+
 					return hashValue;
 				};
 				that.toString = function() {
 					return '(begin: {' + _begin.toString() + '}, end: {' + _end.toString() + '}, weight: {' + _weight.toString() + '})';
 				};
-				
+
 				function Edge(begin, end, weight) {
 					_begin = begin;
 					_end = end;
 					_weight = weight;
 				};
 				Edge.prototype = that;
-				
+
 				globals.collections.graph.node.Edge = Edge;
 			}());
 		}());
@@ -112,11 +112,11 @@
 			var _size = null;
 			var _graph = null;
 			//var _weights = null;
-			
+
 			var isInRange = function(num) {
 				return (num < _size && num >= 0);
 			};
-			
+
 			var that = {};
 			that.has = function(a, b) {
 				if(!globals.toolset.isIntNumber(a) || !globals.toolset.isIntNumber(b)) { throw {
@@ -160,10 +160,10 @@
 				}
 				_graph[a][b] = DEFAULT_EDGE;
 				_graph[b][a] = DEFAULT_EDGE;
-				
+
 				//weight = (weight == null) ? DEFAULT_WEIGHT : (globals.toolset.isNumber(weight) ? weight : null);
-				//if(weight == null) throw {name: 'ValueError', mesage: 'incorrect {weight} argument: not number < ' + weight + ' >'};
-				
+				//if(weight == null) throw {name: 'ValueError', message: 'incorrect {weight} argument: not number < ' + weight + ' >'};
+
 				//_weights[a][b] = weight;
 				//_weights[b][a] = weight;
 			};
@@ -179,10 +179,10 @@
 				if(!isInRange(b)) {
 					throw globals.exception.argumentException('OutOfBoundsError', 'incorrect input argument: end vertice < ' + b + ' > is out of range {0,' + this.size() + '}');
 				}
-				
+
 				value = (value == null) ? DEFAULT_EDGE : (globals.toolset.isNumber(value) ? value : null);
-				if(value == null) throw {name: 'ValueError', mesage: 'incorrect {edge} argument: not number < ' + value + ' >'};
-				
+				if(value == null) throw {name: 'ValueError', message: 'incorrect {edge} argument: not number < ' + value + ' >'};
+
 				_graph[a][b] = value;
 				_graph[b][a] = value;
 			};
@@ -292,7 +292,7 @@
 				return res + ']';
 			};
 			that.minSleleton = function(res) {
-				
+
 				var sameComponent = function(a, b, tree) {
 					var root1 = a;
 					while(tree[root1] != -1) {
@@ -304,17 +304,17 @@
 					}
 					return (roo1 == root2);
 				};
-				
+
 				if(!globals.toolset.isArray(res)) { throw {
 														name: 'TypeError',
 														message: 'incorrect input argument: not array < ' + res + ' >'
 													};
 				}
-				
+
 				var edges = new globals.collections.set.TreeSet();
 				var tree = globals.toolset.vector(this.size(), -1);
 				var sumWeight = 0;
-				
+
 				for(var i=1; i<this.size(); i++) {
 					for(var j=0; j<i; j++) {
 						if(_graph[i][j]) {
@@ -322,7 +322,7 @@
 						}
 					}
 				}
-				
+
 				while(!edges.isEmpty()) {
 					var minEdge = edges.first();
 					edges.remove(minEdge);
@@ -344,30 +344,30 @@
 														message: 'incorrect input argument: not array < ' + res + ' >'
 													};
 				}
-				
+
 				var setNotPassed = (new globals.collections.set.BitSet(null, 0, this.size() - 1)).inverse();
 				var distances = globals.toolset.vector(this.size(), Number.MAX_VALUE);
 				var ends = globals.toolset.vector(this.size(), -1);
 				var sumWeight = 0;
-				
+
 				while(setNotPassed.getCount() != 0) {
 					var minVertex = -1;
 					var minDistance = Number.MAX_VALUE;
-					
+
 					for(var nextVertex=0; nextVertex<this.size(); nextVertex++) {
 						if(setNotPassed.has(nextVertex) && distances[nextVertex] < minDistance) {
 							minDistance = distances[nextVertex];
 							minVertex = nextVertex;
 						}
 					}
-					
+
 					if(minVertex == -1) {
 						minVertex = setNotPassed.first();
 					} else {
 						res.push({'begin': ends[minVertex], 'end': minVertex, 'distance': minDistance});
 						sumWeight += minDistance;
 					}
-					
+
 					setNotPassed.remove(minVertex);
 					for(var u=0; u<this.sizes(); u++) {
 						if(setNotPassed.has(u) && _graph[minVertex][u] && _graph[minVertex][u] < distances[u]) {
@@ -403,7 +403,7 @@
 				//	}
 				//}
 			};
-			
+
 			var initialize = function(nodes) {
 				if(!globals.toolset.isNull(nodes)) {
 					if(!globals.toolset.isArray(nodes)) { throw {
@@ -426,18 +426,18 @@
 					}
 				}
 			};
-			
+
 			function MGraph2(nodes, size) {
 				_size = (size == null) ? DEFAULT_SIZE : ((globals.toolset.isIntNumber(size) && size >= 0) ? size : null);
-				if(_size == null) throw {name: 'ValueError', mesage: 'incorrect {number of rows} argument: not positive integer number < ' + _size + ' >'};
-				
+				if(_size == null) throw {name: 'ValueError', message: 'incorrect {number of rows} argument: not positive integer number < ' + _size + ' >'};
+
 				_graph = globals.toolset.matrix(_size, _size, EMPTY_EDGE);
 				//_weights = globals.toolset.matrix(_size, _size, EMPTY_WEIGHT);
-				
+
 				initialize(nodes);
 			};
 			MGraph2.prototype = that;
-			
+
 			globals.collections.graph.MGraph2 = MGraph2;
 		}());
 //----------------------------------------------------------------------------------------------

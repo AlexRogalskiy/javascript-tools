@@ -30,7 +30,7 @@
 			var _min = null;
 			var _max = null;
 			var _data = null;
-			
+
 			var	getBit = function(num, i) {
 				return ((num & (1 << i)) != 0);
 			};
@@ -73,14 +73,14 @@
 					var _current = null;
 					var _previous = null;
 					var _index = null;
-					
+
 					var getNext = function(value) {
 						while(isInRange(value) && !checkBit(value)) {
 							value++;
 						}
 						return value;
 					};
-					
+
 					var that = {};
 					that.hasNext = function() {
 						return (isInRange(_current));
@@ -118,14 +118,14 @@
 							_index++;
 						}
 					};
-					
+
 					function SetIterator() {
 						_current = getNext(_min);
 						_previous = null;
 						_index = -1;
 					};
 					SetIterator.prototype = that;
-					
+
 					globals.collections.set.iterator.SetIterator = SetIterator;
 				}());
 			}());
@@ -179,14 +179,14 @@
 					});
 				} else {
 					var res = this.entries().union(set.entries());
-					
+
 					_min = Math.min(_min, set.getMinBound());
 					_max = Math.max(_max, set.getMaxBound());
-					
+
 					var numBits = _max - _min + 1;
 					var numBytes = (numBits % BITSPERWORD) ? Math.floor((1 + numBits / BITSPERWORD)) : (numBits / BITSPERWORD);
 					_data = globals.toolset.vector(numBytes, 0);
-					
+
 					_count = 0;
 					res.forEach(function(value) {
 						setBit(value);
@@ -208,14 +208,14 @@
 					_count = 0;
 				} else {
 					var res = this.entries().intersect(set.entries());
-					
+
 					_min = Math.max(_min, set.getMinBound());
 					_max = Math.min(_max, set.getMaxBound());
-					
+
 					var numBits = _max - _min + 1;
 					var numBytes = (numBits % BITSPERWORD) ? Math.floor((1 + numBits / BITSPERWORD)) : (numBits / BITSPERWORD);
 					_data = globals.toolset.vector(numBytes, 0);
-					
+
 					_count = 0;
 					res.forEach(function(value) {
 						setBit(value);
@@ -268,10 +268,10 @@
 					var res1 = this.entries().diff(set.entries());
 					var res2 = set.entries().diff(this.entries());
 					var res = res1.union(res2);
-					
+
 					_min = Math.min(_min, set.getMinBound());
 					_max = Math.max(_max, set.getMaxBound());
-					
+
 					var numBits = _max - _min + 1;
 					var numBytes = (numBits % BITSPERWORD) ? Math.floor((1 + numBits / BITSPERWORD)) : (numBits / BITSPERWORD);
 					_data = globals.toolset.vector(numBytes, 0);
@@ -321,24 +321,24 @@
 					//var numBits = _max - _min + 1;
 					//var numBytes = (numBits % BITSPERWORD) ? Math.floor((1 + numBits / BITSPERWORD)) : (numBits / BITSPERWORD);
 					//_data = globals.toolset.vector(numBytes, 0);
-					
+
 					_count = 0;
 				}
 				return this;
 			};
 			that.subSet = function(low, high) {
 				low = (low == null) ? _min : ((globals.toolset.isIntNumber(low) && low >= _min) ? low : null;
-				if(low == null) throw {name: 'ValueError', mesage: 'incorrect lower value: < ' + low + ' >'};
+				if(low == null) throw {name: 'ValueError', message: 'incorrect lower value: < ' + low + ' >'};
 
 				high = (high == null) ? _max : ((globals.toolset.isIntNumber(high) && high <= _max) ? high : null;
-				if(high == null) throw {name: 'ValueError', mesage: 'incorrect upper value: < ' + high + ' >'};
+				if(high == null) throw {name: 'ValueError', message: 'incorrect upper value: < ' + high + ' >'};
 
 				if(low > high) { throw {
 									name: 'ValueError',
 									message: 'incorrect input arguments: low border < ' + low + ' >, high border < ' + high + ' >'
 								};
 				}
-				
+
 				var result = globals.toolset.vector();
 				for(var i=low; i<=high; i++) {
 					if(checkBit(i)) {
@@ -423,32 +423,32 @@
 					}
 				}
 			};
-			
+
 			function BitSet2(nodes, min, max) {
 				//nodes.min()
 				_min = (min == null) ? DEFAULT_MIN : ((globals.toolset.isIntNumber(min) && min >= 0) ? min : null);
-				if(_min == null) throw {name: 'ValueError', mesage: 'incorrect min value: not positive integer number < ' + _min + ' >'};
+				if(_min == null) throw {name: 'ValueError', message: 'incorrect min value: not positive integer number < ' + _min + ' >'};
 				//nodes.max()
 				_max = (max == null) ? DEFAULT_MAX : ((globals.toolset.isIntNumber(max) && max >= 0) ? max : null);
-				if(_max == null) throw {name: 'ValueError', mesage: 'incorrect max value: not positive integer number < ' + _max + ' >'};
-				
+				if(_max == null) throw {name: 'ValueError', message: 'incorrect max value: not positive integer number < ' + _max + ' >'};
+
 				if(_min > _max) {
 					throw {
 						name: 'ValueError',
 						message: 'incorrect initialization arguments: min < ' + _min + ' >, max < ' + _max + ' >'
 					};
 				}
-				
+
 				var numBits = _max - _min + 1;
 				var numBytes = (numBits % BITSPERWORD) ? Math.floor((1 + numBits / BITSPERWORD)) : (numBits / BITSPERWORD);
-				
+
 				_data = globals.toolset.vector(numBytes, 0);
-				
+
 				_count = 0;
 				initialize(nodes);
 			};
 			BitSet2.prototype = that;
-			
+
 			globals.collections.set.BitSet2 = BitSet2;
 		}());
 //----------------------------------------------------------------------------------------------

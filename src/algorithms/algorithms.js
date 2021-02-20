@@ -43,7 +43,7 @@
 		* 				[8, 3, 7, 9, 4]];
 		* var minUtility = globals.algorithms.getMinUtility(distance);
 		* document.writeln('pairs: ' + minUtility.maxPairs + ', functional: ' + minUtility.functional);
-		*/ 
+		*/
 		var getMinUtility = function(nodesList) {
 			if(!globals.toolset.isArray(nodesList)) { throw {
 													name: 'ValueError',
@@ -122,7 +122,7 @@
 		var isBalanced = (function() {
 			const openings = ["{", "(", "["];
 			const closings = ["}", ")", "]"];
-			
+
 			var isParanthesis = function(ch) {
 				return openings.includes(ch) || closings.includes(ch);
 			};
@@ -132,7 +132,7 @@
 			var isOpening = function(ch) {
 				return openings.includes(ch);
 			};
-			
+
 			return function(str) {
 				const stack = [];
 				const strArr = str.split("");
@@ -166,7 +166,7 @@
 		*				[0, 1, 0, 1, 0],
 		*				[0, 0, 0, 1, 0]];
 		* document.writeln(globals.algorithms.getMaxPairsMatching(distance));
-		*/ 
+		*/
 		var getMaxPairsMatching = function(nodesList) {
 			if(!globals.toolset.isArray(nodesList)) { throw {
 													name: 'ValueError',
@@ -236,7 +236,7 @@
 		//var X = [0, 'C', 'A', 'T', 'C', 'G', 'A'];
 		//var Y = [0, 'G', 'T', 'A', 'C', 'C', 'G', 'T', 'C', 'A'];
 		var longestCommonSequence = function(arrayX, arrayY) {
-			
+
 			var _longestCommonSequence = function _longestCommonSequence(arrayX, arrayY, table, i, j) {
 				if( table[i][j] == 0 ) return '';
 				if( arrayX[i] == arrayY[j] ) {
@@ -247,7 +247,7 @@
 					return _longestCommonSequence(arrayX, arrayY, table, i-1, j);
 				}
 			};
-			
+
 			if(!globals.toolset.isArray(arrayX) || !globals.toolset.isArray(arrayY)) { throw {
 																						name: 'ValueError',
 																						message: 'incorrect input values: arrayX < ' + arrayX + ' >, arrayY < ' + arrayY + ' >'
@@ -291,7 +291,7 @@
 			}
 			var matrix = globals.toolset.matrix(str1.length, str2.length, 0);
 			var maxLength = 0, maxI = 0;
-			
+
 			for(var i=0; i<str1.length; i++) {
 				for(var j=0; j<str2.length; j++) {
 					if(str1.charAt(i) == str2.charAt(j)) {
@@ -374,7 +374,7 @@
 //----------------------------------------------------------------------------------------------
 		var getLuckyTickets = function(num) {
 			num = (num == null) ? 1000 : (globals.toolset.isNumber(num) && num > 0) ? num : null;
-			if(num == null) throw {name: 'ValueError', mesage: 'incorrect \'amount\' value: < ' + num + ' >'};
+			if(num == null) throw {name: 'ValueError', message: 'incorrect \'amount\' value: < ' + num + ' >'};
 			//
 			var digits = {}, tmp;
 			for (var i=0; i<num; i+=1) {
@@ -407,7 +407,7 @@
 		*				[0, 0, 0, 1, 0, 0, 1],
 		*				[0, 0, 0, 0, 1, 0, 0]];
 		* document.writeln(globals.algorithms.getVertexPath(1, distance));
-		*/ 
+		*/
 		var getVertexPath = function(start, nodesList) {
 			if(!globals.toolset.isIntNumber(start) || !globals.toolset.isArray(nodesList)) { throw {
 																							name: 'ValueError',
@@ -460,7 +460,7 @@
 		*				[9, 3, 5, 9, 0, 5],
 		*				[7, 8, 9, 5, 5, 0]];
 		* document.writeln(globals.algorithms.getMinMaxPath(distance));
-		*/ 
+		*/
 		var getMinMaxPath = function(nodesList) {
 			var res = globals.algorithms.getShortestPaths(nodesList);
 			var len = res.length, inf = Number.POSITIVE_INFINITY, mima = inf, ma, ind;
@@ -526,7 +526,7 @@
 		*				[0, 9, 10, 15, 11, 17, 24]];
 		* var weightedArray = [80, 100, 140, 90, 60, 50, 40];
 		* document.writeln(globals.algorithms.getMinWeightedPath(distance, weightedArray));
-		*/ 
+		*/
 		var getMinWeightedPath = function(nodesList, weightedArray) {
 			if(!globals.toolset.isArray(weightedArray)) { throw {
 												name: 'ValueError',
@@ -565,7 +565,7 @@
 		*				[undef, undef, undef, undef, 14, 24, 0, 16],
 		*				[undef, 35, undef, undef, undef, undef, 16, 0]];
 		* document.writeln(globals.algorithms.getShortestPaths(distance));
-		*/ 
+		*/
 		var getShortestPaths = function(nodesDist) {
 			if(!globals.toolset.isArray(nodesDist)) { throw {
 														name: 'ValueError',
@@ -606,7 +606,7 @@
 		*				[undef, 35, undef, undef, undef, undef, 16, 0]];
 		* var res = globals.algorithms.getDeijkstraPath(3, 8, distance);
 		* document.writeln(res.path + ' ' + res.length);
-		*/ 
+		*/
 		var getDeijkstraPath = function(start, end, nodesDist) {
 			if(!globals.toolset.isIntNumber(start) || !globals.toolset.isIntNumber(end) || !globals.toolset.isArray(nodesDist)) { throw {
 																															name: 'ValueError',
@@ -619,7 +619,7 @@
 																					message: 'incorrect input values: start vertex < ' + start + ' >, end vertex < ' + end + ' >, number of vertices < ' + n + ' >'
 																				};
 			}
-			
+
 			var state = {PASSED: 1, NOTPASSED: 0};
 			var a = globals.toolset.vector(n, state.NOTPASSED);
 			var b = null;//globals.toolset.vector(n, 0);
@@ -667,9 +667,9 @@
 		* @param {Integer} end End node.
 		* @param {Array} passages Set of objects {'x', 'y', 'time'}.
 		* @return {Object} Shortest path {'start', 'end', 'path', 'time'}
-		*/ 
+		*/
 		var fordShortesPath = (function() {
-			
+
 			// Структура переходов
 			// x - начальная вершина;
 			// y - конечная вершина
@@ -678,7 +678,7 @@
 			var makePassage = function(x, y, time, next) {
 				return {'x': x, 'y': y, 'time': time, 'next': next};
 			};
-			
+
 			var getPath = function(nodes, start, fin) {
 				var path = [];
 				var getShortestPath = function getShortestPath(s, f) {
@@ -690,15 +690,15 @@
 				getShortestPath(start, fin);
 				return path;
 			};
-			
+
 			return function(n, start, end, passages) {
-				
+
 				var nodes = [], temp, i, f;
 				for(i=0; i<n; i++) {
 					temp = makeNode(0, null, Number.MAV_VALUE, null);
 					nodes.push(temp);
 				}
-				
+
 				if(!globals.toolset.isIntNumber(start) || !globals.toolset.isIntNumber(end)) { throw {
 																								name: 'ValueError',
 																								message: 'incorrect input parameters: start node < ' + start + ' >, end node < ' + end + ' >'
@@ -752,9 +752,9 @@
 		* var res = globals.algorithms.shortestPath(5, 1, 5, [{'from': 1, 'yz': 2, 'time': 10}, {'from': 2, 'yz': 4, 'time': 15}, {'from': 4, 'yz': 5, 'time': 3}, {'from': 1, 'yz': 3, 'time': 17}, {'from': 3, 'yz': 5, 'time': 10}, {'from': 2, 'yz': 3, 'time': 2}]);
 		* document.writeln('bestTime: ' + res.bestTime);
 		* document.writeln('path: ' + res.path);
-		*/ 
+		*/
 		var shortestPath = (function() {
-			
+
 			// Структура узла
 			// bstm - лучшее время попадания в данный узел из начального узла;
 			// bsyz - узел, из которого попадаешь в данный узел при прохождении из начального по кратчайшему пути;
@@ -763,7 +763,7 @@
 			var makeNode = function(bstm, bsyz, sw, h) {
 				return {'bstm': bstm, 'bsyz': bsyz, 'sw': sw, 'h': h};
 			};
-				
+
 			// Структура переходов
 			// time - время прохождения до узла;
 			// yz - номер узла;
@@ -771,7 +771,7 @@
 			var makePassage = function(time, yz, next) {
 				return {'time': time, 'yz': yz, 'next': next};
 			};
-			
+
 			return function(num, start, end, passages) {
 				var i, n, p, mas = [];
 				if(!globals.toolset.isIntNumber(start) || !globals.toolset.isIntNumber(end)) { throw {
@@ -831,7 +831,7 @@
 		*
 		* @example
 		* document.writeln(globals.algorithms.similarStrings('polarity', 'hilarity', 3));
-		*/ 
+		*/
 		var similarStrings = function(str1, str2, thresh) {
 			if(!globals.toolset.isString(str1) || !globals.toolset.isString(str2)) { throw {
 																				name: 'ValueError',
@@ -850,10 +850,10 @@
 		* @param {Array} rates Initial rates.
 		* @param {Integer} sum Amount.
 		* @return {Array} Set of exchange rates.
-		*/ 
+		*/
 		var exchangeRates = (function() {
 			var rates_ = [5000, 1000, 500, 100, 50, 10, 5, 1]
-			
+
 			return function(rates, sum) {
 				if(!globals.toolset.isArray(rates) || !globals.toolset.isNumber(sum)) { throw {
 																						name: 'ValueError',
@@ -877,7 +877,7 @@
 		* @module algorithms
 		* @param {Integer} rang matrix size.
 		* @return {Array} Matrix of specified rang.
-		*/ 
+		*/
 		var pascalTriangle = function(rang) {
 			if(!globals.toolset.isIntNumber(rang)) { throw {
 													name: 'ValueError',
@@ -900,7 +900,7 @@
 		* @param {String} str String to encode.
 		* @param {Integer} k Step size.
 		* @return {String} Encoded string.
-		*/ 
+		*/
 		var cesarEncode = function(str, k) {
 			if(!globals.toolset.isString(str) || !globals.toolset.isIntNumber(k)) { throw {
 																					name: 'ValueError',
@@ -1140,7 +1140,7 @@
 		* document.writeln(res);
 		*/
 		var polishNotation = (function() {
-			
+
 			var priority = function(ch) {
 				switch(ch) {
 					case '*': case '/': return 3;
@@ -1162,7 +1162,7 @@
 			var isNull = function() {
 				return stackOpers.isNull();
 			};
-			
+
 			return function(str) {
 				if(!globals.toolset.isString(str)) { throw {
 													name: 'ValueError',
@@ -1214,7 +1214,7 @@
 		* document.writeln(">> " + result);
 		*/
 		var arrayUnion = (function() {
-			
+
 			var min = function(arrays, index, size, n) {
 				var minValue = Number.MAX_VALUE, ind , i;
 				for(i=0; i<n; i++) {
@@ -1238,7 +1238,7 @@
 				}
 				return sz;
 			};
-			
+
 			return function(arrays, cmp) {
 				if(!globals.toolset.isArray(arrays)) { throw {
 														name: 'ValueError',
@@ -1268,14 +1268,14 @@
 		* @param {Function} cmp Optional. A function that defines an
 		* alternative sort order. The function should return a negative,
 		* zero, or positive value, depending on the arguments.
-		* @return {Array} Sorted union array without dublicates.
+		* @return {Array} Sorted union array without duplicates.
 		*
 		* @example
 		* var result = globals.algorithms.arrayConcat([3, 6, 8, 9], [1, 2, 4, 7, 15]);
 		* document.writeln("result: " + result);
 		*/
 		var arrayConcat = (function() {
-					
+
 			var cmp_ = function(a, b) {
 				if(a === b) {
 					return 0;
@@ -1285,16 +1285,16 @@
 				}
 				return typeof a < typeof b ? -1 : 1;
 			};
-			
+
 			return function(array1, array2, cmp) {
 				if(!globals.toolset.isArray(array1) || !globals.toolset.isArray(array2)) { throw {
 																							name: 'ValueError',
 																							message: 'incorrect input parameters: array1 < ' + array1 + ' >, array2 < ' + array2 + ' >'
 																						};
 				}
-				
+
 				cmp = globals.toolset.isFunction(cmp) ? cmp : cmp_;
-				
+
 				var i1 = 0, i2 = 0, ir = 0, res = [];
 				while((i1 < array1.length) && (i2 < array2.length)) {
 					if(cmp(array1[i1], array2[i2]) < 0) {
@@ -1330,22 +1330,22 @@
 		* Time: O(n * log(n))
 		*/
 		var binSearch = (function() {
-			
+
 			return function(array, target, min, max, cmp) {
-				
+
 				if(!globals.toolset.isArray(array)) { throw {
 													name: 'ValueError',
 													message: 'incorrect input array: array < ' + array + ' >'
 												};
 				}
-				
+
 				min = (globals.toolset.isIntNumber(min) && min > 0) ? min : 0;
 				max = (globals.toolset.isIntNumber(max) && max > 0) ? max : array.length-1;
 				cmp = globals.toolset.isFunction(cmp) ? cmp : cmpByDefault;
-				
+
 				var center, range, order;
 				if(min > max) return -1;
-				
+
 				while(true) {
 					range = max - min;
 					if(range == 0 && array[min] != target) return -1;
@@ -1381,7 +1381,7 @@
 		* Time: O(n * log(n))
 		*/
 		var binSearch2 = (function() {
-			
+
 			return function(array, target, cmp) {
 				if(!globals.toolset.isArray(array)) { throw {
 													name: 'ValueError',
@@ -1390,7 +1390,7 @@
 				}
 				cmp = globals.toolset.isFunction(cmp) ? cmp : cmpByDefault;
 				globals.sorting.sort(array);
-				
+
 				var i = array.length, l = -1, p;
 				if(i === 0) return -1;
 				while(i != 1) {
@@ -1420,7 +1420,7 @@
 		* Time: O(n * log(n))
 		*/
 		var binSearch3 = (function() {
-			
+
 			return function(array, target, cmp) {
 				if(!globals.toolset.isArray(array)) { throw {
 														name: 'ValueError',
@@ -1429,7 +1429,7 @@
 				}
 				cmp = globals.toolset.isFunction(cmp) ? cmp : cmpByDefault;
 				globals.sorting.sort(array);
-				
+
 				var i = 0, j = array.length - 1, k, order;
 				if(array.length === 0) return -1;
 				while(i < j) {
@@ -1459,9 +1459,9 @@
 		* Time: O(n * log(n))
 		*/
 		var binSearch4 = (function() {
-			
+
 			var cmp_ = cmpByDefault;
-			
+
 			var binSearchR = function(array, str, first, last) {
 				var mid = Math.floor((last + first) / 2);
 				if(array[mid].isEmpty()) {
@@ -1490,7 +1490,7 @@
 					return binSearchR(array, str, first, mid - 1);
 				}
 			};
-			
+
 			return function(array, str, cmp) {
 				if(!globals.toolset.isArray(array)) { throw {
 														name: 'ValueError',
@@ -1508,7 +1508,7 @@
 		}());
 //----------------------------------------------------------------------------------------------
 		var interpolationSearch = (function() {
-		
+
 			return function(array, target, cmp) {
 				if(!globals.toolset.isArray(array)) { throw {
 														name: 'ValueError',
@@ -1517,7 +1517,7 @@
 				}
 				cmp = globals.toolset.isFunction(cmp) ? cmp : cmpByDefault;
 				globals.sorting.sort(array);
-				
+
 				var mid, low = 0, high = array.length - 1;
 				while(array[low] < target && array[high] > target) {
 					mid = low + Math.floor(((target - array[low]) * (high - low)) / (array[high] - array[low]));
@@ -1530,7 +1530,7 @@
 						return mid;
 					}
 				}
-				
+
 				if(cmp(array[low], target) == 0) {
 					return low;
 				} else if(cmp(array[high], target) == 0) {
@@ -1540,7 +1540,7 @@
 				}
 			};
 		}());
-//------------------------------------------------------------------------------	
+//------------------------------------------------------------------------------
 		/**
 		* @public
 		* @module algorithms
@@ -1554,17 +1554,17 @@
 		* Time: O(n * log(n))
 		*/
 		var createWordRectangle = (function() {
-			
+
 			var newRectangle = (function() {
-				
+
 				var height = length = 0;
 				var matrix = null;
-				
+
 				//var that = {};
 				var that = Object.create(newRectangle.prototype);
 				//that.prototype = newRectangle;
 				//
-				
+
 				that.getLetter = function(i, j) {
 					if(!globals.toolset.isIntNumber(i) || !globals.toolset.isIntNumber(j) || i < 0 || j < 0) { throw {
 																name: 'ValueError',
@@ -1573,7 +1573,7 @@
 					}
 					return matrix[i][j];
 				};
-				
+
 				that.getColumn = function(i) {
 					if(!globals.toolset.isIntNumber(i) || i < 0) { throw {
 																	name: 'ValueError',
@@ -1581,7 +1581,7 @@
 																};
 					}
 				};
-				
+
 				that.isComplete = function(l, h, groupList) {
 					if(!globals.toolset.isIntNumber(l) || l < 0) { throw {
 																	name: 'ValueError',
@@ -1590,7 +1590,7 @@
 					}
 					if(!globals.toolset.isIntNumber(h) || h < 0) { throw {
 																	name: 'ValueError',
-																	message: 'incorrect imput parameter: height < ' + h + ' >'
+																	message: 'incorrect input parameter: height < ' + h + ' >'
 																};
 					}
 					if(height == h) {
@@ -1604,7 +1604,7 @@
 					}
 					return false;
 				};
-				
+
 				that.isPartialOK = function(l, trie) {
 					if(height == 0) return true;
 					for(var col, i=0; i<l; i++) {
@@ -1615,7 +1615,7 @@
 					}
 					return true;
 				};
-				
+
 				that.append = function(s) {
 					if(!globals.toolset.isString(s)) { throw {
 														name: 'ValueError',
@@ -1624,7 +1624,7 @@
 					}
 					//
 				};
-				
+
 				return function(letters) {
 					if(!globals.toolset.isArray(letters)) { throw {
 																name: 'ValueError',
@@ -1643,7 +1643,7 @@
 					matrix = letters;
 					return that;
 				};
-				
+
 				/*return function(l) {
 					if(!globals.toolset.isIntNumber(l)) { throw {
 														name: 'ValueError',
@@ -1654,45 +1654,45 @@
 					length = l;
 				}*/
 			}());
-			
+
 			var newWordGroupFactory = (function() {
-				
+
 				var newWordGroup = (function() {
-					
+
 					var lookup = globals.collections.hashmap();
 					var group = globals.collections.arrayList();
-					
+
 					//var that = {};
 					var that = Object.create(newWordGroup.prototype);
 					//that.prototype = newWordGroup;
 					//
-					
+
 					that.containsWord = function(s) {
 						return lookup.containsKey(s);
 					};
-					
+
 					that.addWord = function(s) {
 						group.add(s);
 						lookup.put(s, Boolean.TRUE);
 					};
-					
+
 					that.length = function() {
 						return group.size();
 					};
-					
+
 					that.getWord = function(i) {
 						return group.get(i);
 					};
-					
+
 					that.getWords = function() {
 						return group;
 					};
-					
+
 					return function() {
 						return that;
 					};
 				}());
-				
+
 				var that = {};
 				that.createWordGroups = function(list) {
 					if(!globals.toolset.isArray(list)) { 	throw {
@@ -1700,7 +1700,7 @@
 																message: 'incorrect input array: < ' + list + ' >'
 															};
 					}
-					
+
 					var maxWordLength = 0;
 					for(var i=0; i<list.length; i++) {
 						if(list[i].length() > maxWordLength) {
@@ -1720,13 +1720,13 @@
 				};
 				return that;
 			}());
-			
+
 			///////////////////////////////////
 			var groupList = newWordGroupFactory.createWordGroups(list);
 			var maxWordLength = groupList.length;
 			var trieList = globals.toolset.vector(maxWordLength, newTrie());
 			///////////////////////////////////
-			
+
 			/*var cmp_ = function(a, b) {
 				if(a === b) {
 					return 0;
@@ -1736,7 +1736,7 @@
 				}
 				return typeof a < typeof b ? -1 : 1;
 			};*/
-			
+
 			var maxRectangle = function() {
 				var maxSize = maxWordLength * maxWordLength;
 				var j, rectangle = null;
@@ -1755,7 +1755,7 @@
 				}
 				return null;
 			};
-			
+
 			var makeRectangle = function(length, height) {
 				if(groupList[length-1] == null || groupList[height-1] == null) {
 					return null;
@@ -1766,7 +1766,7 @@
 				}
 				return makePartialRectangle(length, height, newRectangle(length));
 			};
-			
+
 			var makePartialRectangle = function(l, h, rectangle) {
 				if(rectangle.height == h) {
 					if(rectangle.isComplete(l, h, groupList[h-1])) {
@@ -1775,11 +1775,11 @@
 						return null;
 					}
 				}
-				
+
 				if(!rectangle.isPartialOK(l, trieList[h-1])) {
 					return null;
 				}
-				
+
 				for(var i=0; i<groupList[l-1].length(); i++) {
 					var orgPlus = rectangle.append(groupList[l-1].getWord(i));
 					var rect = makePartialRectangle(l, h, orgPlus);
@@ -1789,7 +1789,7 @@
 				}
 				return null;
 			};
-			
+
 			return function() {
 				if(!globals.toolset.isArray(array)) { throw {
 														name: 'ValueError',
@@ -1807,52 +1807,52 @@
 		* @return {String} String equivalent of number
 		*/
 		var numToString = (function() {
-			
+
 			const ZERO_NUMBER = "Zero";
 			const NEGATIVE_NUMBER = "Negative";
 			const HUNDRED_NUMBER = "Hundred";
-			const DELIMETER = " ";
-			
+			const DELIMITER = " ";
+
 			var digits = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
 			var teens = ["Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
 			var tens = ["Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
 			var bigs = ["", "Thousand", "Million"];
-			
+
 			var numToString_ = function(num) {
 				if(num == 0) {
 					return ZERO_NUMBER;
 				} else if(num < 0) {
-					return NEGATIVE_NUMBER + DELIMETER + arguments.callee(-1 * num);
+					return NEGATIVE_NUMBER + DELIMITER + arguments.callee(-1 * num);
 				}
 				var count = 0, str = '';
 				while(num > 0) {
 					if(num % 1000 != 0) {
-						str = numToString100(num % 1000) + bigs[count] + DELIMETER + str;
+						str = numToString100(num % 1000) + bigs[count] + DELIMITER + str;
 					}
 					num /= 1000;
 					count++;
 				}
 				return str;
 			};
-			
+
 			var numToString100 = function(num) {
 				var str = '';
 				if(num >= 100) {
-					str += digits[num / 100 - 1] + DELIMETER + HUNDRED_NUMBER + DELIMETER;
+					str += digits[num / 100 - 1] + DELIMITER + HUNDRED_NUMBER + DELIMITER;
 					num %= 100;
 				}
 				if(num >= 11 && num <= 19) {
-					return str + teens[num - 11] + DELIMETER;
+					return str + teens[num - 11] + DELIMITER;
 				} else if(num == 10 || num >= 20) {
-					str += tens[num / 10 - 1] + DELIMETER;
+					str += tens[num / 10 - 1] + DELIMITER;
 					num %= 10;
 				}
 				if(num >= 1 && num <= 9) {
-					str += digits[num - 1] + DELIMETER;
+					str += digits[num - 1] + DELIMITER;
 				}
 				return str;
 			};
-			
+
 			return function(num) {
 				if(!globals.toolset.isIntNumber(num)) { throw {
 														name: 'ValueError',
@@ -1870,21 +1870,21 @@
 		* @return {String} String equivalent of number
 		*/
 		var findUnsortedSequence = (function() {
-			
+
 			var findEndOfLeftSubSequence = function(arr) {
 				for(var i=1; i<arr.length; i++) {
 					if(arr[i] < arr[i-1]) return (i-1);
 				}
 				return arr.length - 1;
 			};
-			
+
 			var findStartOfRigthSubsequence = function(arr) {
 				for(var i=arr.length-2; i>=0; i--) {
 					if(arr[i] > arr[i+1]) return (i+1);
 				}
 				return 0;
 			};
-			
+
 			var shrinkLeft = function(arr, minIndex, start) {
 				var comp = arr[minIndex];
 				for(var i=start-2; i>=0; i--) {
@@ -1892,7 +1892,7 @@
 				}
 				return 0;
 			};
-			
+
 			var shrinkRight = function(arr, maxIndex, start) {
 				var comp = arr[maxIndex];
 				for(var i=start; i<arr.length; i++) {
@@ -1900,7 +1900,7 @@
 				}
 				return arr.length - 1;
 			};
-			
+
 			return function(arr) {
 				if(!globals.toolset.isArray(arr)) { throw {
 														name: 'ValueError',
@@ -1909,7 +1909,7 @@
 				}
 				var endLeft = findEndOfLeftSubSequence(arr);
 				var startRight = findStartOfRigthSubsequence(arr);
-				
+
 				var minIndex = endLeft + 1;
 				if(minIndex >= arr.length) return;
 				var maxIndex = startRight - 1;
@@ -1917,10 +1917,10 @@
 					if(arr[i] < arr[minIndex]) minIndex = i;
 					if(arr[i] > arr[maxIndex]) maxIndex = i;
 				}
-				
+
 				var leftIndex = shrinkLeft(arr, minIndex, endLeft);
 				var rightIndex = shrinkRight(arr, maxIndex, startRight);
-				
+
 				return {'left': leftIndex, 'right': rightIndex};
 			}
 		}());
@@ -1941,13 +1941,13 @@
 				}
 				var c = a - b;
 				var sa = globals.toolset.sign(a), sb = globals.toolset.sign(b), sc = globals.toolset.sign(c);
-				
+
 				var ua = sa ^ sb;
 				var uc = flip(sa ^ sb);
-				
+
 				var k = ua * sa + uc * sc;
 				var q = flip(k);
-				
+
 				return a * k + b * q;
 			}
 		}());
@@ -1989,7 +1989,7 @@
 			var index1 = last1 - 1;
 			var index2 = last2 - 1;
 			var indexMerged = last2 + last1 - 1;
-			
+
 			while(index1 >= 0 && index2 >= 0) {
 				if(array1[index1] > array2[index2]) {
 					array1[indexMerged] = array1[index1];
@@ -2001,7 +2001,7 @@
 					index2--;
 				}
 			}
-			
+
 			while(index2 >= 0) {
 				array1[indexMerged] = array2[index2];
 				indexMerged--;
@@ -2010,9 +2010,9 @@
 		};
 //------------------------------------------------------------------------------
 		var placeQueens = (function() {
-		
+
 			const GRID_SIZE = 8;
-			
+
 			var placeQueens_ = function(row, columns, results) {
 				if(row == GRID_SIZE) {
 					results.push(Object.clone(columns));
@@ -2025,16 +2025,16 @@
 					}
 				}
 			};
-			
+
 			var checkValid = function(columns, row1, column1) {
 				for(var row2=0; row2<row1; row2++) {
 					var column2 = columns[row2];
 					if(column1 == column2) {
 						return false;
 					}
-					
+
 					var columnDistance = Math.abs(column2 - column1);
-					
+
 					var rowDistance = row1 - row2;
 					if(columnDistance == rowDistance) {
 						return false;
@@ -2042,7 +2042,7 @@
 				}
 				return true;
 			};
-			
+
 			return function(row, columns, results) {
 				if(!globals.toolset.isArray(columns)) { throw {
 														name: 'ValueError',
@@ -2059,9 +2059,9 @@
 				return results;
 			};
 		}());
-		
+
 		var queen = (function() {
-			
+
 			var reQueen = function(arr, k) {
 				var n = arr.length;
 				if(k == n) return arr;
@@ -2081,7 +2081,7 @@
 				}
 				return null;
 			};
-			
+
 			return function(n) {
 				if(!globals.toolset.isIntNumber(n)) { throw {
 															name: 'ValueError',
@@ -2094,7 +2094,7 @@
 		}());
 //------------------------------------------------------------------------------
 		var paintFill = (function() {
-		
+
 			var paintFill_ = function(screen, x, y, ocolor, ncolor) {
 				if(x < 0 || x >= screen[0].length || y < 0 || y >= screen.length) {
 					return false;
@@ -2108,7 +2108,7 @@
 				}
 				return true;
 			};
-			
+
 			return function(screen, x, y, ncolor) {
 				if(!globals.toolset.isArray(screen)) { throw {
 														name: 'ValueError',
@@ -2125,7 +2125,7 @@
 		}());
 //------------------------------------------------------------------------------
 		var generateParens = (function() {
-		
+
 			var addParen = function(list, leftRem, rightRem, str, count) {
 				if(leftRem < 0 || rightRem < leftRem) return;
 				if(leftRem == 0 && rightRem == 0) {
@@ -2135,14 +2135,14 @@
 						str[count] = '(';
 						addParen(list, leftRem-1, rightRem, str, count+1);
 					}
-					
+
 					if(rightRem > leftRem) {
 						str[count] = ')';
 						addParen(list, leftRem, rightRem-1, str, count+1);
 					}
 				}
 			};
-			
+
 			return function(count) {
 				if(!globals.toolset.isIntNumber(count)) { throw {
 															name: 'ValueError',
@@ -2156,13 +2156,13 @@
 		}());
 //------------------------------------------------------------------------------
 		var getPerms = (function() {
-		
+
 			var insertCharAt = function(word, c, i) {
 				var start = word.substring(0, i);
 				var end = word.substring(i);
 				return start + c + end;
 			};
-			
+
 			var getPerms_ = function(str) {
 				if(str == null) return null;
 				var res = [];
@@ -2181,7 +2181,7 @@
 				});
 				return res;
 			};
-			
+
 			return function(str) {
 				if(!globals.toolset.isString(str)) { throw {
 														name: 'ValueError',
@@ -2193,7 +2193,7 @@
 		}());
 //------------------------------------------------------------------------------
 		var getSubsets = (function() {
-			
+
 			var getSubsets_ = function(set, index) {
 				var allsubsets = null;
 				if(set.length == index) {
@@ -2213,7 +2213,7 @@
 				}
 				return allsubsets;
 			};
-			
+
 			return function(set, index) {
 				if(!globals.toolset.isArray(set)) { throw {
 														name: 'ValueError',
@@ -2221,14 +2221,14 @@
 													};
 				}
 				index = (index == null) ? 0 : (globals.toolset.isIntNumber(index) && index >= 0) ? index : null;
-				if(index == null) throw {name: 'ValueError', mesage: 'incorrect index value: < ' + index + ' >'};
+				if(index == null) throw {name: 'ValueError', message: 'incorrect index value: < ' + index + ' >'};
 				return getSubsets_(set, index);
 			};
 		}());
 //------------------------------------------------------------------------------
 		//var a = getSubsets2(['a', 'b', 'c']);
 		var getSubsets2 = (function() {
-		
+
 			var convertIntToSet = function(x, set) {
 				var subset = [];
 				var index = 0;
@@ -2240,7 +2240,7 @@
 				}
 				return subset;
 			};
-			
+
 			var getSubsets2_ = function(set) {
 				var allsubsets = {};
 				//var allsubsets = [];
@@ -2252,7 +2252,7 @@
 				}
 				return allsubsets;
 			};
-			
+
 			return function(set) {
 				if(!globals.toolset.isArray(set)) { throw {
 														name: 'ValueError',
@@ -2264,27 +2264,27 @@
 		}());
 //------------------------------------------------------------------------------
 		var magicFast = (function() {
-		
+
 			var magicFast_ = function(array, start, end) {
 				if(end < start || start < 0 || end >= array.length) {
 					return -1;
 				}
-				
+
 				var midIndex = Math.floor((start + end) / 2);
 				var midValue = array[midIndex];
 				if(midValue == midIndex) {
 					return midIndex;
 				}
-				
+
 				var leftIndex = Math.min(midIndex-1, midValue);
 				var left = magicFast_(array, start, leftIndex);
 				if(left >= 0) return left;
-				
+
 				var rightIndex = Math.max(midIndex+1, midValue);
 				var right = magicFast_(array, rightIndex, end);
 				return right;
 			};
-			
+
 			return function(array) {
 				if(!globals.toolset.isArray(array)) { throw {
 														name: 'ValueError',
@@ -2297,28 +2297,28 @@
 //------------------------------------------------------------------------------
 		//getPath([1, 0, 0, 0, 0], [1, 1, 0, 0, 0], [0, 1, 1, 0, 0], [0, 0, 1, 0, 0], [0, 0, 1, 1, 1]);
 		var getPath = (function() {
-			
+
 			var point = function(x, y) {
 				return {'x': x, 'y': y};
 			}
-			
+
 			var getPath_ = function(maze, row, col, path, cache) {
-			
+
 				if(col < 0 || row < 0 || !maze[row][col]) {
 					return false;
 				}
 				var p = point(row, col);
-				
+
 				//if(cache.containsKey(p)) {
 				//	return cache.get(p);
 				//}
 				if(cache[p.x + ':' + p.y] != null) {
 					return cache[p.x + ':' + p.y];
 				}
-				
+
 				var isAtOrigin = (row == 0) && (col == 0);
 				var success = false;
-				
+
 				if(isAtOrigin || getPath_(maze, row, col-1, path, cache) || getPath_(maze, row-1, col, path, cache)) {
 					path.push(p);
 					success = true;
@@ -2328,7 +2328,7 @@
 				cache[p.x + ':' + p.y] = success;
 				return success;
 			};
-			
+
 			return function(maze) {
 				if(!globals.toolset.isArray(maze)) { throw {
 														name: 'ValueError',
@@ -2348,7 +2348,7 @@
 		}());
 //------------------------------------------------------------------------------
 		var countWaysDP = (function() {
-			
+
 			var countWaysDP_ = function(n, map) {
 				if(n < 0) {
 					return 0;
@@ -2361,7 +2361,7 @@
 					return map[n];
 				}
 			};
-			
+
 			return function(n) {
 				if(!globals.toolset.isIntNumber(n)) { throw {
 														name: 'ValueError',
@@ -2385,7 +2385,7 @@
 			var queue2 = globals.collections.queue();
 			var queue1 = globals.collections.queue();
 			queue3.enqueue(1);
-			
+
 			for(var i=0; i<=k; i++) {
 				var v3 = queue3.size() > 0 ? queue3.front() : Number.MAX_VALUE;
 				var v5 = queue5.size() > 0 ? queue5.front() : Number.MAX_VALUE;
@@ -2426,12 +2426,12 @@
 			};
 			return that;
 		};
-		
+
 		//var line = line(graphPoint(0, 0), graphPoint(1, 1));
 		var line = function() {
-			
+
 			const EPSILON = 0.0001;
-			
+
 			return function(p, q) {
 				var that = {};
 				//var that = Object.create(graphPoint);
@@ -2440,7 +2440,7 @@
 				var slope = null;
 				var intercept = null;
 				var infinite_slope = false;
-				
+
 				var init = function() {
 					if(Math.abs(p.getX() - q.getX()) > EPSILON) {
 						slope = ((p.getY() - q.getY()) / (p.getX() - q.getX())).toFixed(2);
@@ -2467,18 +2467,18 @@
 					var in = (intercept * 1000) | 0;
 					return s1 | in;
 				};
-				that.insersect = function(line2) {
+				that.intersect = function(line2) {
 					return (!isEqual(slope, line2.getSlope()) || isEqual(intercept, line2.getIntercept()));
 				};
 				init();
 				return that;
 			}
 		}());
-		
+
 		//points.push(graphPoint(0, 0));
 		//points.push(graphPoint(1, 1));
 		var findBestLine = (function() {
-			
+
 			return function(points) {
 				if(!globals.toolset.isArray(points)) { throw {
 														name: 'ValueError',
@@ -2572,9 +2572,9 @@
 		};
 //------------------------------------------------------------------------------
 		var checkBST = function(node) {
-		
+
 			var lastPrinted = Number.MIN_VALUE;
-			
+
 			var checkBST_ = function(node) {
 				if(node == null) return null;
 				if(!checkBST_(node.left)) return false;
@@ -2583,12 +2583,12 @@
 				if(!checkBST_(node.right)) return false;
 				return true;
 			};
-			
+
 			return checkBST_(node);
 		};
 //----------------------------------------------------------------------------------------------
 		var checkBST = function(node) {
-			
+
 			var checkBST_ = function(node, min, max) {
 				if(node == null) {
 					return true;
@@ -2601,7 +2601,7 @@
 				}
 				return true;
 			};
-			
+
 			return checkBST_(node, Number.MIN_VALUE, Number.MAX_VALUE);
 		};
 //------------------------------------------------------------------------------
@@ -2609,9 +2609,9 @@
 			const UNVISITED = 1;
 			const VISITED = 2;
 			const VISITING = 3;
-		
+
 			var STATE = {'unvisited': UNVISITED, 'visited': VISITED, 'visiting': VISITING};
-		
+
 			return function(graph, start, end) {
 				var q = globals.collections.queue();
 				var nodes = graph.getNodes();
@@ -2643,7 +2643,7 @@
 		}());
 //------------------------------------------------------------------------------
 		var compress = function(str) {
-		
+
 			var countCompression = function(str) {
 				var last = str.charAt(0);
 				var size = 0;
@@ -2660,7 +2660,7 @@
 				size += 1 + ('' + count).length;
 				return size;
 			};
-			
+
 			var setChar = function(str, arr, c, index, count) {
 				arr[index] = c;
 				index++;
@@ -2671,7 +2671,7 @@
 				});
 				return index;
 			};
-		
+
 			if(!globals.toolset.isString(str)) { throw {
 													name: 'ValueError',
 													message: 'incorrect input parameter: string < ' + str + ' >'
@@ -2699,7 +2699,7 @@
 		};
 //----------------------------------------------------------------------------------------------
 		var compress2 = function(str) {
-		
+
 			var countCompression = function(str) {
 				var last = str.charAt(0);
 				var size = 0;
@@ -2716,7 +2716,7 @@
 				size += 1 + ('' + count).length;
 				return size;
 			};
-		
+
 			if(!globals.toolset.isString(str)) { throw {
 													name: 'ValueError',
 													message: 'incorrect input parameter: string < ' + str + ' >'
@@ -2743,13 +2743,13 @@
 		};
 //----------------------------------------------------------------------------------------------
 		var sieveOfEratosthenes = function(max) {
-			
+
 			var crossOff = function(flags, prime) {
 				for(var i=prime*prime; i<flags.length; i+=prime) {
 					flags[i] = 0;
 				}
 			};
-			
+
 			var getNextPrime = function(flags, prime) {
 				var next = prime + 1;
 				while(next < flags.length && !flags[next]) {
@@ -2757,7 +2757,7 @@
 				}
 				return next;
 			};
-		
+
 			if(!globals.toolset.isIntNumber(max)) { throw {
 													name: 'ValueError',
 													message: 'incorrect input parameter: max number < ' + max + ' >'
@@ -2868,7 +2868,7 @@
 													message: 'incorrect input argument: not array < ' + array + ' >'
 												};
 			}
-			
+
 			var n = array.length, x = Math.abs(array[0]);
 			for (var i=1; i<n; i++) {
 				var y = Math.abs(array[i]);
@@ -2886,7 +2886,7 @@
 													message: 'incorrect input argument: not array < ' + array + ' >'
 												};
 			}
-			
+
 			var n = array.length, a = Math.abs(array[0]);
 			for (var i=1; i<n; i++) {
 				var b = Math.abs(array[i]), c = a;
@@ -2937,13 +2937,13 @@
 			}
 			//
 			mod = (mod == null) ? 0 : (globals.toolset.isIntNumber(mod) && mod > 0) ? mod : null;
-			if(mod == null) throw {name: 'ValueError', mesage: 'incorrect \'mod\' value: < ' + mod + ' >'};
+			if(mod == null) throw {name: 'ValueError', message: 'incorrect \'mod\' value: < ' + mod + ' >'};
 			//
 			var s = 1, v = step, c = val;
 			while (v != 0) {
 				flag = 0;
 				if (v%2 == 1) {
-					if (!mod) 
+					if (!mod)
 						s = s*c;
 					else
 						s = (s*c) % mod;
@@ -2957,11 +2957,11 @@
 				else {
 					v = v/2;
 				}
-				if (!flag) 
-					if (!mod) 
+				if (!flag)
+					if (!mod)
 						c = c*c;
 					else
-						c = (c*c) % mod;	
+						c = (c*c) % mod;
 			}
 			return s;
 		};
@@ -3029,7 +3029,7 @@
 				else if(!(n & 1)) n >>= 1;
 				//Если m, n нечётные и n > m, то НОД(m, n) = НОД((n-m)/2, m);
 				else if(n > m) n = (n - m) >> 1;
-				//Если m, n нечётные и n < m, то НОД(m, n) = НОД((m-n)/2, n);			
+				//Если m, n нечётные и n < m, то НОД(m, n) = НОД((m-n)/2, n);
 				else m = (m - n) >> 1;
 			}
 		};
@@ -3047,26 +3047,26 @@
 											message: 'incorrect input argument: <n> is not number < ' + n + ' >'
 										};
 			}
-			
+
 			if(m == 0 || n == 0) {
 				return m | n;
 			}
-			
+
 			//Let shift := lg K, where K is the greatest power of 2, dividing both u and v.
 			for(var shift=0; ((m|n)&1) == 0; shift++) {
 				m >>= 1;
 				n >>= 1;
 			}
-			
+
 			while((m & 1) == 0) {
 				m >>= 1;
 			}
-			
+
 			do {
 				while((n & 1) == 0) {
 					n >>= 1;
 				}
-				
+
 				//Let u = min(u, v), v = diff(u, v)/2. */
 				if(m < n) {
 					n -= m;
@@ -3077,7 +3077,7 @@
 				}
 				n >>= 1;
 			} while(n != 0);
-			
+
 			return m << shift;
 		};
 //----------------------------------------------------------------------------------------------
@@ -3089,14 +3089,14 @@
 		*		frb: far_right_bottom
 		*/
 		var cohenSutherlandClip = (function() {
-			
+
 			const BOTTOM = 1;
 			const LEFT = 2;
 			const TOP = 4;
 			const RIGHT = 8;
 			const BACK = 16;
 			const FRONT = 32;
-			
+
 			var getCode = funcxtion(point, area) {
 				var code = 0;
 				if(point.y > area.nlu.y) {
@@ -3116,7 +3116,7 @@
 				}
 				return code;
 			};
-			
+
 			return function(beginPoint, endPoint, areaObj) {
 				// Коды концов отрезка
 				var outcode0 = 0, outcode1 = 0, outcodeOut = 0;
@@ -3125,7 +3125,7 @@
 				// Вычисляем начальные коды концов отрезка
 				outcode0 = getCode(beginPoint, areaObj);
 				outcode1 = getCode(endPoint, areaObj);
-				
+
 				var x, y, z;
 				var p1 = p2 = null;
 				do {
@@ -3173,7 +3173,7 @@
 						}
 					}
 				} while(!done);
-				
+
 				// Отрезок полностью видимый. Вывод отрезка на экран.
 				if(accept) {
 					//return {start: p1, end: p2}
@@ -3184,10 +3184,10 @@
 //----------------------------------------------------------------------------------------------
 		//Exports
 		globals.algorithms.binSearch = binSearch;
-		
+
 		globals.algorithms.arrayConcat = arrayConcat;
 		globals.algorithms.arrayUnion = arrayUnion;
-		
+
 		globals.algorithms.polishNotation = polishNotation;
 		globals.algorithms.maxSum = maxSum;
 		globals.algorithms.getShuffleNum = getShuffleNum;

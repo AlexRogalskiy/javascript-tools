@@ -88,45 +88,49 @@ for() {
 })();*/
 //jsar.algorithms = {};
 //--------------------------------------------------------------
-jsar.algorithms.getVertexPath = function(start, nodesList) {
-	if(!jsar.toolset.isIntNumber(start) || !jsar.toolset.isArray(nodesList)) { throw {
-																					name: 'ValueError',
-																					message: 'incorrect input values: vertex order matrix < ' + nodesList + ' >, start vertex < ' + start + ' >'
-																				};
-	}
-	var n = nodesList.length;
-	var nn = (jsar.toolset.isArray(nodesList[0]) ? nodesList[0].length : 0);
-	if(n === 0 || nn === 0 || n !== nn) { throw {
-											name: 'ValueError',
-											message: 'incorrect matrix size: rows < ' + n + ' >, columns < ' + nn + ' >'
-										};
-	}
-	if(start < 1 || start > n) { throw {
-									name: 'ValueError',
-									message: 'incorrect start vertex: < ' + start + ' >'
-								};
-	}
-	// initialization step
-	var state = {PASSED: true, NOTPASSED: false};
-	var a = z = 0; // start/end of q
-	var p = jsar.toolset.vector(n, -1);
-	var q = jsar.toolset.vector(n, 0);
-	q[a] = start;
-	var r = jsar.toolset.vector(n, state.NOTPASSED);
-	// general step
-	do {
-		for(var j=0; j<n; j++) {
-			if((nodesList[q[a]-1][j] !== 0) && (r[j] === state.NOTPASSED)) {//nodesList[q[a] - 1].indexOf(1) !== -1
-				z++;
-				q[z] = j + 1;
-				p[j] = q[a];
-				r[j] = state.PASSED;
-			}
-		}
-		a++;
-	} while(a <= z);
-	// output step
-	return p;
+jsar.algorithms.getVertexPath = function (start, nodesList) {
+  if (!jsar.toolset.isIntNumber(start) || !jsar.toolset.isArray(nodesList)) {
+    throw {
+      name: 'ValueError',
+      message: `incorrect input values: vertex order matrix < ${nodesList} >, start vertex < ${start} >`,
+    };
+  }
+  const n = nodesList.length;
+  const nn = jsar.toolset.isArray(nodesList[0]) ? nodesList[0].length : 0;
+  if (n === 0 || nn === 0 || n !== nn) {
+    throw {
+      name: 'ValueError',
+      message: `incorrect matrix size: rows < ${n} >, columns < ${nn} >`,
+    };
+  }
+  if (start < 1 || start > n) {
+    throw {
+      name: 'ValueError',
+      message: `incorrect start vertex: < ${start} >`,
+    };
+  }
+  // initialization step
+  const state = { PASSED: true, NOTPASSED: false };
+  let a = (z = 0); // start/end of q
+  const p = jsar.toolset.vector(n, -1);
+  const q = jsar.toolset.vector(n, 0);
+  q[a] = start;
+  const r = jsar.toolset.vector(n, state.NOTPASSED);
+  // general step
+  do {
+    for (let j = 0; j < n; j++) {
+      if (nodesList[q[a] - 1][j] !== 0 && r[j] === state.NOTPASSED) {
+        //nodesList[q[a] - 1].indexOf(1) !== -1
+        z++;
+        q[z] = j + 1;
+        p[j] = q[a];
+        r[j] = state.PASSED;
+      }
+    }
+    a++;
+  } while (a <= z);
+  // output step
+  return p;
 };
 //var distance = [[0, 1, 0, 0, 0, 0, 0],
 //				[0, 0, 1, 1, 0, 0, 0],
@@ -137,115 +141,133 @@ jsar.algorithms.getVertexPath = function(start, nodesList) {
 //				[0, 0, 0, 0, 1, 0, 0]];
 //document.writeln(jsar.algorithms.getVertexPath(1, distance));
 //--------------------------------------------------------------
-jsar.algorithms.getMaxPairsMatching = function(nodesList) {
-	if(!jsar.toolset.isArray(nodesList)) { throw {
-											name: 'ValueError',
-											message: 'incorrect vertex order matrix < ' + nodesList + ' >'
-										};
-	}
-	// initialization step
-	var n = nodesList.length;
-	var nn = (jsar.toolset.isArray(nodesList[0]) ? nodesList[0].length : 0);
-	if(n === 0 || nn === 0) { throw {
-								name: 'ValueError',
-								message: 'incorrect matrix size: rows < ' + n + ' >, columns < ' + nn + ' >'
-							};
-	}
-	var vertexRows = [], vertexColumns = [];
-	var orientGraph = jsar.toolset.matrix(n + nn, n + nn, 0);
-	var vertexStatus = {CONNECTED: 1, DISCONNECTED: 0};
-	var state = {SATURATED: 4, NOTSATURATED: 3};
-	for(var i=0; i<n; i++) {
-		for(var j=0; j<nn; j++) {
-			if(nodesList[i][j] === vertexStatus.DISCONNECTED) continue;
-			if((nodesList[i][j] === vertexStatus.CONNECTED) && (vertexRows.indexOf(i) === -1) && (vertexColumns.indexOf(j+n) === -1)) {
-				vertexRows.push(i);
-				vertexColumns.push(j+n);
-				orientGraph[j+n][i] = state.SATURATED;
-			} else {
-				orientGraph[i][j+n] = state.NOTSATURATED;
-			}
-		}
-	}
-	// general step
-	var i = 0;
-	while(++i <= n) {
-		if(vertexRows.indexOf(i-1) !== -1) continue;
-		var orientPath = jsar.algorithms.getVertexPath(i, orientGraph);
-		var s = ns = 0;
-		for(var k=0; k<orientPath.length; k++) {
-			if(orientPath[k] !== -1) {
-				(orientGraph[orientPath[k]-1][k] === state.SATURATED) ? s++ : ns++;
-			}
-		}
-		if((ns > s) && (ns * s)) {
-			for(var k=0; k<orientPath.length; k++) {
-				if(orientPath[k] !== -1) {
-					if(orientGraph[orientPath[k]-1][k] === state.SATURATED) {
-						orientGraph[k][orientPath[k]-1] = state.NOTSATURATED;
-						vertexRows.splice(vertexRows.indexOf(k), 1);
-						vertexColumns.splice(vertexColumns.indexOf(orientPath[k]-1), 1);
-					} else {
-						orientGraph[k][orientPath[k]-1] = state.SATURATED;
-						vertexRows.push(orientPath[k]-1);
-						vertexColumns.push(k);
-					}
-					orientGraph[orientPath[k]-1][k] = 0;
-					//orientGraph[k][orientPath[k]-1] = (orientGraph[orientPath[k]-1][k] === state.SATURATED) ? state.NOTSATURATED : state.SATURATED;
-					//orientGraph[orientPath[k]-1][k] = 0;
-					//(orientGraph[orientPath[k]-1][k] === state.SATURATED) ? (vertexRows.splice(vertexRows.indexOf(k), 1), vertexColumns.splice(vertexColumns.indexOf(orientPath[k]-1), 1)) : (vertexRows.push(orientPath[k]-1), vertexColumns.push(k));
-				}
-			}
-			i = 0;
-		}
-	}
-	// output step
-	var pairsGraph = jsar.toolset.matrix(n, nn, 0);
-	for(var i=0; i<n; i++) {
-		for(var j=n; j<n+nn; j++) {
-			pairsGraph[i][j%n] = ((orientGraph[i][j] === state.SATURATED) ? 1 : 0); //orientGraph[i].indexOf(state.SATURATED);
-		}
-	}
-	for(var i=n; i<n+nn; i++) {
-		for(var j=0; j<n; j++) {
-			pairsGraph[j][i%n] = ((orientGraph[i][j] === state.SATURATED) ? 1 : 0); //orientGraph[i].indexOf(state.SATURATED);
-		}
-	}
-	return pairsGraph;
+jsar.algorithms.getMaxPairsMatching = function (nodesList) {
+  if (!jsar.toolset.isArray(nodesList)) {
+    throw {
+      name: 'ValueError',
+      message: `incorrect vertex order matrix < ${nodesList} >`,
+    };
+  }
+  // initialization step
+  const n = nodesList.length;
+  const nn = jsar.toolset.isArray(nodesList[0]) ? nodesList[0].length : 0;
+  if (n === 0 || nn === 0) {
+    throw {
+      name: 'ValueError',
+      message: `incorrect matrix size: rows < ${n} >, columns < ${nn} >`,
+    };
+  }
+  const vertexRows = [],
+    vertexColumns = [];
+  const orientGraph = jsar.toolset.matrix(n + nn, n + nn, 0);
+  const vertexStatus = { CONNECTED: 1, DISCONNECTED: 0 };
+  const state = { SATURATED: 4, NOTSATURATED: 3 };
+  for (var i = 0; i < n; i++) {
+    for (var j = 0; j < nn; j++) {
+      if (nodesList[i][j] === vertexStatus.DISCONNECTED) continue;
+      if (
+        nodesList[i][j] === vertexStatus.CONNECTED &&
+        vertexRows.indexOf(i) === -1 &&
+        vertexColumns.indexOf(j + n) === -1
+      ) {
+        vertexRows.push(i);
+        vertexColumns.push(j + n);
+        orientGraph[j + n][i] = state.SATURATED;
+      } else {
+        orientGraph[i][j + n] = state.NOTSATURATED;
+      }
+    }
+  }
+  // general step
+  var i = 0;
+  while (++i <= n) {
+    if (vertexRows.indexOf(i - 1) !== -1) continue;
+    const orientPath = jsar.algorithms.getVertexPath(i, orientGraph);
+    let s = (ns = 0);
+    for (var k = 0; k < orientPath.length; k++) {
+      if (orientPath[k] !== -1) {
+        orientGraph[orientPath[k] - 1][k] === state.SATURATED ? s++ : ns++;
+      }
+    }
+    if (ns > s && ns * s) {
+      for (var k = 0; k < orientPath.length; k++) {
+        if (orientPath[k] !== -1) {
+          if (orientGraph[orientPath[k] - 1][k] === state.SATURATED) {
+            orientGraph[k][orientPath[k] - 1] = state.NOTSATURATED;
+            vertexRows.splice(vertexRows.indexOf(k), 1);
+            vertexColumns.splice(vertexColumns.indexOf(orientPath[k] - 1), 1);
+          } else {
+            orientGraph[k][orientPath[k] - 1] = state.SATURATED;
+            vertexRows.push(orientPath[k] - 1);
+            vertexColumns.push(k);
+          }
+          orientGraph[orientPath[k] - 1][k] = 0;
+          //orientGraph[k][orientPath[k]-1] = (orientGraph[orientPath[k]-1][k] === state.SATURATED) ? state.NOTSATURATED : state.SATURATED;
+          //orientGraph[orientPath[k]-1][k] = 0;
+          //(orientGraph[orientPath[k]-1][k] === state.SATURATED) ? (vertexRows.splice(vertexRows.indexOf(k), 1), vertexColumns.splice(vertexColumns.indexOf(orientPath[k]-1), 1)) : (vertexRows.push(orientPath[k]-1), vertexColumns.push(k));
+        }
+      }
+      i = 0;
+    }
+  }
+  // output step
+  const pairsGraph = jsar.toolset.matrix(n, nn, 0);
+  for (var i = 0; i < n; i++) {
+    for (var j = n; j < n + nn; j++) {
+      pairsGraph[i][j % n] = orientGraph[i][j] === state.SATURATED ? 1 : 0; //orientGraph[i].indexOf(state.SATURATED);
+    }
+  }
+  for (var i = n; i < n + nn; i++) {
+    for (var j = 0; j < n; j++) {
+      pairsGraph[j][i % n] = orientGraph[i][j] === state.SATURATED ? 1 : 0; //orientGraph[i].indexOf(state.SATURATED);
+    }
+  }
+  return pairsGraph;
 };
-var distance = [[1, 0, 1, 0, 0],
-				[1, 0, 1, 0, 0],
-				[0, 1, 0, 0, 1],
-				[0, 1, 0, 1, 0],
-				[0, 0, 0, 1, 0]];
+var distance = [
+  [1, 0, 1, 0, 0],
+  [1, 0, 1, 0, 0],
+  [0, 1, 0, 0, 1],
+  [0, 1, 0, 1, 0],
+  [0, 0, 0, 1, 0],
+];
 //document.writeln(jsar.algorithms.getMaxPairsMatching(distance));
 //--------------------------------------------------------------
-jsar.algorithms.adductionOnRows = function(nodesList, isNullDiagonal) {
-	if(!jsar.toolset.isArray(nodesList)) { throw {
-											name: 'ValueError',
-											message: 'incorrect vertex order matrix < ' + nodesList + ' >'
-										};
-	}
-	var n = nodesList.length;
-	var nn = (jsar.toolset.isArray(nodesList[0]) ? nodesList[0].length : 0);
-	if(n === 0 || nn === 0) { throw {
-								name: 'ValueError',
-								message: 'incorrect matrix size: rows < ' + n + ' >, columns < ' + nn + ' >'
-							};
-	}
-	//
-	isNullDiagonal = (isNullDiagonal == null) ? true : (jsar.toolset.isBoolean(isNullDiagonal)) ? isNullDiagonal : null;
-	if(isNullDiagonal == null) throw {name: 'ValueError', message: 'incorrect parameter: diagonal values included < ' + isNullDiagonal + ' >'};
-	//
-	var copy = jsar.toolset.copyOfArray(nodesList);
-	for(var i=0; i<n; i++) {
-		min = (isNullDiagonal) ? jsar.toolset.arrayMin(copy[i].slice(0, i).concat(copy[i].slice(i + 1))) : jsar.toolset.arrayMin(copy[i]);
-		for(var j=0; j<nn; j++) {
-			if(isNullDiagonal && (i === j)) continue;
-			copy[i][j] -= min;
-		}
-	}
-	return copy;
+jsar.algorithms.adductionOnRows = function (nodesList, isNullDiagonal) {
+  if (!jsar.toolset.isArray(nodesList)) {
+    throw {
+      name: 'ValueError',
+      message: `incorrect vertex order matrix < ${nodesList} >`,
+    };
+  }
+  const n = nodesList.length;
+  const nn = jsar.toolset.isArray(nodesList[0]) ? nodesList[0].length : 0;
+  if (n === 0 || nn === 0) {
+    throw {
+      name: 'ValueError',
+      message: `incorrect matrix size: rows < ${n} >, columns < ${nn} >`,
+    };
+  }
+  //
+  isNullDiagonal =
+    isNullDiagonal == null ? true : jsar.toolset.isBoolean(isNullDiagonal) ? isNullDiagonal : null;
+  if (isNullDiagonal == null)
+    throw {
+      name: 'ValueError',
+      message: `incorrect parameter: diagonal values included < ${isNullDiagonal} >`,
+    };
+  //
+  const copy = jsar.toolset.copyOfArray(nodesList);
+  for (let i = 0; i < n; i++) {
+    min = isNullDiagonal
+      ? jsar.toolset.arrayMin(copy[i].slice(0, i).concat(copy[i].slice(i + 1)))
+      : jsar.toolset.arrayMin(copy[i]);
+    for (let j = 0; j < nn; j++) {
+      if (isNullDiagonal && i === j) continue;
+      copy[i][j] -= min;
+    }
+  }
+  return copy;
 };
 //var distance = [[0, 7, 3, 7, 1],
 //				[1, 0, 8, 6, 3],
@@ -254,38 +276,47 @@ jsar.algorithms.adductionOnRows = function(nodesList, isNullDiagonal) {
 //				[1, 23, 1, 1, 0]];
 //document.writeln(jsar.algorithms.adductionOnRows(distance));
 //--------------------------------------------------------------
-jsar.algorithms.adductionOnColumns = function(nodesList, isNullDiagonal) {
-	if(!jsar.toolset.isArray(nodesList)) { throw {
-											name: 'ValueError',
-											message: 'incorrect vertex order matrix < ' + nodesList + ' >'
-										};
-	}
-	//var mi1 = this.getRowsNum(), mj1 = this.getColumnsNum();
-	//if(mi1 === 0 || mj1 === 0/* || mi1 !== mj1*/) { throw {
-	//											name: 'MatrixSizeError',
-	//												message: 'incorrect matrix size: rows < ' + mi1 + ' >, columns < ' + mj1 + ' >'
-	//											};
-	//}
-	var n = nodesList.length;
-	var nn = (jsar.toolset.isArray(nodesList[0]) ? nodesList[0].length : 0);
-	if(n === 0 || nn === 0) { throw {
-								name: 'ValueError',
-								message: 'incorrect matrix size: rows < ' + n + ' >, columns < ' + nn + ' >'
-							};
-	}
-	//
-	isNullDiagonal = (isNullDiagonal == null) ? true : (jsar.toolset.isBoolean(isNullDiagonal)) ? isNullDiagonal : null;
-	if(isNullDiagonal == null) throw {name: 'ValueError', message: 'incorrect parameter: diagonal values included < ' + isNullDiagonal + ' >'};
-	//
-	var copy = jsar.algorithms.transpose(nodesList);
-	for(var i=0; i<n; i++) { 
-		min = (isNullDiagonal) ? jsar.toolset.arrayMin(copy[i].slice(0, i).concat(copy[i].slice(i + 1))) : jsar.toolset.arrayMin(copy[i]);
-		for(var j=0; j<nn; j++) {
-			if(isNullDiagonal && (i === j)) continue;
-			copy[i][j] -= min;
-		}
-	}
-	return jsar.algorithms.transpose(copy);
+jsar.algorithms.adductionOnColumns = function (nodesList, isNullDiagonal) {
+  if (!jsar.toolset.isArray(nodesList)) {
+    throw {
+      name: 'ValueError',
+      message: `incorrect vertex order matrix < ${nodesList} >`,
+    };
+  }
+  //var mi1 = this.getRowsNum(), mj1 = this.getColumnsNum();
+  //if(mi1 === 0 || mj1 === 0/* || mi1 !== mj1*/) { throw {
+  //											name: 'MatrixSizeError',
+  //												message: 'incorrect matrix size: rows < ' + mi1 + ' >, columns < ' + mj1 + ' >'
+  //											};
+  //}
+  const n = nodesList.length;
+  const nn = jsar.toolset.isArray(nodesList[0]) ? nodesList[0].length : 0;
+  if (n === 0 || nn === 0) {
+    throw {
+      name: 'ValueError',
+      message: `incorrect matrix size: rows < ${n} >, columns < ${nn} >`,
+    };
+  }
+  //
+  isNullDiagonal =
+    isNullDiagonal == null ? true : jsar.toolset.isBoolean(isNullDiagonal) ? isNullDiagonal : null;
+  if (isNullDiagonal == null)
+    throw {
+      name: 'ValueError',
+      message: `incorrect parameter: diagonal values included < ${isNullDiagonal} >`,
+    };
+  //
+  const copy = jsar.algorithms.transpose(nodesList);
+  for (let i = 0; i < n; i++) {
+    min = isNullDiagonal
+      ? jsar.toolset.arrayMin(copy[i].slice(0, i).concat(copy[i].slice(i + 1)))
+      : jsar.toolset.arrayMin(copy[i]);
+    for (let j = 0; j < nn; j++) {
+      if (isNullDiagonal && i === j) continue;
+      copy[i][j] -= min;
+    }
+  }
+  return jsar.algorithms.transpose(copy);
 };
 //var distance = [[0, 7, 3, 7, 1],
 //				[1, 0, 8, 6, 3],
@@ -294,79 +325,93 @@ jsar.algorithms.adductionOnColumns = function(nodesList, isNullDiagonal) {
 //				[1, 23, 1, 1, 0]];
 //document.writeln(jsar.algorithms.adductionOnColumns(distance));
 //--------------------------------------------------------------
-jsar.algorithms.getMinUtility = function(nodesList) {
-	if(!jsar.toolset.isArray(nodesList)) { throw {
-											name: 'ValueError',
-											message: 'incorrect vertex matrix < ' + nodesList + ' >'
-										};
-	}
-	var graph = nodesList;
-	while(true) {
-		var adductArr = jsar.algorithms.adductionOnColumns(jsar.algorithms.adductionOnRows(graph, false), false);
-		var adductArrCopy = jsar.toolset.matrix(adductArr.length, adductArr[0].length, 0);
-		var temp;
-		for(var i=0; i<adductArrCopy.length; i++) {
-			temp = 0;
-			while((temp = adductArr[i].indexOf(0, temp)) !== -1) {
-				adductArrCopy[i][temp] = 1;
-				temp++;
-			}
-		}
-		var maxPairs = jsar.algorithms.getMaxPairsMatching(adductArrCopy);
-		var n = maxPairs.length;
-		var nn = (jsar.toolset.isArray(maxPairs[0]) ? maxPairs[0].length : 0);
-		var orientGraph = jsar.toolset.matrix(n + nn, n + nn, 0), k = 0;
-		for(var i=0; i<n; i++) {
-			for(var j=0; j<nn; j++) {
-				if(maxPairs[i][j] === 0) {
-					orientGraph[i][j+n] = adductArrCopy[i][j];
-				} else {
-					orientGraph[j+n][i] = 1;
-					k++;
-				}
-			}
-		}
-		if(Math.min(n, nn) === k) {
-			var sum = 0;
-			for(var i=0; i<n; i++) {
-				sum += nodesList[i][maxPairs[i].indexOf(1)];
-			}
-			return {'maxPairs': maxPairs, 'functional': sum};
-		}
-		var rows = [], columns = [], vertexPath;
-		for(var i=0; i<maxPairs.length; i++) {
-			if(maxPairs[i].indexOf(1) === -1) {
-				vertexPath = jsar.algorithms.getVertexPath(i + 1, orientGraph);
-				for(var j=0; j<vertexPath.length; j++) {
-					if((vertexPath[j] !== -1) && (vertexPath[j] !== i + 1)) {
-						((j + 1) <= n) ? (rows.push(j), columns.push(vertexPath[j] - 1)) : (columns.push(j), rows.push(vertexPath[j] - 1));
-					}
-				}
-			}
-		}
-		columnsFilter = jsar.algorithms.diff(jsar.toolset.createAndFillArray(n, n + nn, function(x) {return x + 1}), columns);
-		var min = Number.POSITIVE_INFINITY;
-		for(var i=0; i<rows.length; i++) {
-			for(var j=0; j<columnsFilter.length; j++) {
-				if(adductArr[rows[i]][columnsFilter[j]%n] < min) {
-					min = adductArr[rows[i]][columnsFilter[j]%n];
-					ri = rows[i];
-					cj = columnsFilter[j]%n;
-				}
-			}
-		}
-		for(var i=0; i<rows.length; i++) {
-			for(var j=0; j<adductArr[rows[i]].length; j++) {
-				adductArr[rows[i]][j] -= min;
-			}
-		}
-		for(var j=0; j<columns.length; j++) {
-			for(var i=0; i<adductArr.length; i++) {
-				adductArr[i][columns[j]%n] += min;
-			}
-		}
-		graph = adductArr;
-	}
+jsar.algorithms.getMinUtility = function (nodesList) {
+  if (!jsar.toolset.isArray(nodesList)) {
+    throw {
+      name: 'ValueError',
+      message: `incorrect vertex matrix < ${nodesList} >`,
+    };
+  }
+  let graph = nodesList;
+  while (true) {
+    const adductArr = jsar.algorithms.adductionOnColumns(
+      jsar.algorithms.adductionOnRows(graph, false),
+      false
+    );
+    const adductArrCopy = jsar.toolset.matrix(adductArr.length, adductArr[0].length, 0);
+    var temp;
+    for (var i = 0; i < adductArrCopy.length; i++) {
+      temp = 0;
+      while ((temp = adductArr[i].indexOf(0, temp)) !== -1) {
+        adductArrCopy[i][temp] = 1;
+        temp++;
+      }
+    }
+    const maxPairs = jsar.algorithms.getMaxPairsMatching(adductArrCopy);
+    const n = maxPairs.length;
+    const nn = jsar.toolset.isArray(maxPairs[0]) ? maxPairs[0].length : 0;
+    let orientGraph = jsar.toolset.matrix(n + nn, n + nn, 0),
+      k = 0;
+    for (var i = 0; i < n; i++) {
+      for (var j = 0; j < nn; j++) {
+        if (maxPairs[i][j] === 0) {
+          orientGraph[i][j + n] = adductArrCopy[i][j];
+        } else {
+          orientGraph[j + n][i] = 1;
+          k++;
+        }
+      }
+    }
+    if (Math.min(n, nn) === k) {
+      let sum = 0;
+      for (var i = 0; i < n; i++) {
+        sum += nodesList[i][maxPairs[i].indexOf(1)];
+      }
+      return { maxPairs, functional: sum };
+    }
+    var rows = [],
+      columns = [],
+      vertexPath;
+    for (var i = 0; i < maxPairs.length; i++) {
+      if (maxPairs[i].indexOf(1) === -1) {
+        vertexPath = jsar.algorithms.getVertexPath(i + 1, orientGraph);
+        for (var j = 0; j < vertexPath.length; j++) {
+          if (vertexPath[j] !== -1 && vertexPath[j] !== i + 1) {
+            j + 1 <= n
+              ? (rows.push(j), columns.push(vertexPath[j] - 1))
+              : (columns.push(j), rows.push(vertexPath[j] - 1));
+          }
+        }
+      }
+    }
+    columnsFilter = jsar.algorithms.diff(
+      jsar.toolset.createAndFillArray(n, n + nn, function (x) {
+        return x + 1;
+      }),
+      columns
+    );
+    let min = Number.POSITIVE_INFINITY;
+    for (var i = 0; i < rows.length; i++) {
+      for (var j = 0; j < columnsFilter.length; j++) {
+        if (adductArr[rows[i]][columnsFilter[j] % n] < min) {
+          min = adductArr[rows[i]][columnsFilter[j] % n];
+          ri = rows[i];
+          cj = columnsFilter[j] % n;
+        }
+      }
+    }
+    for (var i = 0; i < rows.length; i++) {
+      for (var j = 0; j < adductArr[rows[i]].length; j++) {
+        adductArr[rows[i]][j] -= min;
+      }
+    }
+    for (var j = 0; j < columns.length; j++) {
+      for (var i = 0; i < adductArr.length; i++) {
+        adductArr[i][columns[j] % n] += min;
+      }
+    }
+    graph = adductArr;
+  }
 };
 //var distance = [[8, 7, 5, 3, 4],
 //				[5, 4, 4, 2, 3],
@@ -374,51 +419,55 @@ jsar.algorithms.getMinUtility = function(nodesList) {
 //				[5, 6, 5, 4, 4],
 //				[8, 3, 7, 9, 4]];
 //var minUtility = jsar.algorithms.getMinUtility(distance);
-//document.writeln('pairs: ' + minUtility.maxPairs + ', funtional: ' + minUtility.functional);
+//document.writeln('pairs: ' + minUtility.maxPairs + ', functional: ' + minUtility.functional);
 //--------------------------------------------------------------
-jsar.algorithms.getMaxUtilityOfBottleneck = function(nodesList, initAssign) {
-	if(!jsar.toolset.isArray(nodesList) || !jsar.toolset.isArray(initAssign)) { throw {
-																				name: 'ValueError',
-																				message: 'incorrect input parameters: vertex matrix < ' + nodesList + ' >, initial assignment < ' + initAssign + ' >'
-																			};
-	}
-	var graph = jsar.toolset.copyOfArray(nodesList);
-	var n = graph.length;
-	var nn = (jsar.toolset.isArray(graph[0]) ? graph[0].length : 0);
-	if(n === 0 || nn === 0 || n !== initAssign.length) { throw {
-															name: 'MatrixSizeError',
-															message: 'incorrect matrix size: number of workers < ' + n + ' >, number of jobs < ' + nn + ' >, number of initial assignments < ' + initAssign.length + ' >'
-													};
-	}
-	// initialization step
-	var functional = Number.POSITIVE_INFINITY;
-	for(var i=0; i<n; i++) {
-		if(graph[i][initAssign[i]-1] < functional) {
-			functional = graph[i][initAssign[i]-1];
-		}
-	}
-	// general step
-	for(var i=0; i<n; i++) {
-		for(var j=0; j<nn; j++) {
-			graph[i][j] = (graph[i][j] > functional) ? 1 : 0;
-		}
-	}
-	var maxPairs = jsar.algorithms.getMaxPairsMatching(graph);
-	var n = maxPairs.length;
-	var nn = (jsar.toolset.isArray(maxPairs[0]) ? maxPairs[0].length : 0);
-	return maxPairs;
-	// output step
+jsar.algorithms.getMaxUtilityOfBottleneck = function (nodesList, initAssign) {
+  if (!jsar.toolset.isArray(nodesList) || !jsar.toolset.isArray(initAssign)) {
+    throw {
+      name: 'ValueError',
+      message: `incorrect input parameters: vertex matrix < ${nodesList} >, initial assignment < ${initAssign} >`,
+    };
+  }
+  const graph = jsar.toolset.copyOfArray(nodesList);
+  var n = graph.length;
+  var nn = jsar.toolset.isArray(graph[0]) ? graph[0].length : 0;
+  if (n === 0 || nn === 0 || n !== initAssign.length) {
+    throw {
+      name: 'MatrixSizeError',
+      message: `incorrect matrix size: number of workers < ${n} >, number of jobs < ${nn} >, number of initial assignments < ${initAssign.length} >`,
+    };
+  }
+  // initialization step
+  let functional = Number.POSITIVE_INFINITY;
+  for (var i = 0; i < n; i++) {
+    if (graph[i][initAssign[i] - 1] < functional) {
+      functional = graph[i][initAssign[i] - 1];
+    }
+  }
+  // general step
+  for (var i = 0; i < n; i++) {
+    for (let j = 0; j < nn; j++) {
+      graph[i][j] = graph[i][j] > functional ? 1 : 0;
+    }
+  }
+  const maxPairs = jsar.algorithms.getMaxPairsMatching(graph);
+  var n = maxPairs.length;
+  var nn = jsar.toolset.isArray(maxPairs[0]) ? maxPairs[0].length : 0;
+  return maxPairs;
+  // output step
 };
-var distance = [[1, 3, 2, 6, 0, 1],
-				[4, 2, 3, 8, 3, 1],
-				[8, 1, 1, 5, 0, 9],
-				[3, 5, 4, 8, 8, 3],
-				[2, 6, 9, 5, 2, 4],
-				[3, 2, 3, 6, 7, 1]];
-var assign = [1, 2, 3, 4, 5, 6];
-var maxUtilityBottleneck = jsar.algorithms.getMaxUtilityOfBottleneck(distance, assign);
+var distance = [
+  [1, 3, 2, 6, 0, 1],
+  [4, 2, 3, 8, 3, 1],
+  [8, 1, 1, 5, 0, 9],
+  [3, 5, 4, 8, 8, 3],
+  [2, 6, 9, 5, 2, 4],
+  [3, 2, 3, 6, 7, 1],
+];
+const assign = [1, 2, 3, 4, 5, 6];
+const maxUtilityBottleneck = jsar.algorithms.getMaxUtilityOfBottleneck(distance, assign);
 //document.writeln(maxUtilityBottleneck);
-//document.writeln('pairs: ' + minUtility.maxPairs + ', funtional: ' + minUtility.functional);
+//document.writeln('pairs: ' + minUtility.maxPairs + ', functional: ' + minUtility.functional);
 //--------------------------------------------------------------
 //var element = h && h['x'] && h['x']['y'];
 /*var people = ['Daniel', 'Dustin', 'David', 'Damarcus', 'Russ'];
@@ -487,20 +536,20 @@ $("div.col").height(maxheight);
 /*
 //Эффективная проверка дат
 function isValidDate(value, userFormat) {
- 
+
   // Используем формат по умолчанию, если ничего не указано
   userFormat = userFormat || 'mm/dd/yyyy';
- 
+
   // Находим разделитель исключая символы месяца, дня и года (в английском варианте - m, d, y)
   var delimiter = /[^mdy]/.exec(userFormat)[0];
- 
+
   // Создаем массив из месяца, дня и года,
   // то есть мы знаем порядок формата
   var theFormat = userFormat.split(delimiter);
- 
+
   // Создаем массив из даты пользователя
   var theDate = value.split(delimiter);
- 
+
   function isDate(date, format) {
     var m, d, y, i = 0, len = format.length, f;
     for (i; i < len; i++) {
@@ -517,7 +566,7 @@ function isValidDate(value, userFormat) {
       d <= (new Date(y, m, 0)).getDate()
     );
   }
- 
+
   return isDate(theDate, theFormat);
 }
 
@@ -541,10 +590,10 @@ function isBreakPoint(bp) {
   return w > min && w <= max;
 }
 
-if ( isBreakPoint(320) ) { 
+if ( isBreakPoint(320) ) {
   // Ширина экрана меньше точки 320
 }
-if ( isBreakPoint(480) ) { 
+if ( isBreakPoint(480) ) {
   // Ширина экрана между точками излома 320 и 480
 }
 */
@@ -552,10 +601,10 @@ if ( isBreakPoint(480) ) {
 /*
 //Выделение текста
 function highlight(text, words, tag) {
- 
+
   // Устанавливаем тег по умолчанию, если ничего не указано
   tag = tag || 'span';
- 
+
   var i, len = words.length, re;
   for (i = 0; i < len; i++) {
     // Глобальное регульрное выражение для подсвечивания всех терминов
@@ -564,7 +613,7 @@ function highlight(text, words, tag) {
       text = text.replace(re, '<'+ tag +' class="highlight">$&</'+ tag +'>');
     }
   }
- 
+
   return text;
 }
 
@@ -585,10 +634,10 @@ $('p').html( highlight(
 /*
 //Анимированные текстовые эффекты
 $.fn.animateText = function(delay, klass) {
-  
+
   var text = this.text();
   var letters = text.split('');
-  
+
   return this.each(function(){
     var $this = $(this);
     $this.html(text.replace(/./g, '<span class="letter">$&</span>'));
@@ -596,7 +645,7 @@ $.fn.animateText = function(delay, klass) {
       setTimeout(function(){ $(el).addClass(klass); }, delay * i);
     });
   });
-  
+
 };
 
 $('p').animateText(15, 'foo');
@@ -629,20 +678,20 @@ $(element)
         $(this).data('counter', counter + 1); // Устанавливаем значение
         // Выполняем нужные действия
     });
-*/	
+*/
 
 /*
 //Встраивание видео Youtube из ссылки
 function embedYoutube(link, ops) {
- 
+
   var o = $.extend({
     width: 480,
     height: 320,
     params: ''
   }, ops);
- 
+
   var id = /\?v\=(\w+)/.exec(link)[1];
- 
+
   return '<iframe style="display: block;"'+
     ' class="youtube-video" type="text/html"'+
     ' width="' + o.width + '" height="' + o.height +
@@ -651,7 +700,7 @@ function embedYoutube(link, ops) {
 }
 
 embedYoutube(
-  'https://www.youtube.com/watch?v=JaAWdljhD5o', 
+  'https://www.youtube.com/watch?v=JaAWdljhD5o',
   { params: 'theme=light&fs=0' }
 );
 //https://developers.google.com/youtube/player_parameters
@@ -662,7 +711,7 @@ embedYoutube(
 function excerpt(str, nwords) {
   var words = str.split(' ');
   words.splice(nwords, words.length-1);
-  return words.join(' ') + 
+  return words.join(' ') +
     (words.length !== str.split(' ').length ? '&hellip;' : '');
 }
 
@@ -691,11 +740,11 @@ $('#less').click(less);
 /*
 //Создаем динамическое меню
 function makeMenu(items, tags) {
- 
+
   tags = tags || ['ul', 'li']; // Теги по умолчанию
   var parent = tags[0];
   var child = tags[1];
- 
+
   var item, value = '';
   for (var i = 0, l = items.length; i < l; i++) {
     item = items[i];
@@ -705,11 +754,11 @@ function makeMenu(items, tags) {
       value = items[i].split(':')[1];
     }
     // Оборачиваем  пункт в тег
-    items[i] = '<'+ child +' '+ 
+    items[i] = '<'+ child +' '+
       (value && 'value="'+value+'"') +'>'+ // Добавляем значение, если оно есть
         item +'</'+ child +'>';
   }
- 
+
   return '<'+ parent +'>'+ items.join('') +'</'+ parent +'>';
 }
 
@@ -718,7 +767,7 @@ makeMenu(
   ['January:JAN', 'February:FEB', 'March:MAR'], // пункт:значение
   ['select', 'option']
 );
- 
+
 // Список бакалеи
 makeMenu(
   ['Carrots', 'Lettuce', 'Tomatos', 'Milk'],
@@ -881,38 +930,38 @@ function dateReviver(key, value) {
     }
     return value;
 };
- 
+
 var myCookies = JSON.parse(cookieJSON, dateReviver);
-myCookies.cookies.oatmeal.eatBy; //Sat Dec 04 2010 16:00:00 GMT-0800 (Pacific Standard Time) 
+myCookies.cookies.oatmeal.eatBy; //Sat Dec 04 2010 16:00:00 GMT-0800 (Pacific Standard Time)
 
 
 JSON.stringify(cookies, ['cookies','oatmeal','chocolate','calories'], '\t')
 '{
     "cookies":{
-        "oatmeal":{ 
-            "calories":430 
-        }, 
+        "oatmeal":{
+            "calories":430
+        },
         "chocolate":{
-            "calories":510 
-        } 
-    } 
+            "calories":510
+        }
+    }
 }'
 */
 
 /*
 var jsonp = {
     callbackCounter: 0,
- 
+
     fetch: function(url, callback) {
         var fn = 'JSONPCallback_' + this.callbackCounter++;
         window[fn] = this.evalJSONP(callback);
         url = url.replace('=JSONPCallback', '=' + fn);
- 
+
         var scriptTag = document.createElement('SCRIPT');
         scriptTag.src = url;
         document.getElementsByTagName('HEAD')[0].appendChild(scriptTag);
     },
- 
+
     evalJSONP: function(callback) {
         return function(data) {
             var validJSON = false;
@@ -936,28 +985,28 @@ var jsonp = {
 //The U.S. President's latest tweet...
 var obamaTweets = "http://www.twitter.com/status/user_timeline/BARACKOBAMA.json?count=5&callback=JSONPCallback";
 jsonp.fetch(obamaTweets, function(data) {console.log(data[0].text)});
- 
+
 //console logs:
 //From the Obama family to yours, have a very happy Thanksgiving. http://OFA.BO/W2KMjJ
- 
+
 //The latest reddit...
 var reddits = "http://www.reddit.com/.json?limit=1&jsonp=JSONPCallback";
 jsonp.fetch(reddits , function(data) {console.log(data.data.children[0].data.title)});
- 
+
 //console logs:
 //You may remember my kitten Swarley wearing a tie. Well, he's all grown up now, but he's still all business. (imgur.com)
 */
 
 /*
 var rectangle = {height:20, width:10};
- 
+
 rectangle .__defineGetter__("area", function() {
-    return rectangle.height * rectangle.width;  
+    return rectangle.height * rectangle.width;
 });
 rectangle .__defineSetter__("area", function(val) {
-    alert("sorry, you can't update area directly");  
+    alert("sorry, you can't update area directly");
 });
- 
+
 rectangle.area; //200
 rectangle.area = 150; //alerts "sorry..." etc.
 rectangle.area; //still 200
@@ -965,14 +1014,14 @@ rectangle.area; //still 200
 
 /*
 var rectangle = {
-    height:20, 
+    height:20,
     width:10,
     get area() {
         return rectangle.height * rectangle.width;
-    },  
+    },
     set area(val) {
         alert("sorry, you can't update area directly");
-    }  
+    }
 }
 */
 
@@ -981,7 +1030,7 @@ var rectangle = {
     width: 20,
     height: 10,
 };
- 
+
 Object.defineProperty(rectangle, "area", {
     get: function() {
         return this.width*this.height;
@@ -1022,17 +1071,17 @@ var myObj = {
     width:10,
     height:10
 }
- 
+
 extendAsArray(myObj);
- 
+
 var arr = [];
-arr.join.call(myObj, ', '); //"50 ,20 ,10, 10" 
+arr.join.call(myObj, ', '); //"50 ,20 ,10, 10"
 arr.slice.call(myObj, 2); [10,10]
-arr.map.call(myObj,function(s){return s+' px'}).join(', '); 
-//"50px ,20px ,10px, 10px" 
-arr.every.call(myObj,function(s){return !(s%10)}); 
+arr.map.call(myObj,function(s){return s+' px'}).join(', ');
+//"50px ,20px ,10px, 10px"
+arr.every.call(myObj,function(s){return !(s%10)});
 //true (all values divisible by 10)
-arr.forEach.call(myObj,function(s){window.console && console.log(s)}); 
+arr.forEach.call(myObj,function(s){window.console && console.log(s)});
 //(logs all values)
 
 var fxP = extendAsArray(jQuery.fx.prototype);
@@ -1051,9 +1100,9 @@ var expenses = {
 }
 
 extendAsArray(expenses);
-var biggestExpense = 
+var biggestExpense =
     Math.max.apply(null, [].slice.call(expenses)); //147.16
-var totalExpenses = 
+var totalExpenses =
     [].reduce.call(expenses, function(t,s){return t+s}); //230.51
 */
 
@@ -1061,10 +1110,10 @@ var totalExpenses =
 function commonHandle(event) {
   event = fixEvent(event)
   handlers = this.events[event.type]
-  
+
   // (1)
   var errors = []
- 
+
   for ( var g in handlers ) {
     try {
       var ret =  handlers[g].call(this, event)
@@ -1077,7 +1126,7 @@ function commonHandle(event) {
       errors.push(e)
     }
   }
-  
+
   // (3)
   if (errors.length == 1) {
       throw errors[0]
@@ -1085,7 +1134,7 @@ function commonHandle(event) {
       var e = new Error("Multiple errors thrown in handling 'sig', see errors property");
       e.errors = errors
       throw e
-  }  
+  }
 }
 */
 
@@ -1108,6 +1157,3 @@ function isValidStockInfo(stock) {
 	return re.test(stock);
 };
 */
-
-
-

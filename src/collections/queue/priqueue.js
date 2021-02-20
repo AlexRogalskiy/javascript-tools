@@ -8,7 +8,7 @@
 			var proto = obj.__proto__ || obj.constructor.prototype;
 			return (prop in obj) || ((prop in proto) || proto[prop] === obj[prop]);
 		}
-		
+
 		if(a === b) {
 			return 0;
 		}
@@ -54,7 +54,7 @@
 					if(!globals.toolset.isNull(spec)) {
 						if(!globals.toolset.isArray(spec)) { throw {
 															name: 'ValueError',
-															message: 'incorrect initialization value: array of elemens [any type]'
+															message: 'incorrect initialization value: array of elements [any type]'
 														};
 						}
 						for(var i=0; i<spec.length; i++) {
@@ -63,7 +63,7 @@
 					}
 					cmp = globals.toolset.isFunction(cmp) ? cmp : compare;
 				};
-				
+
 				that.insert = function(value) {
 					data[++count] = value;
 					//siftup
@@ -117,7 +117,7 @@
 					return globals.collections.queue.Priqueue(data, cmp);
 				};
 				init();
-				return that;		
+				return that;
 		}());
 //----------------------------------------------------------------------------------------------
 		//Exports block

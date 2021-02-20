@@ -1,46 +1,47 @@
 jsar.utils = {};
 //--------------------------------------------------------------
-jsar.utils.chainProvider = (function() {
-	var that = {};
-	// store your callbacks
-	var methods = [];
-	// keep a reference to your response
-	var response = null;
-	// all queues start off unflushed
-	var flushed = false;
-	//
-	//var that = Object.create(jsar.utils.chainProvider.prototype);
-	//that.prototype = jsar.utils.chainProvider;
-	//var isChainProvider = function(x) {
-	//	return (x instanceof jsar.utils.chainProvider);
-	//};
-	that.add = function(fn) {
-		// if the queue had been flushed, return immediately
-		//otherwise push it on the queue
-		if(!jsar.toolset.isFunction(fn)) { throw {
-												name: 'ValueError',
-												message: 'incorrect function value < ' + fn + ' >'
-											};
-		}
-		if (flushed) {
-			fn(response);
-		} else {
-			methods.push(fn);
-		}
-	};
-	that.flush = function(resp) {
-		// note: flush only ever happens once
-		if (flushed) return;
-		// store your response for subsequent calls after flush()
-		response = resp;
-		// mark that it's been flushed
-		flushed = true;
-		// shift 'em out and call 'em back
-		while (methods[0]) {
-			methods.shift()(resp);
-		}
-	};
-	return that;
+jsar.utils.chainProvider = (function () {
+  const that = {};
+  // store your callbacks
+  const methods = [];
+  // keep a reference to your response
+  let response = null;
+  // all queues start off unflushed
+  let flushed = false;
+  //
+  //var that = Object.create(jsar.utils.chainProvider.prototype);
+  //that.prototype = jsar.utils.chainProvider;
+  //var isChainProvider = function(x) {
+  //	return (x instanceof jsar.utils.chainProvider);
+  //};
+  that.add = function (fn) {
+    // if the queue had been flushed, return immediately
+    //otherwise push it on the queue
+    if (!jsar.toolset.isFunction(fn)) {
+      throw {
+        name: 'ValueError',
+        message: `incorrect function value < ${fn} >`,
+      };
+    }
+    if (flushed) {
+      fn(response);
+    } else {
+      methods.push(fn);
+    }
+  };
+  that.flush = function (resp) {
+    // note: flush only ever happens once
+    if (flushed) return;
+    // store your response for subsequent calls after flush()
+    response = resp;
+    // mark that it's been flushed
+    flushed = true;
+    // shift 'em out and call 'em back
+    while (methods[0]) {
+      methods.shift()(resp);
+    }
+  };
+  return that;
 })();
 
 /*
