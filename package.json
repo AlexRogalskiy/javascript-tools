@@ -14,7 +14,8 @@
     "test:folio": "folio tests/spec/",
     "test": "TZ=utc jest",
     "test:coverage": "jest --collectCoverage",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "all": "npm run format && npm run lint"
   },
   "dependencies": {
     "lodash.clonedeep": "^4.5.0",
