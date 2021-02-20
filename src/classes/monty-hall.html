@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <script type="text/javascript">
+            function getCarDoors()
+            {
+                var doors = [0, 0, 0];
+                var carIn = Math.floor(Math.random() * 3);
+                doors[carIn] = 1;
+                return doors;
+            }
+
+            function game(tries)
+            {
+                var res =
+                {
+                    changedAndWon: 0,
+                    changedAndLost: 0,
+                    keepAndWon: 0,
+                    keepAndLost: 0
+                };
+
+                for (j = 0; j < tries; j++)
+                {
+                    var d = getCarDoors();
+                    var myChoice = Math.floor(Math.random() * 3);
+                    var changeChoice = Math.floor(Math.random() * 2) == 1;
+                    var otherOpen;
+                    var otherClosed;
+                    var opened = false;
+                    for (i = 0; i < 3; i++)
+                    {
+                        if (i != myChoice && d[i] == 0 && !opened)
+                        {
+                            otherOpen = i;
+                            opened = true;
+                        }
+                        else if (i != myChoice)
+                        {
+                            otherClosed = i;
+                        }
+                    }
+                    var selected = changeChoice ? otherClosed : myChoice;
+                    if (d[selected])
+                    {
+                        if (changeChoice)
+                            res.changedAndWon++;
+                        else
+                            res.keepAndWon++;
+                    }
+                    else
+                    {
+                        if (changeChoice)
+                            res.changedAndLost++;
+                        else
+                            res.keepAndLost++;
+                    }
+                }
+                return res;
+            }
+
+            function presentGame(count, divId)
+            {
+                var res = game(count);
+                var changeOkProb = res.changedAndWon / ((res.changedAndLost + res.changedAndWon) > 0 ? (res.changedAndLost + res.changedAndWon) : 1);
+                var keepOkProb = res.keepAndWon / ((res.keepAndWon + res.keepAndLost) > 0 ? (res.keepAndWon + res.keepAndLost) : 1);
+                var text = "<tr><td>Количество попыток: " + "</td><td><b>" + count + "</b></td></tr>";
+                text += "<tr><td>Не изменил решение и выиграл: " + "</td><td>" + res.keepAndWon + "</td></tr>";
+                text += "<tr><td>Не изменил решение и проиграл: " + "</td><td>" + res.keepAndLost + "</td></tr>";
+                text += "<tr><td>Изменил решение и выиграл: " + "</td><td>" + res.changedAndWon + "</td></tr>";
+                text += "<tr><td>Изменил решение и проиграл: " + "</td><td>" + res.changedAndLost + "</td></tr>";
+                text += "<tr><td>Вероятность выиграть, при изменении решения: " + "</td><td>" + "<b>" + (Math.round(changeOkProb * 10000) / 100) + "%</b>" + "</td></tr>";
+                text += "<tr><td>Вероятность выиграть, без изменения решения: " + "</td><td>" + "<b>" + (Math.round(keepOkProb * 10000) / 100) + "%</b>" + "</td></tr>";
+                document.getElementById(divId).innerHTML = "<table>" + text + "</table>";
+            }
+        </script>
+    </head>
+    <body>
+        <h1>Парадокс Монти Холла</h1>
+        Количество попыток:
+        <input type="text" value="100" id="tries" />
+        <input type="button" value="Запустить"	onClick="presentGame(document.getElementById('tries').value, 'data');" />
+        <br />
+        <div id="data"></div>
+    </body>
+</html>

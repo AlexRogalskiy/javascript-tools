@@ -1,0 +1,1658 @@
+Export-WindowsDriver -Online -Destination D:\DriverBackup
+-------------------------------------------------------------------
+bootrec.exe /FixBoot
+bootrec.exe /fixmbr
+bootrec.exe /scanos
+bootrec.exe /RebuildBcd
+
+bootrec.exe /fixmbr
+bootrec.exe /nt60 all /force
+bootrec.exe /RebuildBcd
+-------------------------------------------------------------------
+sfc /scannow
+sfc /verifyonly
+sfc /scanfile=путь_к_файлу
+sfc /verifyfile=путь_к_файлу
+sfc /scannow /offwindir=путь_к_папке_windows
+-------------------------------------------------------------------
+findstr /c:"[SR]" %windir%\Logs\CBS\CBS.log >"%userprofile%\Desktop\sfc.txt"
+-------------------------------------------------------------------
+lusrmgr.msc
+devmgmt.msc
+diskmgmt.msc
+ncpa.cpl
+appwiz.cpl
+notepad c:\windows\system32\drivers\etc\hosts
+dfrgui
+taskschd.msc
+perfmon /res
+compmgmtlauncher
+msconfig
+msinfo
+eventvwr.msc
+sysdm.cpl
+netplwiz
+
+-------------------------------------------------------------------
+net user администратор /active:yes
+-------------------------------------------------------------------
+Set-ExecutionPolicy RemoteSigned
+@powershell -NoProfile -ExecutionPolicy unrestricted -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin
+-------------------------------------------------------------------
+diskpart
+list disk
+select disk N
+================
+attributes disk clear readonly
+================
+clean
+================
+list partition
+select partition
+delete partition
+================
+detail disk
+select volume
+delete volume
+================
+create partition primary
+select partition 1
+active
+format fs=fat32 quick
+assign
+exit
+================
+convert mbr
+-------------------------------------------------------------------
+L: (где L — буква флешки или внешнего диска).
+cd Windows\system32
+bcdboot.exe L:\Windows /s L: /f ALL
+
+bcdedit /set {current} safeboot minimal
+bcdedit /deletevalue {current} safeboot
+
+bcdedit.exe /set nointegritychecks ON
+
+bcdedit.exe -set loadoptions DDISABLE_INTEGRITY_CHECKS
+bcdedit.exe -set TESTSIGNING ON
+-------------------------------------------------------------------
+regsvr32 unarc.dll
+-------------------------------------------------------------------
+wmic
+product get name
+product where name=”имя программы” call uninstall /nointeractive
+-------------------------------------------------------------------
+Winsat formal
+Зайдите в папку \Windows\Performance\WinSAT\DataStore и откройте файл Formal.Assessment(Initial).WinSAT
+-------------------------------------------------------------------
+shutdown.exe /r /o
+
+HKEY_LOCAL_MACHINE\HARDWARE\DESCRIPTION\BIOS - BIOSVersion
+wmic bios get smbiosbiosversion
+-------------------------------------------------------------------
+fsutil behavior query disabledeletenotify
+Если в результате выполнения вы получите DisableDeleteNotify = 0, значит TRIM включена, если 1 — отключена.
+-------------------------------------------------------------------
+C:\WINDOWS\System32\GroupPolicy\Machine\Scripts\Startup
+-------------------------------------------------------------------
+netsh wlan show drivers
+netsh wlan set hostednetwork mode=allow ssid=”имя-сети” key=”пароль-для-подключения”
+netsh wlan start hostednetwork
+netsh wlan stop hostednetwork
+-------------------------------------------------------------------
+Windows/System32/Config — файлы SAM, SECURITY, SYTEM и SOFTWARE
+HKEY_CURRENT_USER хранятся в скрытом файле NTUSER.DAT в папке «Users/Имя_пользователя» на компьютере
+-------------------------------------------------------------------
+HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run
+HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Run
+-------------------------------------------------------------------
+отключить гибернацию в Windows
+powercfg -h off
+-------------------------------------------------------------------
+dism.exe /Online /Cleanup-Image /StartComponentCleanup /ResetBase
+dism.exe /Online /Cleanup-Image /AnalyzeComponentStore
+-------------------------------------------------------------------
+MSIExec /unregister
+MSIExec /regserver
+-------------------------------------------------------------------
+Открытие папки «Документы»	documents
+Открытие папки «Видео»	videos
+Открытие папки «Загрузки»	downloads
+Открытие папки «Избранное»	favorites
+Открытие папки «Последние»	recent
+Открытие папки «Изображения»	pictures
+Открытие папки «Музыка»	music
+Выход из системы	logoff
+Открытие окна «Свойства панели задач и навигации»	control.exe /name Microsoft.TaskbarandStartMenu
+Открытие окна «Устранение неполадок»	control.exe /name Microsoft.Troubleshooting
+Открытие окна «Учетные записи пользователей»	control.exe /name Microsoft.UserAccounts
+Запуск инструмента «Добавление устройства»	devicepairingwizard
+Запуск мастера установки оборудования	hdwwiz
+Доступ к расширенным настройкам учетных записей пользователей	netplwiz
+Запуск диспетчера авторизации	azman.msc
+Открытие окна «Архивация или восстановление файлов»	sdclt
+Запуск мастера передачи файлов по Bluetooth	fsquirt
+Открытие приложения «Калькулятор»	calc
+Запуск программы «Сертификаты»	certmgr.msc
+Открытие окна «Параметры быстродействия»	systempropertiesperformance
+Изменение настроек предотвращения выполнения данных	systempropertiesdataexecutionprevention
+Открытие пользовательского интерфейса принтера	printui
+Открытие таблицы символов	charmap
+Запуск средства настройки текста ClearType	cttune
+Открытие окна «Управление цветом»	colorcpl
+Запуск командной строки	cmd
+Запуск программы «Службы компонентов»	comexp.msc
+Запуск программы «Службы компонентов»	dcomcnfg
+Запуск программы «Управление компьютером»	compmgmt.msc
+Запуск программы «Управление компьютером»	compmgmtlauncher
+Запуск подключения к сетевому проектору	netproj
+Открытие меню «Передать на экран»	displayswitch
+Открытие панели управления	control
+Запуск мастера создания общих ресурсов	shrpubw
+Создание диска восстановления системы	recdisc
+Архивация или восстановление сохраненных имен пользователей и паролей	credwiz
+Управление датой и временем	timedate.cpl
+Просмотр событий, связанных с доступом к данным датчика расположения или к расположению	locationnotifications
+Открытие диспетчера устройств	devmgmt.msc
+Открытие диспетчера устройств	hdwwiz.cpl
+Запуск средства диагностики службы технической поддержки Microsoft	msdt
+Запуск средства калибровки дигитайзера	tabcal
+Запуск средства диагностики DirectX	dxdiag
+Запуск инструмента очистки дисков	cleanmgr
+Запуск инструмента дефрагментации дисков	dfrgui
+Запуск программы «Управление дисками»	diskmgmt.msc
+Открытие окна «Экран»	dpiscaling
+Запуск калибровки цветов экрана	dccw
+Перемещение защищенного содержимого	dpapimig
+Запуск диспетчера проверки драйверов	verifier
+Открытие окна «Специальные возможности»	utilman
+Запуск управления сертификатами шифрования файлов	rekeywiz
+Запуск программы «Просмотр событий»	eventvwr.msc
+Запуск редактора страниц факсов	fxscover
+Запуск проверки подписи файла	sigverif
+Открытие окна для управления игровыми устройствами	joy.cpl
+Открытие окна «Приступая к работе»	gettingstarted
+Запуск мастера создания самораскрывающихся архивов	iexpress
+Запуск Internet Explorer	iexplore
+Открытие окна «Свойства: Интернет»	inetcpl.cpl
+Открытие окна «Свойства: Инициатор iSCSI»	iscsicpl
+Установка или удаление языков интерфейса	lpksetup
+Открытие редактора локальной групповой политики	gpedit.msc
+Запуск программы «Локальная политика безопасности»	secpol.msc
+Запуск программы для управления локальными пользователями и группами	lusrmgr.msc
+Запуск экранной лупы	magnify
+Запуск средства удаления вредоносных программ	mrt
+Запуск панели математического ввода	mip
+Запуск программы «Консоль управления (MMC)»	mmc
+Открытие свойств мыши	main.cpl
+Конфигурация клиента NAP	napclcfg.msc
+Запуск экранного диктора	narrator
+Управление сетевыми подключениями	ncpa.cpl
+Запуск мастера сканирования	wiaacmgr
+Запуск программы «Блокнот»	notepad
+Запуск инструмента «Администратор источников данных ODBC»	odbcad32
+Запуск экранной клавиатуры	osk
+Запуск Paint	mspaint
+Запуск параметров планшета и пера	tabletpc.cpl
+Запуск системного монитора	perfmon.msc
+Создание телефонного или модемного подключения	telephon.cpl
+Запуск программы «Телефон»	dialer
+Управление параметрами электропитания	powercfg.cpl
+Открытие параметров режима презентации	presentationsettings
+Запуск программы «Управление печатью»	printmanagement.msc
+Запуск мастера переноса принтеров	printbrmui
+Запуск редактора личных символов	psr
+Открытие окна программы и компоненты	appwiz.cpl
+Запуск региональных настроек	intl.cpl
+Открытие редактора реестра	regedit
+Подключение к удаленному рабочему столу	mstsc
+Запуск монитора ресурсов	resmon
+Запуск программы «Результирующая политика»	rsop.msc
+Инструмент защиты БД учетных записей Windows	syskey
+Управление разрешением экрана	desk.cpl
+Запуск инструмента для управления службами Windows	services.msc
+Настройка доступа программ и параметров компьютера по умолчанию	computerdefaults
+Запуск программы «Общие папки»	fsmgmt.msc
+Запуск инструмента «Ножницы»	snippingtool
+Открытие параметров звука	mmsys.cpl
+Открытие программы сетевого клиента SQL Server	cliconfg
+Запуск программы «Записки»	stikynot
+Открытие центра синхронизации	mobsync
+Открытие окна «Конфигурация системы»	msconfig
+Запуск редактора конфигурации системы	sysedit
+Просмотр сведений о системе	msinfo32
+Открытие окна «Свойства системы»	sysdm.cpl
+Открытие окна «Свойства системы» (вкладка «Дополнительно»)	systempropertiesadvanced
+Открытие окна «Свойства системы» (вкладка «Имя компьютера»)	systempropertiescomputername
+Открытие окна «Свойства системы» (вкладка «Оборудование»)	systempropertieshardware
+Открытие окна «Свойства системы» (вкладка «Удаленный доступ»)	systempropertiesremote
+Открытие окна «Свойства системы» (вкладка «Защита системы»)	systempropertiesprotection
+Запуск инструмента «Восстановление системы»	rstrui
+Запуск диспетчера задач	taskmgr
+Запуск планировщика заданий	taskschd.msc
+Запуск программы «Управление TPM»	tpm.msc
+Открытие параметров управления учетными записями пользователей (UAC)	useraccountcontrolsettings
+Просмотр версии Windows	winver
+Открытие микшера громкости	sndvol
+Открытие окна центра поддержки	wscui.cpl
+Запуск клиента активации Windows	slui
+Запуск программы «DVD-студия Windows»	dvdmaker
+Запуск средства переноса данных Windows	migwiz
+Открытие проводника Windows	explorer
+Запуск программы «Факсы и сканирование»	wfs
+Включение и отключение компонентов Windows	optionalfeatures
+Управление брандмауэром Windows	firewall.cpl
+Запуск инструмента «Брандмауэр Windows в режиме повышенной безопасности»	wf.msc
+Запуск программы «Журнал Windows»	journal
+Запуск Windows Media Player	wmplayer
+Запуск средства проверки памяти Windows	mdsched
+Открытие центра мобильности Windows	mblctr
+Запуск Windows PowerShell	powershell
+Запуск интегрированной среды сценариев Windows PowerShell	powershell_ise
+Запуск удаленного помощника Windows	msra
+Открытие параметров сервера сценариев Windows	wscript
+Запуск центра обновления Windows	wuapp
+Автономный установщик обновлений Windows	wusa
+Запуск WordPad	write
+Запуск средства просмотра XPS	xpsrchvw
+
+Русское название элемента	Английское название элемента	Команда
+Ftp-протокол (командная строка)	Ftp-protocol (command prompt)	ftp
+Iexpress Wizard (не переведена)	Iexpress Wizard	iexpress
+Internet Explorer	Internet Explorer	iexplore
+Paint	Paint	mspaint
+Windows Firewall	Брандмауэр Windows	firewall.cpl
+Wordpad	Wordpad	write
+Администратор источников данных ODBC	ODBC Data Source Administrator	odbcad32
+Администрирование	Administrative Tools	control admintools
+Архивация и восстановление	Backup and Restore	sdclt
+Блокнот	Notepad	notepad
+Включение и отключение компонентов Windows	Turn Windows features on or off	OptionalFeatures.exe
+Восстановление системы	System Restore	rstrui
+Выйти из системы	Log Out Of Windows	logoff
+Дата и Время	Date and Time	timedate.cpl
+Дефрагментация диска	Disk Defragmenter	dfrgui
+Диспетчер авторизации	Authorization Manager	azman.msc
+Диспетчер задач Windows	Windows Task Manager	taskmgr
+Диспетчер проверки драйверов	Driver Verifier Manager	verifier
+Диспетчер устройств	Device Manager	devmgmt.msc
+Диспетчер устройств	Device Manager	hdwwiz.cpl
+Дополнительные часы	Additional Clocks	control timedate.cpl,,1
+Завершение работы Windows	Shuts Down Windows	shutdown /s
+Записки	Sticky Note	StikyNot
+Защита БД учетных записей Windows Securing the Windows Account Database	syskey
+Звук	Sound	mmsys.cpl
+Звуки (звуковая схема)	Sounds (sound theme)	control mmsys.cpl,,2
+Звукозапись	Sound Recorder	soundrecorder
+Игровые устройства	Game Controllers	joy.cpl
+Инициализация оборудования безопасности для TPM	Initialize the TMP security hardware	TpmInit
+Калибровка цветов экрана	Display Color Calibration	dccw
+Калькулятор	Calculator	calc
+Командная строка	Command Prompt	cmd
+Компоненты Windows	Windows Features	OptionalFeatures
+Консоль управления(MMC)	Microsoft Management Console	mmc
+Конфигурация системы	System Configuration	msconfig
+Локальная политика безопастности	Local Security Policy	secpol.msc
+Локальные пользователи и группы	Local Users and Groups	lusrmgr.msc
+Мастер загрузки изображений Windows	Windows Picture Acquisition Wizard	wiaacmgr
+Мастер создания общих ресурсов	Create A Shared Folder Wizard	shrpubw
+Мастер установки драйверов устройств	Driver Package Installer	dpinst
+Мастер установки оборудования	Add Hardware Wizard	hdwwiz
+Микшер громкости	Sound Volume	sndvol
+Монитор ресурсов	Resource Monitor	resmon
+Настройка доступа программ и умолчаний	Set Program Access and Computer Defaults	control appwiz.cpl,,3
+Настройка Контроля Учетных Записей	User Account Control Settings	UserAccountControlSettings
+Ножницы	Snipping Tool	snippingtool
+Общие папки	Shared Folders	fsmgmt.msc
+Очистка диска	Disk Cleanup Utility	cleanmgr
+Панель управления	Control Panel	control
+Папка «Fonts»	Fonts Folder	fonts
+Папка «Загрузки»	«Downloads» Folder	Downloads
+Параметры папок	Folder Options	control folders
+Перезагрузка	Restart Windows	shutdown /r
+Перенос принтеров	Printer Migration	PrintBrmUi
+Перо и сенсорные устройства	Pen and Touch	TabletPC.cpl
+Персонализация	Personalization	control desktop
+Планировщик заданий	Task Sheduler	control schedtasks
+Подключение к удаленному рабочему столу	Remote Desktop Connection	mstsc
+Получение программ	Get Programs	control appwiz.cpl,,1
+Проверка диска	Check Disk Utility	chkdsk
+Проверка и восстановление системных файлов	System File Checker (Scan and Repair)	sfc /scannow
+Проверка подписи файла	File Signature Verification	sigverif
+Проводник	Windows Explorer	explorer
+Проводник: C:\	Windows Explorer: C:\	\
+Проводник: С:\Users\Ваше_имя	Windows Explorer: С:\Users\Your_name	.
+Проводник: С:\Users\	Windows Explorer: С:\Users\	..
+Программа DiskPart	Disk Partition Manager	diskpart
+Программы и компоненты	Programms and Features	appwiz.cpl
+Просмотр событий	Event Viewer	eventvwr.msc
+Разрешение экрана	Screen Resolution	desk.cpl
+Редактор личных знаков	Private Character Editor	eudcedit
+Редактор локальной групповой политики	Local Group Policy Editor	gpedit.msc
+Редактор реестра	Registry Editor	regedit
+Редактор реестра	Registry Editor	regedt32
+Редактор титульных страниц факсов	Fax Cover Sheet Editor	fxscover
+Результирующая политика	Resultant Set of Policy	rsop.msc
+Сведения о системе	System Information	msinfo32
+Свойства системы	System Properties	sysdm.cpl
+Свойства системы: Дополнительно	System Properties: Advanced	SystemPropertiesAdvanced
+Свойства системы: Защита системы	System Properties: System Protection	SystemPropertiesProtection
+Свойства системы: Оборудование	System Properties: Hardware	SystemPropertiesHardware
+Свойства системы: Удаленный доступ	System Properties: Remote	SystemPropertiesRemote
+Свойства: Инициатор iSCSI	iSCSI Initiator Properties	iscsicpl
+Свойства: Интернет	Internet Properties	inetcpl.cpl
+Свойства: Клавиатура	Keyboard Properties	control keyboard
+Свойства: Мышь	Mouse Properties	control mouse
+Свойства: Мышь	Mouse Properties	main.cpl
+Свойства: Мышь: Параметры указателя	Mouse Properties: Pointer Options	control main.cpl,,2
+Свойства: Мышь: Указатели (схема)	Mouse Properties: Pointers	control main.cpl,,1
+Сертификаты	Sertificates	certmgr.msc
+Сетевые подключения	Network Connections	control netconnections 
+етевые подключения	Network Connections	ncpa.cpl
+Системный монитор	Performance Monitor	perfmon
+Служба индексирования	Indexing Service	ciadv.msc
+Службы компонентов	Component Services	dcomcnfg
+Службы компонентов	Component Services	comexp.msc
+Совместимость программы	Program Compatibility	msdt.exe -id PCWDiagnostic
+Создать диск восстановления системы	Create a system repair disk	recdisc
+Соседние пользователи	People Near Me	collab.cpl
+Сохранение имен пользователей и паролей	Stored User Names and Passwords	credwiz
+Средство диагностики DirectX	Direct X Troubleshooter	dxdiag
+Средство диагностики службы технической поддержки	Microsoft Support Diagnostic Tool	msdt
+Средство калибровки дигитайзера	Ditilizer Calibration Tool	tabcal
+Средство настройки текста ClearType	ClearType Text Tuner	cttune
+Средство просмотра XPS	XPS Viewer	xpsrchvw
+Стредство записи действий по воспроизведению неполадок	Problem Steps Recorder	psr
+Таблица символов	Character Map	charmap
+Телефон и модем	Phone and Modem	telephon.cpl
+Удаленный помощник Windows	Windows Remote Assistance	msra
+Управление дисками	Disk Management	diskmgmt.msc
+Управление компьютером	Computer Management	compmgmt.msc
+Управление печатью	Print Management	printmanagement.msc
+Управление цветом	Color Management	colorcpl
+Установка или удаление языков интерфейса	Install or uninstall display languages	lpksetup
+Устройства и принтеры	Devices and Printers	control printers
+Учетные записи пользователей	User Accounts	Netplwiz
+Цвет и внешний вид окна	Window Color and Appearance	control color
+Центр мобильности Windows	Windows Mobility Center	mblctr
+Центр поддержки	Action Center	wscui.cpl Центр синхронизации	Sync Center	mobsync
+Центр специальных возможностей	Ease of Access Center	utilman
+Шифрующая файловая система (EFS)	Encryption File System	rekeywiz
+Шрифты (добавление или удаление)	Fonts	control fonts
+Экран (размер текста)	Display (size of text)	dpiscaling
+Экранная клавиатура	On-Screen Keyboard	osk
+Экранная лупа	Magnifier	magnify
+Экранный диктор	Microsoft Narrator	narrator
+Электропитание	Power Options	powercfg.cpl
+Электропитание: Дополнительные параметры	Power Options: Advanced Settings	control powercfg.cpl,,1
+Элемент управления WMI	Windows Management Infrastructure	wmimgmt.msc
+Язык и региональные стандарты	Region and Language	intl.cpl
+Язык и региональные стандарты: Дополнительно	Region and Language: Administrative	control intl.cpl,,3
+Язык и региональные стандарты: Языки и клавиатуры	Region and Language: Keyboards and Languages	control intl.cpl,,2
+Источник: http://microsoft-windows8.ru/windows-7/pusk-vypolnit-poleznye-komandy-windows.html
+-------------------------------------------------------------------
+Win+R - запускает окно команды "Выполнить"
+Win+Q- открыть панель поиска по установленным программам.
+Win+Z - открыть панель дополнительных опций активной Metro-программы.
+Win+Пробел - переключить язык/раскладку клавиатуры.
+Win+Y - на время показать рабочий стол.
+Win+W - поиск по параметрам системы.
+Win+F - поиск файлов.
+Win+I - открыть новое меню "Пуск" - "Настройки".
+Win+E - открывает проводник Windows в случае если вам необходимо найти файл.
+Win+P - показывает мульти-дисплейные опции.
+Win+O - отключить поворот экрана (отключить реакцию на гироскоп на планшетах)
+Win+C - показывает панель Charm Bar (новое меню "Пуск").
+Win+D - Показать/Скрыть Рабочий стол
+Win+M - Свернуть все окна
+Win+V - переключение между уведомлениями.
+Win+H - открыть панель Share.
+Win+J - закрыть панель Share.
+Win+X - вместо центра мобильности Windows теперь открывается меню, похожее на контекстное меню панели задач. Содержит много полезных пунктов!
+Win+K - открывает панель Devices (устройства).
+Win+L - блокировка компьютера
+Win+U - центр специальных возможностей
+Win+Tab - переключение только между Metro-приложениями.
+Win+T - Переключение между элементами Панели задач
+Win+Shift+V - переключение между уведомлениями в обратном порядке.
+Win+Enter - запуск утилиты Narrator, которая зачитывает вслух заголовки и содержимое всех открываемых окон.
+Win+PageUp - перемещение плиток влево.
+Win+PgDown - перемещение плиток вправо.
+Win+Shift+. - переместить разделитель [экрана] влево.
+Win+. - переместить разделитель [экрана] вправо.
+Win+Shift+C - открыть панель быстрого доступа к функциями упрощенного меню Пуск.
+Горячие клавиши Проводника
+Нажмите ALT. Лента покажет подсказки для каждой кнопки. Теперь нажмите:
+
+A - чтобы открыть "специальные возможности"
+CO - чтобы скопировать выделенные элементы.
+CP - скопировать путь к файлу/папке.
+CF - копировать в папку (используется выпадающий список)
+D - удалить выбранное.
+E - редактировать выбранные файлы.
+H - показать историю версий файла. Полагаю, будет использоваться механизм теневого копирования.
+M - переместить файлы (используется выпадающий список).
+N - создать новую папку.
+PS - вставить ярлык
+PR - открыть свойства.
+PE - открыть с помощью..., для выбора приложения опять используется выпадающий список.
+SA - выделить всё.
+SN - снять выделение.
+SI - инвертировать выделение
+R - переименовать выделенный файл(ы).
+T - вырезать
+V - вставить
+W - создать новый документ, выбор шаблона - при помощи выпадающего списка.
+Alt - Показать скрытое меню приложения
+Alt + D - Выбрать панель адреса
+Alt + P - Показать панель просмотра в Проводнике
+Alt + Tab - Переключение вперед между открытыми окнами
+Alt + Shift + Tab - Переключение назад между открытыми окнами
+Alt + F - Закрыть текущее окно. Открыть диалог выключения с Рабочего стола
+Alt + Пробел - Вызоваконтекстного меню для текущего окна
+Alt + Esc - Переключение между запущенными программами в порядке их запуска
+Alt + Enter - Открыть окнл Свойства выбранного элемента
+Alt + PrtScn - Снять скриншот активного окна и поместить его в буфер обмена
+Alt + Up Arrow - Вверх на один уровень в Проводнике
+Alt + Left Arrow - Переход в предыдущую папку
+Alt + Right Arrow - Переход в следующую папку
+Shift + Delete - Удаление элемента минуя Корзину
+Shift + F6 - Переключение назад между органами управления в окне или диалоге
+Shift + F10 - Вызов контекстного меню выбранного элемента
+Shift + Tab - Переключение назад между элементами в окне или диалоге
+Shift + клик - Выбрать последовательную группу элементов
+Shift + клик по кнопке в Панели задач - Запустить новую копию программы
+Shift + правый-клик по кнопке в Панели задач - Вызов контекстного меню элемента
+Ctrl + A - Выбрать все элементы
+Ctrl + C - Скопировать выбранные элементы
+Ctrl + X - Вырезать выбранные элементы
+Ctrl + V - Вставить выбранные элементы
+Ctrl + D - Удалить выбранные элементы
+Ctrl + Z - Отменить действие
+Ctrl + Y - Повторить действие
+Ctrl + N - Открыть новое окно в Проводнике
+Ctrl + W - Закрыть текущее окно в Проводнике
+Ctrl + E - Выбрать строку поиска в Проводнике
+Ctrl + Shift + N - Создать новую папку
+Ctrl + Shift + Esc - Открыть Диспетчер задач
+Ctrl + Alt + Tab - Открыть панель переключения между окнами
+Ctrl + Alt + Delete - Доступ к экрану Блокировка
+Ctrl + клик - Выбрать несколько отдельных элементов
+Ctrl + клик и перетащить элемент - Копировать элемент в ту же папку
+Ctrl + Shift +клик и перетащить элемент - Создать ярлык элемента в той же папке
+Ctrl + Tab - Переключение вперед между вкладками
+Ctrl + Shift + Tab - Переключение назад между вкладками
+Ctrl + Shift + клик по кнопке в панели задач - Запустить новую копию программы от Администратора
+F1 - Показать Справку
+F2 - Переименовать файл
+F3 - Открыть поиск
+F4 - Показать выпадающий список в строке адреса Windows Explorer
+F5: Обновить экран
+F6 - Переключение между элементами окна или диалога
+F7 - Показать историю команд в командной строке
+F10 - Показать скрытую строку меню
+F11 - Переключиться в полноэкранный режим
+Tab - Переключение вперед между элементами в окне или диалоге
+PrtScn - Сделать скриншот всего экрана и поместить его в буфер обмена
+Home - Перейти вверх в открытом окне
+End - Перейти вниз в открытом окне
+Delete - Удалить выбранный элемент
+Backspace - Переход в предыдущую папку в Проводнике. Переход вверх на одну папку в диалогах Открыть или Сохранить.
+Esc - Закрыть окно диалога
+-------------------------------------------------------------------
+ipconfig /flushdns
+-------------------------------------------------------------------
+Администрирование	Открывает окно со встроенными в Windows инструментами администрирования системы	control admintools
+Диспетчер авторизации	
+Среда интеграции ролевого управления доступом к приложениям
+(Требует членства в группе Администраторы)
+azman.msc
+Службы компонентов
+Открывает окно со списком установленных в системе служб
+dcomcnfg
+Сертификаты
+Выводит список всех сертификатов, зарегистрированных в системе
+certmgr.msc
+Средство диагностики Direct X	
+Запускает утилиту, которая выводит подробные сведения об установленных компонентах и драйверах Direct X
+dxdiag
+Установка и удаление языков интерфейса
+Программа используется для выполнения автоматических операций с языковыми пакетами	lpksetup
+Администратор источников данных ODBC
+Используется для создания и поддержки имен источников данных для 32-разрядных приложений	odbcad32
+Программа проверки подписи файла
+Программа служит для поиска файлов, не имеющих цифровой подписи	sigverif
+Групповая политика	Выводит список правил, в соответствии с которыми производится настройка рабочей среды Windows	gpedit.msc
+Диспетчер устройств
+Показывает список установленных в системе устройств
+hdwwiz.cpl
+Инициатор iSCSI	Средство настройки iSCSI (протокол, основанный на стеке TCP/IP, для доступа и взаимодействия с системами хранения данных, серверами и клиентами)	iscsicpl
+Инсталлятор файлов IExpress	Программа для сжатия файлов в exe-файлы (в Windows присутствует только английская версия)	iexpress
+Локальная политика безопасности
+Применяется для прямого изменения, политики открытого ключа, политики учетных записей и локальной политики, а также политик IP-безопасности локального компьютера	secpol.msc
+Средство диагностики службы технической поддержки Майкрософт
+Используется для сбора сведений о неполадках, которые могут возникать в компьютере	msdt
+Консоль управления (MMC)
+Позволяет конфигурировать и отслеживать работу системы	mmc
+Управление печатью
+Средство управления сервером печати
+printmanagement.msc
+Пользовательский интерфейс принтера
+Позволяет вручную устанавливать/удалять принтеры
+Средство записи действий по воспроизведению неполадок
+Позволяет записывать действия в приложении и предоставлять подробное поэкранное представление с комментариями	psr
+Соседние пользователи
+Служба, позволяющая использовать в сети определенные одноранговые программы	p2phost
+Редактор реестра
+Позволяет вручную редактировать реестр Windows
+regedit
+Монитор ресурсов
+Средство для просмотра подробной информации об использовании аппаратных ресурсов
+resmon
+Конфигурация системы
+Утилита для управления автозапуском программ и загрузкой Windows	msconfig
+Результирующая политика (RSoP)	Может использоваться для имитации и тестирования параметров политики, применяемые к компьютерам или пользователям с помощью групповой политики	rsop.msc
+Программа сетевого клиента SQL Server
+Позволяет настраивать протоколы и псевдонимы	cliconfg
+Диспетчер задач Windows
+Выводит на экран список запущенных процессов и потребляемых ими ресурсов	taskmgr
+Управление доверенным платформенным модулем (TPM) на локальном компьютере
+Оснастка консоли управления (MMC), обеспечивающая управление службами доверенного платформенного модуля (TPM)	tpm.msc
+Удалённый помощник Windows
+Встроенное в Windows средство для оказания удаленной помощи
+msra
+Мастер создания общих ресурсов
+Запускает мастер по созданию общих ресурсов	shrpubw
+Защита БД учётных записей Windows
+Позволяет использовать дополнительное шифрование базы данных учётных записей
+syskey
+Параметры сервера сценариев Windows
+Утилита предназначена для запуска сценариев на скриптовых языках JScript и VBScript
+wscript
+Версия Windows
+Выводит на экран информацию об установленной версии Windows
+winver
+Брандмауэр Windows в режиме повышенной безопасности
+Регистрирует состояние сети, для рабочих станций, фильтрует входящие и исходящие соединения в соответствии с заданными настройками
+wf.msc
+Средство проверки памяти Windows
+Программа тестирует оперативную память компьютера на предмет неисправностей	MdSched
+Средство удаления вредоносных программ Microsoft Windows
+Сканирует систему на наличие вредоносных программ
+mrt
+Управление компьютером
+Название утилиты/программы/службы	
+Описание команды
+Команда
+Управление компьютером
+Вызывает стандартные средства управления системой
+compmgmt.msc
+Планировщик заданий
+Оснастка MMC, позволяющая назначать автоматически выполняемые задания, запуск которых производится в определенное время или при возникновении определенных событий	control schedtasks
+Просмотр журнала событий
+Журнал, содержащий записи о входах и выходах из операционной системы и других, связанных с безопасностью, событиях	eventvwr.msc
+Общие папки
+Оснастка MMC используется для управления общими ресурсами по сети	fsmgmt.msc
+Локальные пользователи и группы
+Оснастка служит для создания пользователей и групп, хранимых локально на компьютере, и управления ими	lusrmgr.msc
+Системный монитор
+Используется для просмотра данных по производительности системы в режиме реального времени
+perfmon.msc
+Диспетчер устройств
+С помощью данной утилиты можно устанавливать и обновлять драйвера аппаратных устройств	devmgmt.msc
+Управление дисками
+Средство предназначено для выполнения таких задач, как создание и форматирование разделов и томов и назначение букв дисков	diskmgmt.msc
+Службы
+Выводит на экран список служб, установленных в системе
+services.msc
+Windows Management Instrumentation (WMI)
+Инструментарий обеспечивает централизованное управление и слежение за работой различных частей компьютерной инфраструктуры	wmimgmt.msc
+Панель управления
+Название утилиты/программы/службы	
+Описание команды
+Команда
+Панель управления
+Запускает панель управления Windows
+control
+Центр поддержки
+Запускает центр поддержки Windows 7
+wscui.cpl
+Автозапуск
+Выводит список действий, которые должен выполнить компьютер при обнаружении нового носителя (CD, DVD, флэш-накопитель и т. д.)
+control.exe /name Microsoft.autoplay
+Архивация и восстановление
+Настройка резервного копирования системы
+sdclt
+Создать диск восстановления системы
+Приложение позволяет создать диск с резервной копией текущего состояния системы
+recdisc
+Управление цветом
+Позволяет задать максимально точное воспроизведение цветов на таких устройствах, как экран монитора и принтер	colorcpl
+Диспетчер учётных данных
+Утилита предназначена для хранения учётных данных для доступа к веб-сайтам и компьютерам
+control.exe /name Microsoft.CredentialManager
+Сохранение имён пользователей и паролей
+Средство используется для сохранения имен пользователей и паролей для серверов	credwiz
+Дата и время
+Выводит на экран настройки даты и времени для системы
+timedate.cpl
+Программы по умолчанию
+Настройка программ, используемых Windows по умолчанию
+control.exe /name Microsoft.DefaultPrograms
+Настройка доступа программ и умолчаний
+В данном разделе можно указать программы по умолчанию, используемые Windows для таких операций, как просмотр веб-сайтов и отправка электронной почты	ComputerDefaults
+Устройства и принтеры
+Выводит на экран список периферийных устройств, установленных в системе
+control printers
+Добавление устройства
+Позволяет вручную установить новое устройство
+DevicePairingWizard
+Экран
+Запускает компонент Панели управления Экран
+dpiscaling
+Разрешение экрана
+Компонент для настройки разрешения экрана
+desk.cpl
+Калибровка цветов экрана
+Калибровка обеспечивает точное отображение цветов на экране
+dccw
+Средство настройки текста Cleartype	Программа, облегчающая чтение текста с экрана в течение длительного времени	cttune
+Параметры папок
+Позволяет настроить параметры папок в системе
+control folders
+Шрифты
+Выводит на экран список установленных в системе шрифтов
+control fonts
+Домашняя группа
+Утилита для создания и настройки домашней группы в локальной сети
+control.exe /name Microsoft.HomeGroup
+Параметры индексирования
+Настройка параметров индексирования системы
+control.exe /name Microsoft.IndexingOptions
+Изменение общих параметров Internet Explorer
+Выводит на экран список настроек для Internet Explorer
+inetcpl.cpl
+Центр управления сетями и общим доступом
+Централизованная настройка сетей Windows
+control.exe /name Microsoft.NetworkandSharingCenter
+Сетевые подключения
+Отображает список сетевых подключений
+ncpa.cpl
+Счётчики и средства производительности
+Предоставляет оценочную информацию о производительности компьютера, а также способы увеличения быстродействия
+control.exe /name Microsoft.PerformanceInformationandTools
+Цвет и внешний вид окна
+Позволяет выбрать цветовую схему Windows
+control color
+Электропитание
+Используется для оптимизации производительности компьютера или экономии электроэнергии
+powercfg.cpl
+Программы и компоненты
+Выводит список установленных в системе программ
+appwiz.cpl
+Компоненты Windows
+Включение или отключение компонентов Windows
+optionalfeatures
+Восстановление
+Восстановление системы до ранее сохранённого состояния
+control.exe /name Microsoft.Recovery
+Язык и региональные стандарты
+Выводит на экран языковые настройки системы
+intl.cpl
+Звук
+Выводит на экран звуковые настройки системы
+mmsys.cpl
+Свойства системы
+Вызывает диалоговое окно Свойства системы компонента панели управления Система
+sysdm.cpl или комбинация клавиш Windows + Pause/Break
+Активация Windows
+Программа для активации или проверки подлинности Windows
+slui
+Шифрующая файловая система EFS
+Программа служит для создания сертификата шифрования пользователя
+rekeywiz
+Брандмауэр Windows
+Вызывает встроенный в систему брандмауэр
+firewall.cpl
+Центр обновления Windows
+Компонент, обеспечивающий обновление операционной системы
+wuapp
+Другие полезные команды
+Название утилиты/программы/службы	
+Описание команды
+Команда
+Калькулятор
+Вызывает встроенный в систему калькулятор
+calc
+Командная строка
+Запускает командную оболочку Windows
+cmd
+Переключиться на проектор
+Выводит диалоговое окно, в котором можно выбрать вариант отображения экрана на подключенном к компьютеру компьютере
+displayswitch или комбинация клавиш Windows + P
+Блокнот
+Вызывает встроенный в систему текстовый редактор Блокнот
+notepad
+Paint
+Вызывает встроенный в систему графический редактор Paint
+mspaint.exe
+Подключение к удалённому рабочему столу
+Данная технология позволяет, сидя за клиентским компьютером, подключиться к удалённому рабочему столу
+mstsc
+Запись звука
+Вызывает встроенный в систему рекордер
+soundrecorder
+Проводник
+Открывает проводник Windows
+explorer или комбиницая клавиш Windows + Е
+Экранная лупа
+Инструмент позволяет увеличить различные части экрана	magnify
+Экранный диктор
+Программа для озвучивания текста на экране
+Narrator
+Экранная клавиатура
+Запускает виртуальный аналог клавиатуры на экране
+osk
+Редактор личных символов
+Позволяет создавать собственные специальные символы
+eudcedit
+Таблица символов
+Приложение для вывода специальных символов
+charmap
+Очистка диска
+Средство для удаления ненужных файлов с жесткого диска компьютера	cleanmgr
+Дефрагментация диска
+Запускает встроенный в систему дефрагментатор жёсткого диска компьютера
+dfrgui
+Сведения о системе
+Выводит на экран подробные данные о компьютере
+msinfo32
+Перенос файлов и данных Windows
+Средство для переноса учётных данных на другой компьютер
+migwiz
+Windows Media Player
+Запускает встроенный в систему проигрыватель мультимедиа файлов
+wmplayer
+Windows PowerShell
+PowerShell — расширяемое средство автоматизации , состоящее из оболочки с интерфейсом командной строки и специального языка сценариев	powershell
+Средство просмотра XPS
+Запускает встроенное в систему средство отображения XPS-документов	xpsrchvw
+Завершение работы
+Команда завершает работу данного пользователя, но не выключает компьютер
+Windows + L
+-------------------------------------------------------------------
+мне проще набрать shell:Links, чтобы попасть в папку "Избранное" в области переходов Проводника, чем искать её в моем профиле
+shell:Startup - быстрый переход в папку автозагрузки
+shell:Common Start Menu - это самый быстрый переход в то, что осталось от меню Пуск в современных реалиях. Именно там хранятся ярлыки программ, отображаемых в Metro экране.
+Источник: [url=http://winreview.ru/polnyj-spisok-shell-komand-windows-8/]Winreview.ru[/url]
+shell:AccountPictures - картинки изображений пользователей
+shell:AddNewProgramsFolder - апплет Control Panel\All Control Panel Items\Get Programs
+shell:Administrative Tools - средства администрирования системы
+shell:AppData - синоним на переменную окружения %appdata%
+shell:Application Shortcuts - ссылка на папку C:\Users\%username%\AppData\Local\Microsoft\Windows\Application Shortcuts, папка с ярыками на установленные метро приложения
+shell:AppsFolder - диспетчер установленных приложений. Одна из папок без ленты Проводника. Позволяет запускать программы, запускать от имени другого пользователя и удалять их. Здесь обычный софт намешан с Metro-приложениями, и назначение это виртуальной папки для меня  - загадка
+shell:AppUpdatesFolder - Programs and Features\Installed Updates - установленные обновления
+shell:Cache - кэш браузера Internet Explorer, C:\Users\%username%\AppData\Local\Microsoft\Windows\Temporary Internet Files
+shell:CD Burning - файлы, ожидающие записи на компакт-диск
+shell:ChangeRemoveProgramsFolder - удаление программ shell:Common Administrative Tools - ярлыки на общие средства администрирования системы
+shell:Common AppData - ссылка на папку C:\ProgramData, общие для всех пользователей данные приложений системы
+shell:Common Desktop - общий для всех пользователей рабочий стол shell:Common Documents - общая для всех пользователей папка документов
+shell:Common Programs - общая для всех пользователей папка с ярлыками установленных программ, C:\ProgramData\Microsoft\Windows\Start Menu\Programs shell:Common Start Menu - C:\ProgramData\Microsoft\Windows\Start Menu, аналогично. shell:Common Startup - общая автозагрузка, C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp
+shell:Common Templates - общие шаблоны документов, C:\ProgramData\Microsoft\Windows\Templates
+shell:CommonDownloads - общая папка загрузок, C:\Users\PublicPublic \Downloads
+shell:CommonMusic - общая папка музыки, C:\Users\Public\Public Music
+shell:CommonPictures - общая папка изображений, C:\Users\Public\Public Pictures
+shell:CommonRingtones - общие рингтоны, C:\ProgramData\Microsoft\Windows\Ringtones
+shell:CommonVideo - общие видеофайлы, C:\Users\Public\Videos
+shell:ConflictFolder - центр разрешения конфликтов синхронизации данных, Control Panel\All Control Panel Items\Sync Center\Conflicts
+shell:ConnectionsFolder - папка "сетевые подключения", Control Panel\All Control Panel Items\Network Connections
+shell:Contacts - C:\Users\%username%\Contacts, контакты пользователя shell:ControlPanelFolder - все элементы панели управления. Всегда открывается без разбивки на категории
+shell:Cookies - "печеньки" браузера Internet Explorer shell:CredentialManager - синоним на папку C:\Users\%username%\AppData\Roaming\Microsoft\Credentials
+shell:CryptoKeys - синоним на папку C:\Users\%username%\AppData\Roaming\Microsoft\Crypto shell:CSCFolder - автономные файлы, в Windows 8 RP работать отказывается, хотя в реестре описана
+shell:Default Gadgets - C:\Program Files\Windows Sidebar\Gadgets
+shell:Desktop - папка рабочего стола текущего пользователя
+shell:Device Metadata Store - папка метаданных каких-то устройств, физически она здесь - C:\ProgramData\Microsoft\Windows\DeviceMetadataStore
+shell:DocumentsLibrary - библиотека "документы"
+shell:Downloads - папка "Загрузка" текущего пользователя
+shell:DpapiKeys - хранилище ключей системы безопасности Data Protection API C:\Users\%username%\AppData\Roaming\Microsoft\Protect
+shell:Favorites - избранное браузера IE для текущего пользователя
+shell:Fonts - шрифты системы, C:\Windows\Fonts
+shell:Gadgets - гаджеты, которые вы установили. C:\Users\%username%\AppData\Local\Microsoft\Windows Sidebar\Gadgets
+shell:Games - обозреватель игр. shell:GameTasks - ссылка на C:\Users\%username%\AppData\Local\Microsoft\Windows\GameExplorer
+shell:History - журнал навигации по компьютеру и Интернету
+shell:HomeGroupCurrentUserFolder - ваша папка в домашней группе
+shell:HomeGroupFolder - сама домашняя группа
+shell:ImplicitAppShortcuts - ссылка на папку C:\Users\%username%\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned\ImplicitAppShortcuts. Судя по пути, туда должны помещаться какие-то закрепленные ярлыки. Но вот какие - мне неизвестно
+shell:InternetFolder - запуск Internet Exporer shell:Libraries - папка "Библиотеки"
+shell:Links - "избранное" в области переходов Проводника
+shell:Local AppData - C:\Users\%username%\AppData\Local
+shell:LocalAppDataLow - C:\Users\%username%\AppData\LocalLow
+shell:LocalizedResourcesDir - должна открывать папку локализованных ресурсов оформления. У меня такой папки просто нет
+shell:MAPIFolder - судя по названию, это параметры Outlook Explress. Не работает, как несложно догадаться
+shell:MusicLibrary - библиотека "Музыка". shell:My Music - папка "Музыка" (C:\Users\%username%\My Music)
+shell:My Pictures  - папка "Картинки" (C:\Users\%username%\My Pictures) shell:My Video - папка "Видео" (C:\Users\%username%\My Videos)
+shell:MyComputerFolder - папка "Комптьютер"
+shell:NetHood - ярлыки в папке "сетевые расположения" (C:\Users\%username%\AppData\Roaming\Microsoft\Windows\Network Shortcuts)
+shell:NetworkPlacesFolder - Сетевое окружение. У вас нет ощущения, что в Майкрософт перепутали псевдонимы для этой и предыдущей статьи?
+shell:OEM Links  - у меня не работает. Что это, право слово, даже не подозреваю
+shell:Original Images - тоже не работает
+shell:Personal - папка "Мои документы" shell:PhotoAlbums - не работает
+shell:PicturesLibrary - библиотека "Изображения"
+shell:Playlists - не работает shell:PrintersFolder - принтеры, All Control Panel Items\Printers
+shell:PrintHood - папка с ярлыками сетевые принтеры, C:\Users\%username%\AppData\Roaming\Microsoft\Windows\Printer Shortcuts
+shell:Profile - папка профиля текущего пользователя, синоним %userprofile%
+shell:ProgramFiles - c:\program files shell:ProgramFilesCommon - C:\Program Files\Common Files
+shell:ProgramFilesCommonX64
+shell:ProgramFilesCommonX64
+shell:ProgramFilesCommonX86 - C:\Program Files (x86)\Common Files
+shell:ProgramFilesX64 - C:\Program Files
+shell:ProgramFilesX86 - C:\Program Files (x86)
+shell:Programs - ваше личное меню Пуск, то, что от него осталось - C:\Users\%username%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs
+shell:Public - C:\Users\Public, профиль всех пользователей
+shell:PublicAccountPictures - общие изображения (аватары) пользователей
+shell:PublicGameTasks - папка C:\ProgramData\Microsoft\Windows\GameExplorer
+shell:PublicLibraries - общие библиотеки, C:\Users\Public\Libraries
+shell:Quick Launch - панель быстрого запуска. Если вы её включите, это один из способов в неё быстро попасть
+shell:Recent - недавние документы, C:\Users\%username%\AppData\Roaming\Microsoft\Windows\Recent
+shell:RecordedTVLibrary - библиотека для обладателей TV тюнеров и медиа центра, там хранятся рипы с трансляций
+shell:RecycleBinFolder - Корзина
+shell:ResourceDir - папка с темами, C:\Windows\Resources
+shell:Ringtones - ваши персональные рингтоны, C:\Users\%username%\AppData\Local\Microsoft\Windows\Ringtones
+shell:Roamed Tile Images - что-то связанное с Метро, скорее всего, изображения плиток приложений, имеющих опцию синхронизации между машинами
+shell:Roaming Tiles - сами плитки/приложения C:\Users\%username%\AppData\Local\Microsoft\Windows\RoamingTiles
+shell:SavedGames - C:\Users\%username%\Saved Games, сохраненные игры
+shell:Screenshots - папка со скриншотами, которые сняты сочетанием Win+Print Screen, C:\Users\%username%\Pictures\Screenshots
+shell:Searches - сохраненные поиски, C:\Users\%username%\Searches shell:SearchHomeFolder - непосредственно сам поиск
+shell:SendTo - папка с ярлыками, отображаемыми в меню "отправить", C:\Users\%username%\AppData\Roaming\Microsoft\Windows\SendTo
+shell:Start Menu - корневая папка меню "Пуск" пользователя, C:\Users\%username%\AppData\Roaming\Microsoft\Windows\Start Menu
+shell:Startup - папка "Автозагрузка" shell:SyncCenterFolder - центр синхронизации, Control Panel\All Control Panel Items\Sync Center
+shell:SyncResultsFolder - результаты синхронизаций данных, Control Panel\All Control Panel Items\Sync Center\Sync Results
+shell:SyncSetupFolder - настройки синхронизации, Control Panel\All Control Panel Items\Sync Center\Sync Setup shell:System - C:\Windows\System32
+shell:SystemCertificates - сертификаты. C:\Users\%username%\AppData\Roaming\Microsoft\SystemCertificates shell:SystemX86 - папка C:\Windows\SysWOW64
+shell:Templates - шаблоны документов текущего пользователя, C:\Users\%username%\AppData\Roaming\Microsoft\Windows\Templates
+shell:User Pinned - C:\Users\Sergey\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned, закрепленные ярлыки
+shell:UserProfiles, папка с профилями пользователей, C:\Users
+shell:UserProgramFiles -не работает, видимо, в системе заложена возможность иметь собственный Program Files для каждого пользователя, с блэкджеком и шлюхами
+shell:UserProgramFilesCommon - аналогично предыдущему
+shell:UsersFilesFolder - профиль пользователя
+shell:UsersLibrariesFolder - папка с библиотеками shell:VideosLibrary - библиотека "Видео"
+shell:Windows - папка Windows, аналог %windir% Теперь несколько shell-команд, работающих исключительно вызовом по обращению к CLSID их ActiveX
+
+shell:::{1FA9085F-25A2-489B-85D4-86326EEDCD87} -управление беспроводными сетями. Апплет работает, но отключен, и чтобы заставить его отображаться, необходимо проделать ряд махинаций. Это - тема для отдельной статьи
+shell:::{2559a1f7-21d7-11d4-bdaf-00c04f60b9f0} - Программы по умолчанию
+shell:::{289AF617-1CC3-42A6-926C-E6A863F0E3BA} - медиасерверы
+shell:::{3080F90D-D7AD-11D9-BD98-0000947B0257} - свернуть все окна. Можно использовать в качестве ярлыка, который раньше был на панели "Быстрый запуск"
+shell:::{3080F90E-D7AD-11D9-BD98-0000947B0257} - переключатель окон. Аналогично, можно использовать в качестве ярлыка, который раньше был на панели "Быстрый запуск"
+shell:::{67718415-c450-4f3c-bf8a-b487642dc39b} - добавление или удаление компонентов Windows
+shell:::{ED7BA470-8E54-465E-825C-99712043E01C} - режим Бога №1, God Mode. Содержит 256 элементов
+shell:::{F90C627B-7280-45DB-BC26-CCE7BDD620A4} - режим Бога №2, God Mode. Содержит 312 элементов
+Источник: [url=http://winreview.ru/polnyj-spisok-shell-komand-windows-8/]Winreview.ru[/url]
+-------------------------------------------------------------------
+shutdown.exe -s -t 00              Выключение компьютера
+shutdown.exe -r -t 00              Перезагрузка компьютера
+rundll32.exe user32.dll,LockWorkStation          Блокировка компьютера
+%windir%\explorer.exe shell:::{2559a1f8-21d7-11d4-bdaf-00c04f60b9f0}     Окно Поиска
+%windir%\explorer.exe shell:::{4234d49b-0245-4df3-b780-3893943456e1}
+или      %windir%\explorer.exe shell:AppsFolder         Метро-приложения
+%windir%\explorer.exe shell:::{26EE0668-A00A-44D7-9371-BEB064C98683}    Панель-управления
+%windir%\explorer.exe shell:::{871C5380-42A0-1069-A2EA-08002B30309D}    Запуск десктопной версии Internet Explorer
+-------------------------------------------------------------------
+Сетевые подключения: ncpa.cpl
+Свойства системы: sysdm.cpl
+Установка и удаление программ: appwiz.cpl
+Учетные записи пользователей: nusrmgr.cpl
+Дата и время: timedate.cpl
+Свойства экрана: desk.cpl
+Брэндмауэр Windows: firewall.cpl
+Мастер установки оборудования: hdwwiz.cpl
+Свойства Интернет: inetcpl.cpl
+Специальные возможности: access.cpl
+Свойства мыши: control Main.cpl
+Свойства клавиатуры: control Main.cpl,@1
+Язык и региональные возможности: intl.cpl
+Игровые устройства: joy.cpl
+Свойства: Звуки и аудиоустройства: mmsys.cpl
+Мастер настройки сети: netsetup.cpl
+Управление электропитанием: powercfg.cpl
+Центр обеспечения безопасности: wscui.cpl
+Автоматическое обновление: wuaucpl.cpl
+control - Панель управления
+control admintools — Администрирование
+control desktop — Настройки экрана / Персонализация
+control folders — Свойства папок
+control fonts — Шрифты
+control keyboard — Свойства клавиатуры
+control mouse — Свойства мыши
+control printers — Устройства и принтеры
+control schedtasks — Планировщик заданий
+Запускать из окружения пользователя, от другого имени, можно запускать большинство элементов управления, кроме тех, которые используют explorer. Например Панель "Сетевые подключения" использует explorer.
+
+Оснастки:
+
+Управление компьютером (Computer Management): compmgmt.msc
+Редактор объектов локальной политики (Group Policy Object Editor): gpedit.msc
+Результирующая политика (результат применения политик): rsop.msc
+Службы (Services): services.msc
+Общие папки (Shared Folders): fsmgmt.msc
+Диспетчер устройств (Device Manager): devmgmt.msc
+Локальные пользователи и группы (Local users and Groups): lusrmgr.msc
+Локальная политика безопасности (Local Security Settings): secpol.msc
+Управление дисками (Disk Management): diskmgmt.msc
+eventvwr.msc — Просмотр событий
+"Серверные" оснастки:
+
+Active Directory Пользователи и компьютеры (AD Users and Computers): dsa.msc
+Диспетчер служб терминалов (Terminal Services Manager): tsadmin.msc
+Консоль управления GPO (Group Policy Management Console): gpmc.msc
+Настройка терминального сервера (TS Configuration): tscc.msc
+Маршрутизация и удаленый доступ (Routing and Remote Access): rrasmgmt.msc
+Active Directory Домены и Доверие (AD Domains and Trusts): domain.msc
+Active Directory Сайты и Доверие (AD Sites and Trusts): dssite.msc
+Политика безопасности домена (Domain Security Settings): dompol.msc
+Политика безопасности контроллера домена (DC Security Settings): dcpol.msc
+Распределенная файловая система DFS (Distributed File System): dfsgui.msc
+Прочие команды:
+
+calc — Калькулятор
+charmap — Таблица символов
+chkdsk — Утилита для проверки дисков
+cleanmgr — Утилита для очистки дисков
+cmd — Командная строка
+dfrgui — Дефрагментация дисков
+dxdiag — Средства диагностики DirectX
+explorer — Проводник Windows
+logoff — Выйти из учетной записи пользователя Windows
+magnify — Лупа (увеличительное стекло)
+msconfig — Конфигурация системы
+msinfo32 — Сведения о системе
+mspaint — Графический редактор Paint
+notepad — Блокнот
+osk — Экранная клавиатура
+perfmon — Системный монитор
+regedit — Редактор реестра
+shutdown — Завершение работы Windows
+syskey — Защита БД учетных записей Windows
+taskmgr — Диспетчер задач
+utilman — Центр специальных возможностей
+verifier — Диспетчер проверки драйверов
+winver — Версия Windows
+write — Редактор Wordpad
+whoami - отобразит имя текущего пользователя
+powercfg /requests - команда сообщит какие процессы, сервисы или драйверы не дают уходить системе в спящий режим. Начиная с windows 7
+wuauclt /detectnow - проверить наличие обновлений
+wuauclt /reportnow - отправить на сервер информацию о установленных обновлениях
+gpupdate /force - обновление политик
+mountvol - список подключенных томов
+wmic - команда упрощающая использование инструментария управления Windows (WMI) и систем, управляемых с помощью WMI (как на локальных, так и на удаленных компьютерах). Пример:
+wmic logicaldisk where drivetype=2 get deviceid, volumename, description - список логических томов типа 2 (Removable Disk)
+wmic process where (name LIKE 'c%') get name, processid - выводим имя и id процессов, которые начинаются с символа "c"
+wmic process get /? или wmic process /? или wmic /? - справка
+wmic process where (name LIKE 'x%') call terminate(0) - завершили процессы начинающиеся на букву "x"
+proxycfg -? - инструмент настройки прокси по умолчанию в Windows XP/2003, WinHTTP.
+netsh winhttp - инструмент настройки прокси по умолчанию в Windows Vista/7/2008
+Установка, просмотр установленных программ, удаление программ:
+
+Запуск msi пакетов из командной строки под правами администратора:
+runas /user:administrator "msiexec /i адрес_к_msi_файлу"
+runas /user:administrator "msiexec /i \"экранированный слешами и скобками адрес с пробелами к msi файлу\""
+wmic product get name,version,vendor - просмотр установленных программ  (только установленные из msi-пакетов)
+wmic product where name="Имя программы" call uninstall /nointeractive - удаление установленной программы
+Get-WmiObject Win32_Product | ft name,version,vendor,packagename - просмотр установленных программ через Powershell (только установленные из msi-пакетов)
+(Get-WmiObject Win32_Product -Filter "Name = 'Имя программы'").Uninstall() - удаление установленной программы через Powershell
+-------------------------------------------------------------------
+%windir%\system32\msiexec.exe /unregister
+%windir%\system32\msiexec.exe /regserver
+%windir%\syswow64\msiexec.exe /unregister
+%windir%\syswow64\msiexec.exe /regserver
+-------------------------------------------------------------------
+taskkill /im notepad.exe
+taskkill /pid 5637
+
+-------------------------------------------------------------------
+ASSOC  Печать на экран или модификация сопоставлений по расширениям имен файлов.
+ATTRIB  Просмотр и модификация свойств файлов.
+BREAK  Блокирует или разблокировывает расширенную обработку CTRL+C в системе DOS.
+BCDEDIT  Устанавливает свойства в базе данных загрузки, которая позволяет управлять начальной загрузкой.
+CACLS  Выводит данные и изменяет списки управления доступом (ACL) к файлам.
+CALL  Вызывает один пакетный файла из другого, а также может передавать входные аргументы.
+CD Выводит название или перемещает к другой папке.
+CHCP Вывод или задание кодировки.
+CHDIR Выводит название или перемещает к другой папке.
+CHKDSK Диагностика накопителя на ошибки.
+CHKNTFS Показывает или изменяет диагностику накопителя во время загрузки.
+CLSО чистка дисплея от всех символов.
+CMD Запускает программу командной строки Windows. На одном компьютере их можно запустить бесконечное количество. Они будут работать независимо друг от друга.
+COLOR Изменяет и устанавливает основной фон окна и самих шрифтов.
+COMP Показывает различия и сравнивает содержимое двух файлов.
+COMPACT Изменяет и показывает сжатие файлов в NTFS.
+CONVERT Изменяет дисковые тома FAT в NTFS. Текущий диск изменить не удастся.
+COPY Создаёт копию файла или файлов и помещает их в указанное место.
+DATE Показывает или устанавливает текущую дату.
+DEL Уничтожает один или несколько файлов сразу.
+DIR Показывает имена файлов и папок с их датой создания,находящихся в текущей или указанной в параметрах папки .
+DISKCOMP Сравнивает и показывает различия 2 гибких накопителей.
+DISKCOPY Создаёт копию содержимого одного гибкого накопителя на другой.
+DISKPART Показывает и изменяет свойств раздела диска.
+DOSKEY Изменяет и повторно вызывает командные строки; создаёт макросы.
+DRIVERQUERY Отображает сведения о «положении дел» и атрибутах драйвера устройства.
+ECHO Выводит текстовую информацию и меняет режим отображения команд на экране.
+ENDLOCAL Подводит к концу локализацию среды для пакетного файла.
+ERASE Уничтожает файл или файлы.
+EXIT Прекращает работу программы командной строки
+FC Показывает различия двух файлов или двух наборов файлов а также сравнивает их
+FIND Осуществляет поиск текстовой строки в файлах либо в одном файле.
+FINDSTR Расширенный поиск текстовых строк в файлах.
+FOR Цикл. Повторяет выполнение одной и той же команды указанное количество раз
+FORMAT Форматирование накопителя для работы с Windows.
+FSUTIL Показывает и устанавливает атрибуты файловой системы.
+FTYPE Даёт возможность изменить и просмотреть типы файлов, которые в основном применяются при сопоставлении по расширениям имен файлов.
+GOTO Передаёт управление к другой указанной команде.
+GPRESULT Выводит сведения о групповой политике для компьютера или пользователя.
+GRAFTABL Даёт возможность Windows показывать расширенный набор символов в графическом режиме.
+HELP Выводит все данные о существующих командах Windows.
+ICACLS Показывает, модифицирует, архивирует либо восстанавливает списки ACL для файлов и папок.
+IF Выполняет команды по заданному условию.
+LABEL Создаёт, модифицирует и уничтожает метки тома для накопителей.
+MD Создаёт пустой каталог.
+MKDIR Создаёт пустой каталог.
+MKLINK Cоздаёт символические и жесткие ссылки
+MODE  Настраивает системные устройства.
+MORE  Последовательно выводит информацию по блокам размером в один экран .
+MOVE  Перемещает файлы из одного места в другое.
+OPENFILES  Показывает файлы, которые открыты на общей папке удаленным юзером.
+PATH  Выводит или задаёт полный путь к исполняемым файлам.
+PAUSE Прекращает выполнение команд командной строки и выводит информирующий текст.
+POPD Восстанавливает предыдущее значение активной папки, которое было сохранено посредством команды PUSHD.
+PRINT  Выводит на печать содержимое текстового файла.
+PROMPT Модифицирует приглашение в командной строке Windows.
+PUSHD Сохраняет значение активной папки и переходит к другой папке.
+RD  Уничтожает каталог.
+RECOVER  Возрождает данные, способные читаться, с плохого или поврежденного винчестера.
+REM Помещает комментарии в пакетные файлы и файл CONFIG.SYS.
+REN Меняет название как файлов так и папок.
+RENAME Аналогичен команде REN.
+REPLACE  Меняет файлы местами.
+RMDIR Уничтожает каталог.
+ROBOCOPY Продвинутый инструмент для копирования файлов и целых папок
+SET Показывает, устанавливает и уничтожает переменные среды Windows.
+SETLOCAL Производит локализацию изменений среды в пакетном файле.
+SC Даёт возможность работать со службами
+SCHTASKS  Позволяет запускать любые программы и последовательно выполнять нужные команды по заданному плану
+SHIFT  Меняет позицию (сдвиг) подставляемых параметров для пакетного файла.
+SHUTDOWN  Завершает работу компьютера.
+SORT  Сортирует ввод по заданным параметрам.
+START  Запускает программу или команду в новом окне.
+SUBST  Назначение заданному пути имени накопителя.
+SYSTEMINFO  Выводит данные об операционной системе и конфигурации компьютера.
+TASKLIST  Показывает список всех запущенных процессов с их идентификаторами.
+TASKKILL  “Убивает” или останавливает процесс.
+TIME  Устанавливает и выводит системное время.
+TITLE  Задаёт название окну для текущего сеанса интерпретатора командных строк CMD.EXE
+TREE Выводит директории накопителя в удобном наглядном виде.
+TYPE  Выводит содержимое текстовых файлов.
+VER  Выводит краткие сведения о версии Windows.
+VERIFY  Проверяет на ошибки записи файла на накопителе.
+VOL  Выводит на дисплей метки и серийный номер тома накопителя.
+XCOPY  Создаёт копию файлов.
+WMIC  Выводит WMI в командной строке.
+-------------------------------------------------------------------
+^C — Прерывает команду, ну это все знают. 
+^S — Приостанавливает выполнение команды, а потом запускает.
+^I — Аналог Tab, перебирает папки и файлы.
+^M — Аналог Enter.
+^H — Аналог Backspace.
+^G — Написав в пакетном файле команду echo ^G можно пикать системным динамиком(спикером).
+(Команды ^I и ^H, получены мной методом «научного тыка», еще есть ^J но не знаю, что она делает)
+-------------------------------------------------------------------
+Win: Переключение между стартовым экраном Metro и последним запущенным приложением.
+Win + C: Вызов правой всплывающей панели (charms bar).
+Win + I: Вызов панели настроек.
+Win + H: Вызов панели Share .
+Win + K: Вызов панели Devices.
+Win + Q: Доступ к поиску по приложениям.
+Win + F: Доступ к поиску файлов.
+Win + W: Доступ к поиску настроек.
+Win + P: Настройка второго монитора.
+Win + Z: Появление панели инструментов в приложениях Metro.
+Win + X: Вызов меню системных  утилит Windows.
+Win + O: Зафиксировать ориентацию экрана.
+Win + . : Разместить приложение у правой границы экрана.
+Win + Shift + . : Разместить приложение у левой границы экрана.
+Win + V: Показать все активные уведомления.
+Win + Shift + V: Показать все активные уведомления в обратном порядке.
+Win + PrtScn: Сделать скриншот экрана и автоматически сохранить его в папке Pictures.
+Win + Enter: Запуск экранного диктора.
+Win + E: Открыть Компьютер.
+Win + R: Открыть диалог Выполнить.
+Win + U: Открыть Центр специальных возможностей.
+Win + Ctrl + F: Открыть диалог Найти компьютеры.
+Win + Pause/Break: Открыть страницу Система.
+Win + 1..10: Запуск программы, закрепленной в Панели задач на соответствующем месте.
+Win + Shift + 1..10: Запуск новой копии программы, закрепленной в Панели задач на соответствующем месте.
+Win + Ctrl + 1..10: Вызов последнего активного окна программы, закрепленной в Панели задач на соответствующем месте.
+Win + Alt + 1..10: Вызов меню переходов программы, закрепленной в Панели задач на соответствующем месте.
+Win + B: Выбор первого значка в системном трее. Переход к следующим происходит с помощью стрелки. Нажмите на Ввод для его открытия.
+Win + Ctrl + B: Вызов программы, показывающей уведомление в системном трее.
+Win + T: Переключение между элементами Панели задач.
+Win + M: Свернуть все окна.
+Win + Shift + M: Восстановить все свернутые окна.
+Win + D: Показать/Скрыть Рабочий стол.
+Win + L: Заблокировать компьютер.
+Win + Up Arrow: Развернуть текущее окно.
+Win + Down Arrow: Свернуть/Восстановить текущее окно.
+Win + Home: Свернуть все, кроме текущего окна.
+Win + Left Arrow: Прикрепить окно к левой границе экрана.
+Win + Right Arrow: Прикрепить окно к правой границе экрана.
+Win + Shift + Up Arrow: Расширить окно от верхней до нижней границы экрана.
+Win + Shift + Left/Right Arrow: Отправить окно на другой монитор.
+Win + F1: Запустить Справку Windows.
+
+PageUp: Перемотка стартового экрана Metro вперед.
+PageDown: Перемотка стартового экрана Metro назад.
+Ctrl + Esc: Переключение из Metro в последнее активное приложение.
+Ctrl + прокрутка мыши: активировать “взгляд сверху” на стартовый экран Metro.
+
+Alt: Показать скрытое меню приложения.
+Alt + D: Выбрать панель адреса.
+Alt + P: Показать панель просмотра в Windows Explorer.
+Alt + Tab: Переключение вперед между открытыми окнами.
+Alt + Shift + Tab: Переключение назад между открытыми окнами.
+Alt + F4: Закрыть текущее окно. Открыть диалог выключения с Рабочего стола.
+Alt + Esc: Переключение между запущенными программами в порядке их запуска.
+Alt + Enter: Открытие окна Свойства выбранного элемента.
+Alt + PrtScn: Снятие скриншота активного окна и помещение его в буфер обмена.
+Alt + Up Arrow: Вверх на один уровень в Windows Explorer.
+Alt + Left Arrow: Переход в предыдущий каталог.
+Alt + Right Arrow: Переход в следующий каталог.
+Shift + Delete: Моментальное удаление элемента минуя Корзину.
+Shift + F6: Переключение назад между органами управления в окне или диалоге.
+Shift + F10: Вызов контекстного меню выбранного элемента.
+Shift + Tab: Переключение назад между элементами в окне или диалоге.
+Shift + Click: Выбрать последовательную группу элементов
+Shift + Click по кнопке в Панели задач: Запустить новую копию программы.
+Shift + Right-click по кнопке в Панели задач: Вызов контекстного меню элемента.
+Ctrl + A: Выбрать все элементы.
+Ctrl + C: Скопировать выбранные элементы
+Ctrl + X: Вырезать выбранные элементы.
+Ctrl + V: Вставить выбранные элементы.
+Ctrl + D: Удалить выбранные элементы.
+Ctrl + Z: Отменить действие.
+Ctrl + Y: Повторить действие.
+Ctrl + N: Открыть новое окно в  Windows Explorer.
+Ctrl + W: Закрыть текущее окно в Windows Explorer.
+Ctrl + E: Выбрать строку поиска в Windows Explorer.
+Ctrl + Shift + N: Создать новую папку.
+Ctrl + Shift + Esc: Открыть Диспетчер задач.
+Ctrl + Alt + Tab: Открыть панель переключения между окнами.
+Ctrl + Alt + Delete: Доступ к экрану Windows Security.
+Ctrl + Click: Выбрать несколько отдельных элементов.
+Ctrl + Click и перетащить элемент: копировать элемент в ту же папку.
+Ctrl + Shift + Click и перетащить элемент: Создать ярлык элемента в той же папке.
+Ctrl + Tab:  Переключение вперед между вкладками.
+Ctrl + Shift + Tab: Переключение назад между вкладками.
+Ctrl + Shift + Click on a Taskbar button: Запустить новую копию программы как Администратор.
+
+F1: Показать Справку.
+F2: Переименовать файл.
+F3: Открыть поиск.
+F4: Показать выпадающий список в строке адреса Windows Explorer.
+F5: Обновить экран.
+F6: Переключение между элементами окна или диалога.
+F7: Показать историю команд в командной строке.
+F10: Показать скрытую строку меню.
+F11: Переключение в полноэкранный режим.
+Tab: Переключение вперед между элементами в окне или диалоге.
+PrtScn: Сделать скриншот всего экрана и поместить его в буфер обмена.
+Home: Перейти вверх в открытом окне.
+End: Перейти вниз в открытом окне.
+Delete: Удалить выбранный элемент.
+Backspace: Переход в предыдущий каталог в Windows Explorer. Переход вверх на один каталог в диалогах Открыть или Сохранить.
+Esc: Закрыть диалог.
+
+Num Lock Enabled + Plus (+): Показать содержимое выбранной папки.
+Num Lock Enabled + Minus (-): Закрыть выбранную папку.
+Num Lock Enabled + Asterisk (*): Развернуть все подкаталоги для выбранной папки.
+-------------------------------------------------------------------
+A
+append — позволяет программам открывать файлы в указанных каталогах так , словно они находятся в текущем каталоге.
+
+arp — отображение и изменение таблиц преобразования IP-адресов в физические, используемые протоколом разрешения адресов.
+
+assoc — вывод либо изменение сопоставлений по расширениям имён файлов.
+
+at — команда предназначена для запуска программ в указанное время.
+
+atmsdm — Контроль подключений и адресов, зарегистрированных диспетчером вызовов ATM в сетях с асинхронным режимом передачи (ATM).
+
+attrib — изменение атрибутов файлов и папок.
+
+auditusr — задаёт политику аудита пользователей.
+
+B
+break — включение режима обработки клавиш CTRL+C.
+
+bootcfg — эта программа командной строки может быть использована для настройки , извлечения , изменения или удаления параметров командной строки в файле Boot.ini.
+
+C
+cacls — просмотр изменение таблиц управления доступом ACL к файлам.
+
+call — вызов одного пакетного файла из другого.
+
+cd — вывод имени либо изменение текущей папки.
+
+chcp — вывод либо изменение активной кодовой страницы.
+
+chdir — вывод либо смена текущей папки.
+
+chkdsk — проверка диска и вывод отчёта.
+
+chkntfs — выводит или изменяет параметры проверки диска во время загрузки.
+
+ciddaemon — сервис индексации файлов.
+
+cipher — программа шифрования файлов.
+
+cls — очистка экрана интерпретатора.
+
+cmd — запуск нового окна командной строки.
+
+cmstp — установка профилей диспетчера подключений.
+
+color — устанавливает цвет для текста и фона в текстовых окнах.
+
+comp — сравнение содержимого двух файлов или наборов файлов.
+
+compact — просмотр и изменение параметров сжатия файлов в разделах NTFS.
+
+convert — преобразование файловой системы тома FAT в NTFS.
+
+copy — копирование одного или нескольких файлов.
+
+D
+date — вывод либо установка текущей даты.
+
+debug — средство для отладки и редактирования программ.
+
+defrag — дефрагментация диска.
+
+del — удаление одного или нескольких файлов.
+
+devcon — альтернатива диспетчера устройств.
+
+diantz — тоже что и MAKECAB.
+
+dir — вывод списка файлов и подпапок из указанного каталога.
+
+diskcomp — сравнение содержимого двух гибких дисков.
+
+diskcopy — копирование содержимого одного гибкого диска на другой.
+
+diskpart — использования сценария diskpart.
+
+diskperf — счетчик производительности дисков.
+
+doskey — редактирование и повторный вызов команд Windows; создание макросов DOSKey.
+
+driverquery — просмотр списка установленных драйверов устройств и их свойства.
+
+E
+echo — вывод сообщений и переключение режима отображения команд на экране.
+
+edit — запуск редактора MS-DOS.
+
+endlocal — завершение локализации изменений среды в пакетном файле.
+
+edlin — запуск построчного текстового редактора.
+
+erase — удаление одного или нескольких файлов.
+
+esentutl — обслуживание утилит для Microsoft (R) баз данных Windows.
+
+eventcreate — эта команда позволяет администратору создать запись об особом событии в указанном журнале событий.
+
+eventtriggers — эта команда позволяет администратору отобразить и настроить триггеры событий в локальной или удаленной системе.
+
+exe2bin — преобразование EXE-файлов в двоичный формат.
+
+exit — завершение командной строки.
+
+expand — распаковка сжатых файлов.
+
+F
+fc — сравнение двух файлов или двух наборов файлов и вывод различий между ними.
+
+find — поиск текстовой строки в одном или нескольких файлах.
+
+findstr — поиск строк в файлах.
+
+finger — вывод сведений о пользователях указанной системы.
+
+fltmc — работа с фильтром нагрузки драйверов.
+
+for — выполнение указанной команды для каждого файла набора.
+
+forcedos — сопоставление приложений MS-DOS, которые не распознаются системой Microsoft Windows XP.
+
+format — форматирование диска для работы с Windows.
+
+fontview — программа просмотра шрифтов.
+
+fsutil — управление точками повторной обработки, управление разреженными файлами, отключение тома или расширение тома.
+
+ftp — программа передачи файлов.
+
+ftype — просмотр и изменение типов файлов, сопоставленных с расширением имен файлов.
+
+G
+getmac — отображает MAC-адрес одного или нескольких сетевых адаптеров компьютера.
+
+goto — передача управления содержащей метку строке пакетного файла.
+
+gpresult — отображает результирующую политику (RSoP) для указанного пользователя и компьютера.
+
+gpupdate — выполнение обновления групповых политик.
+
+graftabl — выбор кодовой страницы для отображения символов национальных алфавитов в графическом режиме.
+
+H
+help — выводит не полный список команд, которые используются в cmd.
+
+hostname — отображение имени компьютера.
+
+I
+if — оператор условного выполнения команд в пакетном файле.
+
+ipconfig — вывод маску подсети, стандартный шлюз и информацию о вашем IP.
+
+ipxroute — программа управления маршрутизацией NWLink IPX.
+
+L
+label — создание, изменение и удаление меток тома для диска.
+
+lodctr — обновление имен счётчиков и поясняющего текста для расширенного счётчика.
+
+logman — управление расписанием для счетчиков производительности и журнала трассировки событий.
+
+logoff — завершение сеанса Windows.
+
+lpq — отображение состояния очереди удалённой очереди печати lpq.
+
+lpr — направляет задание печати на сетевой принтер.
+
+lsass — сервер определения локальной защиты.
+
+M
+makecab — архивирование файлов в cab-архив.
+
+md — создание папки.
+
+mem — выводит сведения об используемой и свободной памяти.
+
+mkdir — создание папки с расширенной функциональностью.
+
+mmc — открытие окна консоли MMC.
+
+mode – отладка системных устройств.
+
+mofcomp — 32-разр. компилятор Microsoft (R) MOF.
+
+more — последовательный вывод данных по частям размером в один экран.
+
+mountvol — просмотр, создание и удаление точек подключения тома.
+
+move — перемещение и переименование файлов и каталогов.
+
+mqbkup — утилита архивирования и восстановления очереди сообщений.
+
+mqsvc — Обеспечивает инфраструктуру для работы распределенных приложений.
+
+mrinfo — Работа с многоадресными рассылками.
+
+msg — отправка сообщений пользователю.
+
+msiexec — запуск установщика Windows.
+
+N
+nbtstat — отображение статистики протокола и текущих подключений TCP/IP с помощью NBT (NetBIOS через TCP/IP).
+
+net — пакет приложений предназначенный для работы с сетью.
+
+net1 — тоже самое что и net.
+
+netsh — локальное или удаленное отображение и изменение параметров сети.
+
+netstat — отображение статистики протоколов и текущих сетевых подключений TCP/IP.
+
+nlsfunc — загрузка сведений о национальных стандартах.
+
+nslookup — вывод информации, предназначенный для диагностики DNS.
+
+ntbackup — запуск мастера архивирования.
+
+ntsd — отладчик командной строки.
+
+O
+odbcconf — настройка драйвера ODBC.
+
+openfiles — эта команда позволяет пользователю вывести список открытых файлов и папок, которые были открыты в системе.
+
+P
+pagefileconfig — настройка файлов подкачки и виртуальной памяти.
+
+path — вывод либо установка пути поиска исполняемых файлов.
+
+pathping — вывод информации о скрытый сетях и потери данных.
+
+pause — приостанавливает выполнение сценария cmd.
+
+pentnt — обнаруживает ошибки деления с плавающей точкой процессора Pentium, отключает аппаратную обработку чисел с плавающей точкой и включает эмуляции операций с плавающей точкой.
+
+perfmon — открывает окно «Производительность».
+
+ping — проверяет соединение с другим компьютером.
+
+ping6 — команда проверки связи.
+
+popd — изменяет одну папку на ту, которая была сохранена командой PUSHD.
+
+powercfg — эта команда позволяет управлять электропитанием системы.
+
+print — печать текстового файла.
+
+prncnfg — настройка параметров принтера.
+
+prompt — изменение приглашения командной строки cmd.exe.
+
+proxycfg — инструмент настройки proxy соединения.
+
+pushd — сохранения значений текущего каталога для использования POPD командой.
+
+Q
+qappsrv — отображает доступные серверы терминалов в сети.
+
+qprocess — отображает информацию о процессах.
+
+qwinsta — отображение информации о сеансах терминалов.
+
+R
+rasdial — интерфейс связи из командной строки для клиента службы удалённого доступа.
+
+rcp — обмен файлами с компьютером, на котором выполняется служба RCP.
+
+recover — восстановление сохранившихся данных на поврежденном диске.
+
+reg — редактирование системного реестра через командную строку.
+
+regsvr32 — сервер регистрации.
+
+relog — создает новый журнал производительности из уже имеющего.
+
+rem — помещение комментария в пакетный файл.
+
+ren — переименование файлов и папок.
+
+rename — переименование файлов и папок.
+
+replace — замена файлов.
+
+reset — утилита сброса служб терминалов.
+
+rexec — выполнение команд на удаленных узлах на которых выполняется служба rexec.
+
+rd — удаление папки.
+
+rmdir — удаление папки.
+
+route — обработка таблиц сетевых маршрутов.
+
+rsh — выполнение команд на удаленных узлах, на которых запущена служба RSH.
+
+rsm — управление ресурсами носителей с помощью службы «Съемные ЗУ».
+
+runas — использование приложений от имени другого пользователя.
+
+rundll32 — запуск стандартных команд-функций заложенных в dll.
+
+rwinsta — сброс значений подсистем оборудования и программ сеанса в начальное состояние.
+
+S
+sc — установление связи с NT Service Controller и ее услугами.
+
+schtasks — создание, удаление, изменение и опрос запланированных задачи в локальной или удаленной системе.
+
+sdbinst — установщик базы данных совместимости.
+
+secedit – автоматизация задач настройки безопасности.
+
+set — вывод, присваивание и удаления переменных в командной строке.
+
+setlocal — начало локализации изменений среды в пакетном файле.
+
+setver — задает номер версии, который MS-DOS сообщает программе.
+
+sfc — Проверка файлов Windows.
+
+shadow — позволяет наблюдать за другим сеансом служб терминалов.
+
+shift — изменение содержимого подставляемых параметров для пакетного файла.
+
+shutdown — завершение сеанса, выключение и перезагрузка системы Windows.
+
+smbinst — это процесс, принадлежащий System Management BIOS Driver Installer.
+
+sort — сортирование файлов.
+start — запуск программы или команды в отдельном окне.
+
+subst — сопоставление имени диска указанному пути.
+
+systeminfo — вывод информации о настройках системы.
+
+T
+taskkill — завершение одного или нескольких процессов.
+
+tasklist — показывает запущенные программы и процессы выполняемые в данный момент.
+
+tcmsetup — установка клиента телефонии.
+
+tftp — обмен файлами с удаленным компьютером, на котором запущена служба TFTP.
+
+time — просмотр или изменение текущего времени.
+
+title — назначение заголовка окна интерпретатора.
+
+tlntadmn — удаленное управление компьютером.
+
+tracert — трассировка маршрута к указанному узлу.
+
+tracerpt — обрабатывает двоичные файлы журнала отслеживания событий или потоки данных.
+
+tracert6 — версия tracert для протокола IPv6.
+
+tree — вывод структуры диска или каталога в виде дерева.
+
+tscon — присоединяет сеанс пользователя к сеансу терминала.
+
+tsdiscon — отключение сеанса терминала.
+
+tskill — прекращение процесса.
+
+tsshutdn — завершение работы сервера в установленном порядке.
+
+type — вывод на экране содержимого текстовых файлов.
+
+typeperf — выводит сведения о производительности на экран или в журнал.
+
+U
+unlodctr — удаление имен счётчиков и поясняющего текста для расширенного счётчика.
+
+userinit — проводник системы Windows.
+
+V
+ver — вывод сведений о версии Windows.
+
+verify — установка режима проверки правильности записи файлов на диск.
+
+vol — вывод метки и серийного номера тома для диска.
+
+vssadmin — инструмент командной строки теневого копирования тома.
+
+W
+w32tm — диагностика службы времени.
+
+wbemtest — тестер инструментария управления Windows.
+
+winver — вывод информации о версии Windows.
+
+wmic — инструмент для написания сценариев.
+
+X
+xcopy — копирование файлов и дерева папок.
+-------------------------------------------------------------------
+wmic logicaldisk get caption (отображает буквы дисков)
+-------------------------------------------------------------------
+getmac /v /fo list
+-------------------------------------------------------------------
+RunDll32.exe shell32.dll,Control_RunDLL hotplug.dll
+-------------------------------------------------------------------
+Godmode.{ED7BA470-8E54-465E-825C-99712043E01C}
+-------------------------------------------------------------------
+wbadmin start backup -backupTarget:D: -include:C: -allCritical –quiet
+-include:C:,D:,E:,F:
+-------------------------------------------------------------------
+rd /s /q c:\windows.old
+-------------------------------------------------------------------
+wmic NIC where NetEnabled=true get Name, Speed
+-------------------------------------------------------------------
+netsh interface show interface
+netsh interface set interface "Local Area Connection" DISABLE
+wmic path win32_networkadapter where index=index-number call enable
+wmic path win32_networkadapter where index=index-number call disable
+
+https://kb.wisc.edu/helpdesk/page.php?id=37620
+https://technet.microsoft.com/en-us/library/cc757819(v=ws.10).aspx
+https://ru.wikipedia.org/wiki/Ipconfig
+-------------------------------------------------------------------
+netsh int ipv4 reset reset.log
+netsh int ipv6 reset reset.log
+
+netsh int ip reset reset.log
+
+netsh winsock reset
+-------------------------------------------------------------------
+wmic logicaldisk get deviceid, volumename, size, description
+format /FS:NTFS X: /q — быстрое форматирование в файловой системе NTFS;
+format /FS:FAT32 X: /q — быстрое форматирование в FAT32.
+-------------------------------------------------------------------
+wbadmin start backup -backupTarget:D: -include:C: -allCritical –quiet
+Команда, приведенная в примере выше создаст образ системного диска C: (параметр include) на диске D: (backupTarget), включит в образ все данные о текущем состоянии системы (параметр allCritical), не будет задавать лишних вопросов при создании образа (параметр quiet). Если требуется сделать резервную копию сразу нескольких дисков, то в параметре include вы можете указать их через запятую следующим образом:
+
+-include:C:,D:,E:,F:
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+-------------------------------------------------------------------
+
+
+

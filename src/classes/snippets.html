@@ -1,0 +1,2199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<!-- <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> -->
+	<meta charset="utf-8" />
+	<meta name="description" content="Это пример" />
+	<meta name="keywords" content="HTML5, CSS3, Javascript" />
+	<title>Snippets</title>
+	<canvas width="600" height="300"></canvas>
+	<script type="text/javascript" charset="utf-8">
+	var forest = {
+    X: 50,
+    Y: 50,
+    propTree: 0.5,
+    propTree2: 0.01,
+    propBurn: 0.0001,
+    t: [],
+    c: ['rgb(255,255,255)', 'rgb(0,255,0)', 'rgb(255,0,0)']
+};
+ 
+for(var i = 0; i < forest.Y; i++) {
+    forest.t[i] = [];
+    for(var j = 0; j < forest.Y; j++) {
+        forest.t[i][j] = Math.random() < forest.propTree ? 1 : 0;
+    }
+}
+ 
+function afterLoad(forest) {
+    var canvas = document.getElementById('canvas');
+    var c = canvas.getContext('2d');
+    for(var i = 0; i < forest.X; i++) {
+        for(var j = 0; j < forest.Y; j++) {
+            c.fillStyle = forest.c[forest.t[i][j]];
+            c.fillRect(10*j, 10*i, 10*j+9, 10*i+9);
+        }
+    }
+}
+ 
+function doStep(forest) {
+    var to = [];
+    for(var i = 0; i < forest.Y; i++) {
+        to[i] = forest.t[i].slice(0);
+    }
+ 
+    //indices outside the array are undefined; which converts to 0=empty on forced typecast
+    for(var i = 0; i < forest.Y; i++) {
+        for(var j = 0; j < forest.Y; j++) {
+            if(0 == to[i][j]) {
+                forest.t[i][j] = Math.random() < forest.propTree2 ? 1 : 0;
+            } else if(1 == to[i][j]) {
+                if(
+                    ((i>0) && (2 == to[i-1][j])) ||
+                    ((i<forest.Y-1) && (2 == to[i+1][j])) ||
+                    ((j>0) && (2 == to[i][j-1])) ||
+                    ((j<forest.X-1) && (2 == to[i][j+1]))
+                    ) {
+                    forest.t[i][j] = 2;
+                } else {
+                    forest.t[i][j] = Math.random() < forest.propBurn ? 2 : 1;
+                }
+            } else if(2 == to[i][j]) {
+                //If it burns, it gets empty ...
+                forest.t[i][j] = 0;
+            }
+        }
+    }
+ 
+}
+ 
+//window.setInterval(function(){
+ //   doStep(forest);
+//    afterLoad(forest);
+//}, 100);
+	/*var cx = document.querySelector("canvas").getContext("2d");
+	
+	function branch(length, angle, scale) {
+		cx.fillRect(0, 0, 1, length);
+		if (length < 8) return;
+		cx.save();
+		cx.translate(0, length);
+		cx.rotate(-angle);
+		branch(length * scale, angle, scale);
+		cx.rotate(2 * angle);
+		branch(length * scale, angle, scale);
+		cx.restore();
+	};
+	
+	cx.translate(300, 0);
+	branch(60, 0.5, 0.8);
+	*/
+
+	</script>
+	<!-- <link rel="stylesheet" href=".css">-->
+</head>
+
+<body>
+<canvas id="canvas" width="500" height="500">
+Your browser doesn't support HTML5 Canvas.
+</canvas>
+<script language="JavaScript">//<![CDATA[<!--
+// --> HERE COMES THE SCRIPT FROM ABOVE <--
+//-->]]></script>
+<!--
+//drag&drop сортировка
+<div id="main">
+    <div class="menu_item">1</div>
+    <div class="menu_item">2</div>
+    <div class="menu_item">3</div>
+    <div class="menu_item">4</div>
+    <div class="menu_item">5</div>
+</div>
+<script type="text/javascript">
+var mainDiv = document.getElementById( "main" )
+mainDiv.insertAfter = function(node, referenceNode){
+    document.getElementById( "main" ).insertBefore(node, referenceNode.nextSibling);
+}
+var ch = mainDiv.childNodes;
+var startItem = null;
+var startY;
+for (i=0; i< ch.length; i++){
+    obj = ch.item(i)
+    obj.onmousedown = function(e){
+        startItem = this;
+        startY = e.pageY;
+    }
+    obj.onmouseup = function(e){
+        if (e.pageY > startY){
+            mainDiv.insertAfter(startItem,this);
+        } else {
+            mainDiv.insertBefore(startItem,this);
+        }
+    }
+}
+</script>
+-->
+
+<!--
+//форма в полупрозрачном модальном окне
+<div id="a" style="position: absolute; display: none; z-index: 1; width: 100%; height: 100%;">
+<div style="position: absolute; opacity: 0.5, background-color: grey; width: 100%; height: 100%;"> </div>
+<form>
+.....
+</form>
+</div>
+<button onclick="$('#a').css({display: "block"})"></button>
+-->
+
+<!--
+//переключатель: показать/скрыть объект
+<script>
+function toggleMap(self, id){
+    var map = document.getElementById(id);
+    if ( map.style.visibility == "hidden" ){ // идёт привяка к состоянию одного элемента, а остальные изменяются
+        map.style["display"] = "";
+        map.innerHTML = "новый контент";
+        map.style.visibility = "";
+        self.innerHTML = "&uarr";
+    } else {
+        map.style["display"] = "none";
+        map.innerHTML = "";
+        map.style.visibility = "hidden";
+        self.innerHTML = "&darr";
+    }
+    return false;
+}
+</script>
+<a href="#" style="text-decoration: none;" onclick="return toggleMap(this, 'map' );">↑</a>
+<div id="map"></div>
+-->
+
+<!--
+//setBackgroundByScreenWidth
+<script>
+function setBackgroundByScreenWidth(obj){
+    var width = window.screen.width;
+    var path = "img/";
+    var pictures = [ "800.jpg", "1024.jpg", "1280.jpg", "1440.jpg" ];
+    var widths = [800, 1024, 1280, 1440];
+
+    var variant = 0;
+    for (i=0; i<widths.length; i++){
+        if (width > widths[i]){
+            variant++;
+        }   
+    }
+	
+    obj.style.backgroundImage = "url(" + path + pictures[variant] + ")";
+    obj.style.backgroundRepeat = "no-repeat";
+}
+</script>
+-->
+<!--
+//определить положение объекта
+<script>
+        function getAbsPos(p) {
+                var s = { x:0, y:0 };
+                while (p.offsetParent) {
+                        s.x += p.offsetLeft;
+                        s.y += p.offsetTop;
+                        p = p.offsetParent;
+                }
+                return s;
+        }
+        var pos = getAbsPos(document.body);
+ 	   alert( pos.y + ' ' + pos.x);
+</script>
+-->
+
+<!--
+//сумма прописью (с копейками)
+<div id="aa"></div>
+<script language="JavaScript" type="text/javascript" charset="windows-1251">
+var money;
+var price;
+var rub, kop;
+var litera = sotny = desatky = edinicy = minus = "";
+var k = 0, i, j;
+
+N = ["", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять",
+"", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семнадцать", "восемнадцать", "девятнадцать",
+"", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто",
+"", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот",
+"тысяч", "тысяча", "тысячи", "тысячи", "тысячи", "тысяч", "тысяч", "тысяч", "тысяч", "тысяч",
+"миллионов","миллион","миллиона","миллиона", "миллиона", "миллионов", "миллионов", "миллионов", "миллионов", "миллионов",
+"миллиардов", "миллиард", "миллиарда", "миллиарда", "миллиарда", "миллиардов", "миллиардов", "миллиардов", "миллиардов", "миллиардов"];
+
+var M = new Array(10);
+for (j = 0; j < 10; ++j)
+  M[j] = new Array(N.length);
+
+for (i = 0; i < N.length; i++)
+  for (j = 0; j < 10; j++)
+    M[j][i] = N[k++]
+
+var R = new Array("рублей", "рубль", "рубля", "рубля", "рубля", "рублей", "рублей", "рублей", "рублей", "рублей");
+var K = new Array("копеек", "копейка", "копейки", "копейки", "копейки", "копеек", "копеек", "копеек", "копеек", "копеек");
+
+function num2str(money, target)
+{
+  rub = "", kop = "";
+  money = money.replace(",", ".");
+
+  if(isNaN(money)) {document.getElementById(target).innerHTML = "Не числовое значение"; return}
+  if(money.substr(0, 1) == "-") {money = money.substr(1); minus = "минус "}
+   else minus = "";
+  money = Math.round(money * 100) / 100 + "";
+
+  if(money.indexOf(".") != -1)
+    {
+     rub = money.substr(0, money.indexOf("."));
+     kop = money.substr(money.indexOf(".") + 1);
+     if(kop.length == 1) kop += "0";
+    }
+  else rub = money;
+
+  if(rub.length > 12) {document.getElementById(target).innerHTML = "Слишком большое число"; return}
+
+  ru = propis(price = rub, R);
+  ko = propis(price = kop, K);
+  ko != "" ? res = ru + " " + ko: res = ru;
+  ru == "Ноль " + R[0] && ko != ""? res = ko: 0;
+  kop == 0? res += " ноль " + K[0]: 0;
+  document.getElementById(target).innerHTML = (minus + res).substr(0,1).toUpperCase() + (minus + res).substr(1);
+}
+
+function propis(price, D)
+{
+  litera = "";
+  for(i = 0; i < price.length; i += 3)
+    {
+     sotny = desatky = edinicy = "";
+     if(n(i + 2, 2) > 10 && n(i + 2, 2) < 20)
+       {
+        edinicy = " " + M[n(i + 1, 1)][1] + " " + M[0][i / 3 + 3];
+        i == 0? edinicy += D[0]: 0;
+       }
+     else
+       {
+        edinicy = M[n(i + 1, 1)][0];
+        (edinicy == "один" && (i == 3 || D == K))? edinicy = "одна": 0;
+        (edinicy == "два"  && (i == 3 || D == K))? edinicy = "две" : 0;
+        i == 0 && edinicy != ""? 0: edinicy += " " + M[n(i + 1, 1)][i / 3 + 3];
+        edinicy == " "? edinicy = "": (edinicy == " " + M[n(i + 1, 1)][i / 3 + 3])? 0: edinicy = " " + edinicy;
+        i == 0? edinicy += " " + D[n(i + 1, 1)]: 0;
+        (desatky = M[n(i + 2, 1)][2]) != ""? desatky = " " + desatky: 0;
+       }
+     (sotny = M[n(i + 3, 1)][3]) != ""? sotny = " " + sotny: 0;
+     if(price.substr(price.length - i - 3, 3) == "000" && edinicy == " " + M[0][i / 3 + 3]) edinicy = "";
+     litera = sotny + desatky + edinicy + litera;
+    }
+   if(litera == " " + R[0]) return "ноль" + litera;
+     else return litera.substr(1);
+}
+
+function n(start,len)
+{
+  if(start > price.length) return 0;
+    else return Number(price.substr(price.length - start, len));
+}
+num2str("3", "aa");
+</script>
+-->
+
+<!--
+//Отправить форму в несколько окон (родительское/дочерние)
+<script type="text/javascript">
+function mySubmit( myform ){
+	 window.open( '', 'blank', 'height=400,width=600,toolbar=no');
+	 myform.submit(); // отправляем в дочернее окно (определяется через target у формы)
+	 document.getElementById( 'task' ).value = 'save';
+	 myform.target = '_self'; // меняем target на текущее окно
+	 myform.submit();
+	 return true;
+}
+</script>
+<button style="width: 193px; height: 25px" onclick="mySubmit(this.form);">Сформировать счет</button>
+-->
+
+<!-- 
+<script type="text/javascript">
+function changeIt() {
+	if (!document.styleSheets) return;
+	var theRules = new Array();
+	if (document.styleSheets[1].cssRules)
+		theRules = document.styleSheets[1].cssRules
+	else if (document.styleSheets[1].rules)
+		theRules = document.styleSheets[1].rules
+	else return;
+	theRules[theRules.length-1].style.backgroundColor = '#EEF0F5';
+}
+</script>
+-->
+
+<!--
+//Как убрать в теге SELECT рамку и стрелку
+<select size="1" style="position:absolute;width:100px;clip:rect(2px 82px 20px 2px);background:pink;top:10px;"> 
+	<option VALUE=1>One</option>
+	<option VALUE=2>Two</option> 
+	<option VALUE=3>Three</option>
+</select>
+
+<span style="width:86px; border-top:#C6C6C6 solid 1px;border-left:#C6C6C6 solid 1px; height:17px;">
+  <select size=1 style="margin:-2px -2px -1px -2px; width:90px; border:none">
+    <option value="1">Январь</option>
+    <option value="2">Февраль</option>
+    <option value="3">Март</option>
+    <option value="4">Апрель</option>
+    <option value="5">Май</option>
+    <option value="6">Июнь</option>
+    <option value="7">Июль</option>
+    <option value="8">Авугуст</option>
+    <option value="9">Сентябрь</option>
+    <option value="10">Октябрь</option>
+    <option value="11">Ноябрь</option>
+    <option value="12">Декабрь</option>
+  </select>
+</span>
+-->
+
+<!--
+//Display a clock
+<script type="text/javascript">
+function startTime() {
+    var today=new Date();
+    var h=today.getHours();
+    var m=today.getMinutes();
+    var s=today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('txt').innerHTML = h+":"+m+":"+s;
+    var t = setTimeout(function(){startTime()},500);
+}
+
+function checkTime(i) {
+    if (i<10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+}
+</script>
+-->
+
+<!--
+//Change the background color of an HTML element
+<script type="text/javascript">
+function bgChange(bg)
+{
+document.body.style.background=bg;
+}
+</script>
+<table style="width:300px;height:100px">
+ <tr>
+  <td onmouseover="bgChange(this.style.backgroundColor)" 
+      onmouseout="bgChange('transparent')"
+      style="background-color:Khaki">
+  </td>
+  <td onmouseover="bgChange(this.style.backgroundColor)" 
+      onmouseout="bgChange('transparent')"
+      style="background-color:PaleGreen">
+  </td>
+  <td onmouseover="bgChange(this.style.backgroundColor)" 
+      onmouseout="bgChange('transparent')"
+      style="background-color:Silver">
+  </td>
+</tr>
+</table>
+-->
+
+<!--
+<script type="text/javascript">
+//Rough and ready version to illustrate technique
+//For production-ready version see http://msdn.microsoft.com/en-us/scriptjunkie/gg278167
+var sb, iframe = document.createElement('IFRAME');
+document.body.appendChild(iframe);
+sb = window.frames[1];
+ 
+//later...
+sb.Array.prototype.remove = function(member) {
+  var index = this.indexOf(member);
+  if (index > -1) {
+    this.splice(index, 1);
+  }
+  return this;
+}
+ 
+//much later...
+var arr = new sb.Array('carrot', 'potato', 'leek');
+arr.remove('potato');
+arr; //['carrot', 'leek']
+ 
+//global array is untouched
+Array.prototype.remove; //undefined
+</script>
+-->
+
+<!--
+<script type="text/javascript">
+function renderCurve() {
+  for(var a = 1, b = 10; a*b; a++, b--)
+    console.log(new Array(a*b).join('*'));
+}
+ 
+renderCurve();
+</script>
+-->
+
+<!--
+<script type="text/javascript">
+var colorIndex = 0, 
+    colors = ["FF0000", "008000", "FF0086", "A2FF00", "0000FF", "800080"]; 
+ 
+function selectNextColor(){
+    return colors[colorIndex++] || colors[colorIndex = 0, colorIndex++];
+}
+</script>
+-->
+
+<!--
+var average = function(/*numbers*/) {
+    for (var i=0, total = 0, len=arguments.length; i<len; i++) {
+        total += arguments[i]; 
+    } 
+    return total / arguments.length;
+}
+average(50, 6, 5, -1); //15
+-->
+
+<!--
+var requireAllArgs= function(fn) {
+    return function() {
+        if (arguments.length < fn.length) {
+            throw(["Expected", fn.length, "arguments, got", arguments.length].join(" "));
+        }
+        return fn.apply(this, arguments);
+    }   
+} 
+ 
+var divide = requireAllArgs(function(a, b) {return a/b});
+ 
+divide(2/5); //"Expected 2 arguments, got 1"
+divide(2,5); //0.4
+-->
+
+<!--
+var converter = function(ratio, symbol, input) {
+    return [(input*ratio).toFixed(1),symbol].join(" ");
+}
+ 
+var kilosToPounds = converter.curry(2.2,"lbs");
+var milesToKilometers = converter.curry(1.62, "km");
+ 
+kilosToPounds(4); //8.8 lbs
+milesToKilometers(34); //55.1 km
+-->
+
+<!--
+//Как на JavaScript прочитать значение куки?
+function getCookie(c_name)
+{
+    var i,x,y,ARRcookies=document.cookie.split(";");
+    for (i=0;i<ARRcookies.length;i++)
+    {
+        x=ARRcookies[i].substr(0,ARRcookies[i].indexOf("="));
+        y=ARRcookies[i].substr(ARRcookies[i].indexOf("=")+1);
+        x=x.replace(/^\s+|\s+$/g,"");
+        if (x==c_name)
+        {
+            return unescape(y);
+        }
+    }
+}
+function readCookie(cookieName) {
+    var re = new RegExp('[; ]'+cookieName+'=([^\\s;]*)');
+    var sMatch = (' '+document.cookie).match(re);
+    if (cookieName && sMatch) return unescape(sMatch[1]);
+}
+function setCookie(name,value,days) {
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        var expires = "; expires=" + date.toGMTString();
+    }
+    else var expires = "";
+    document.cookie = name + "=" + escape(value) + expires + "; path=/";
+}
+-->
+
+<!--
+//Как создавать элементы более удобно
+$("<div/>", {
+      "class": "clickme",
+      text: "Нажми на меня!",
+      click: function(){
+          $(this).html('Спасибо.');
+      }
+}).appendTo("body");
+-->
+
+<!--
+//Как на JavaScript разбить строку на массив по пробелах?
+var someString = "Строка с пробелами";
+var array = someString.match(/\w+|"[^"]+"/g);
+-->
+
+<!--
+//jQuery: проверить наличие нескольких классов у элемента
+<script type="text/javascript">
+if($('#myElement').is('.classOne, .classTwo')) {
+    // ...
+}
+$.fn.extend({
+    hasClasses: function (arr) {
+        s = this;
+        for (i in arr) {
+            if ($(s).hasClass(arr[i]))
+                return true;
+        }
+        return false;
+    }
+});
+if($('#myElement').hasClasses(['classOne', 'classTwo', 'classThree'])) {
+   // ...
+};
+</script>
+-->
+
+<!--
+//jQuery: узнать класс элемента по его ID
+var theClass = $('#e1').attr('class');
+var theClasses = theClass.match(/\w+|"[^"]+"/g);
+-->
+
+<!--
+//jQuery: получить id элемента
+$(document).ready(function(){
+    $('.square').click(function() {
+        console.log($(this).attr('id'));
+    });
+});
+$(document).ready(function(){
+    $('.square').click(function() {
+        console.log(this.id);
+    });
+});
+$(document).ready(function() {
+    $(".square").click(function(event) {
+        console.log(event.target.id);
+    });
+});
+-->
+
+<!--
+//Динамическая загрузка jQuery
+var script = document.createElement('script');
+script.type = 'text/javascript';
+script.src = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js';
+document.getElementsByTagName('head')[0].appendChild(script);
+script.addEventListener('load', function(){ 
+    $(document).ready(function() {
+        alert('jQuery загружен.');
+    });
+}, false);
+-->
+
+<!--
+//Как добавить текст в поле ввода или textarea на место курсора?
+jQuery.fn.extend({
+    insertAtCaret: function(myValue){
+        return this.each(function(i) {
+            if (document.selection) {
+                // Для браузеров типа Internet Explorer
+                this.focus();
+                var sel = document.selection.createRange();
+                sel.text = myValue;
+                this.focus();
+            }
+            else if (this.selectionStart || this.selectionStart == '0') {
+                // Для браузеров типа Firefox и других Webkit-ов
+                var startPos = this.selectionStart;
+                var endPos = this.selectionEnd;
+                var scrollTop = this.scrollTop;
+                this.value = this.value.substring(0, startPos)+myValue+this.value.substring(endPos,this.value.length);
+                this.focus();
+                this.selectionStart = startPos + myValue.length;
+                this.selectionEnd = startPos + myValue.length;
+                this.scrollTop = scrollTop;
+            } else {
+                this.value += myValue;
+                this.focus();
+            }
+        })
+    }
+});
+$('#thetext,#thearea').insertAtCaret("Текст для вставки");
+-->
+
+<!--
+//Как добавить опции в список выбора (select) на jQuery?
+var selectValues = {"4":"Значение 4","5":"Значение 5"};
+$('#thebutton').click(function(){
+    eval($('#thearea').html());
+    $.each(selectValues, function(key, value) {
+        $('#myselect')
+        .append($('<option>', {
+            value : key
+        })
+        .text(value));
+    });
+});
+-->
+
+<!--
+$("#orderedlist").find("li").each(function(i) {
+    $(this).append( "Номер " + i );
+});
+
+$("#reset").click(function() {
+    $("form").each(function() {
+       this.reset();
+    });
+});
+
+$("#mydiv")[0] == document.getElementById("mydiv")
+-->
+
+<!--
+//Как преобразовать HTML-спецсимволы в мнемоники на jQuery?
+var someHtmlString = '<script>alert('hi!');</script>';
+$("#somediv").text(someHtmlString);
+-->
+
+<!--
+$("a[href]").attr('href', function() {
+    return this.replace(/^http:\/\/google\.com/, "http://google.com");
+});
+-->
+
+<!--
+$('img').one('error', function() { this.src = 'broken.gif'; });
+-->
+
+<!--
+//Как правильно удалить обработчик события в jQuery?
+$('#mydiv').click(function() { return false; }); // Добавляет ещё один обработчик события
+$('#mydiv').off('click');
+$('#mydiv').on('click.mynamespace', function() { /* Что-то делаем */ });
+$('#mydiv').off('click.mynamespace');
+
+$("mydiv").one("click", function() {
+    // Что-то делаем
+});
+-->
+
+<!--
+//Как очистить (сбросить) HTML-форму на jQuery?
+$(':input','#myform')
+ .not(':button, :submit, :reset, :hidden')
+ .val('')
+ .removeAttr('checked')
+ .removeAttr('selected');
+-->
+
+<!--
+//Функция для подгрузки картинок с использованием jQuery?
+function preload(arrayOfImages) {
+    $(arrayOfImages).each(function(){
+        $('<img/>')[0].src = this;
+        // Как вариант, Вы можете использовать также:
+        // (new Image()).src = this;
+    });
+}
+// Использование:
+preload([
+    'img/img1.jpg',
+    'img/img2.jpg',
+    'img/img3.jpg'
+]);
+
+$.fn.preload = function() {
+    this.each(function(){
+        $('<img/>')[0].src = this;
+    });
+}
+// Использование:
+$(['img1.jpg','img2.jpg','img3.jpg']).preload();
+-->
+
+<!--
+//jQuery .ready для динамически подгружаемого iFrame
+function callIframe(url, callback) {
+    jQuery('#iframediv').html('<iframe id="myid" style="width:100%;height:100%;" />');
+    jQuery('iframe#myid').attr('src', url);
+    jQuery('iframe#myid').load(function()
+    {
+        callback(this);
+    });
+}
+// Пример использования:
+jQuery('#thebutton').click(function(){
+    callIframe('/', function(){
+        alert('Ваш iFrame загружен!');
+    });
+ 
+});
+-->
+
+<!--$("#myiframe").contents().find("h2").css('text-decoration','line-through');-->
+
+<!--
+//Событие keypress в jQuery: как определить, какую клавишу нажали?
+$('#myinput').bind('keypress', function(e) {
+    var code = (e.keyCode ? e.keyCode : e.which);
+    if(code == 13) { // Код клавиши ENTER
+        // Что-то делаем
+    }
+});
+
+$('#myinput').bind('keypress', function(e) {
+    var code = (e.keyCode ? e.keyCode : e.which);
+    $('#keydiv').html($('#keydiv').html() + code + ' ');
+});
+-->
+
+<!--
+//Рассчитать ширину и высоту текста на Javascript
+<div id="test">
+    abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+</div>
+#test
+{
+    position: absolute;
+    visibility: hidden;
+    height: auto;
+    width: auto;
+    white-space:nowrap;
+}
+var test = document.getElementById("test");
+test.style.fontSize = fontSize;
+var height = (test.clientHeight + 1) + "px";
+var width = (test.clientWidth + 1) + "px";
+-->
+
+<!--
+//Как сделать HTML-таблицу с фиксированными заголовками (закрепить их)?
+function scrolify(tblAsJQueryObject, height){
+    var oTbl = tblAsJQueryObject;
+    // для очень длинных таблиц вы можете удалить 4 следующие линии
+    // и поместить таблицу в ДИВ и назначить ему высоту и свойство overflow
+    var oTblDiv = $("<div/>");
+    oTblDiv.css('height', height);
+    oTblDiv.css('overflow','scroll');
+    oTbl.wrap(oTblDiv);
+    // сохраняем оригинальную ришину
+    oTbl.attr("data-item-original-width", oTbl.width());
+    oTbl.find('thead tr td').each(function(){
+        $(this).attr("data-item-original-width",$(this).width());
+    });
+    oTbl.find('tbody tr:eq(0) td').each(function(){
+        $(this).attr("data-item-original-width",$(this).width());
+    });
+    // клонируем оригинальную таблицу
+    var newTbl = oTbl.clone();
+    // удаляем заголовки из оригинальной таблицы
+    oTbl.find('thead tr').remove();
+    // удаляем тело таблицы из новой таблицы
+    newTbl.find('tbody tr').remove();
+    oTbl.parent().parent().prepend(newTbl);
+    newTbl.wrap("<div/>");
+    // заменяем исходную ширину столбца
+    newTbl.width(newTbl.attr('data-item-original-width'));
+    newTbl.find('thead tr td').each(function(){
+        $(this).width($(this).attr("data-item-original-width"));
+    });
+    oTbl.width(oTbl.attr('data-item-original-width'));
+    oTbl.find('tbody tr:eq(0) td').each(function(){
+        $(this).width($(this).attr("data-item-original-width"));
+    });
+}
+$(document).ready(function(){
+    scrolify($('#tblNeedsScrolling'), 160); // 160 is height
+});
+
+<div style="width:300px;border:2px solid black;">
+    <table border="1" width="100%" id="tblNeedsScrolling">
+        <thead>
+            <tr><th>Заголовок 1</th><th>Заголовок 2</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Ряд 1, столбец 1</td><td>Ряд 1, столбец 2</td></tr>
+            <tr><td>Ряд 2, столбец 1</td><td>Ряд 2, столбец 2</td></tr>
+            <tr><td>Ряд 3, столбец 1</td><td>Ряд 3, столбец 2</td></tr>
+            <tr><td>Ряд 4, столбец 1</td><td>Ряд 4, столбец 2</td></tr>           
+            <tr><td>Ряд 5, столбец 1</td><td>Ряд 5, столбец 2</td></tr>
+            <tr><td>Ряд 6, столбец 1</td><td>Ряд 6, столбец 2</td></tr>
+            <tr><td>Ряд 7, столбец 1</td><td>Ряд 7, столбец 2</td></tr>
+            <tr><td>Ряд 8, столбец 1</td><td>Ряд 8, столбец 2</td></tr>           
+        </tbody>
+    </table>
+</div>
+-->
+
+<!--
+//Сериализация формы с помощью jQuery
+$.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
+jQuery('#thebutton').click(function(){
+   console.log(jQuery('#theform').serializeArray());
+   console.log(jQuery('#theform').serializeObject());
+});
+-->
+
+<!--
+//Как на jQuery найти элементы по строке, которую они содержат?
+jQuery('#find-text').click(function(){
+    jQuery('*').css('outline', '');
+    jQuery('div.find-in-me:contains("' + jQuery('#thetext').val() + '")').css('outline', '3px solid blue');
+});
+jQuery('#find-text-all').click(function(){
+    jQuery('*').css('outline', '');
+    jQuery('div:contains("' + jQuery('#thetext').val() + '")').css('outline', '3px solid blue');
+});
+
+<input type="button" id="find-text" value="Задать рамку элементам класса ‘find-in-me’ с заданным текстом" /><br/>
+<input type="button" id="find-text-all" value="Задать рамку ВСЕМ дивам в документе с заданным текстом" /><br/>
+<label>Текст для поиска:<input type="text" id="thetext" value="зелёного" /></label><br/>
+<div class="find-in-me" style="width:500px;height:50px;background:orange;margin:5px;padding:5px;">Я строка оранжевого дива с классом find-in-me</div>
+<div class="find-in-me" style="width:500px;height:100px;background:aqua;margin:5px;padding:5px;">Я строка голубого дива с классом find-in-me<div class="find-in-me" style="width:200px;height:50px;background:green;margin:5px;padding:5px;">Я строка зелёного дива find-in-me, который содержится в голубом.</div></div>
+-->
+
+<!--
+//Получить реальною ширину и высоту картинки на jQuery в Safari и Chrome
+var img = $("img")[0]; // Получаем IMG нашей картинки
+var pic_real_width, pic_real_height;
+$("<img/>") // Сделаем в памяти копию этой картинки, чтобы избежать проблем с CSS
+    .attr("src", $(img).attr("src"))
+    .load(function() {
+        // Здесь копия нашей картинки загружена и можно получить её размеры
+        pic_real_width = this.width;   // Учтите: $(this).width() не сработает
+        pic_real_height = this.height; // потому что картинка находится в памяти.
+    });
+-->
+
+<!--
+jQuery('html').click(function() {
+   // Здесь выполняем скрытие (свёртование нашего меню)
+   jQuery('#menucontainer').html('Меню свёрнуто.');
+});
+jQuery('#menucontainer').click(function(event){
+   // Отменим общее событие клика
+   event.stopPropagation();
+   // Откроем (развернём) наше меню
+   jQuery(this).html('Меню открыто.<br />В нём есть некие дочерние элементы.<br />Кликните вне этого меню, чтобы свернуть его.');
+});
+-->
+
+<!--
+//Как запретить выделение текста на HTML-странице?
+function disableSelection(target){
+    if (typeof target.onselectstart!="undefined") // для IE:
+        target.onselectstart=function(){return false}
+    else if (typeof target.style.MozUserSelect!="undefined") //для Firefox:
+        target.style.MozUserSelect="none"
+    else // для всех других (типа Оперы):
+        target.onmousedown=function(){return false}
+    target.style.cursor = "default"
+}
+disableSelection(document.body);
+disableSelection(document.getElementById("mydiv"));
+-->
+
+<!--
+//Как на jQuery сделать анимацию фонового цвета?
+(function(d){d.each(["backgroundColor","borderBottomColor","borderLeftColor","borderRightColor","borderTopColor","color","outlineColor"],function(f,e){d.fx.step[e]=function(g){if(!g.colorInit){g.start=c(g.elem,e);g.end=b(g.end);g.colorInit=true}g.elem.style[e]="rgb("+[Math.max(Math.min(parseInt((g.pos*(g.end[0]-g.start[0]))+g.start[0]),255),0),Math.max(Math.min(parseInt((g.pos*(g.end[1]-g.start[1]))+g.start[1]),255),0),Math.max(Math.min(parseInt((g.pos*(g.end[2]-g.start[2]))+g.start[2]),255),0)].join(",")+")"}});function b(f){var e;if(f&&f.constructor==Array&&f.length==3){return f}if(e=/rgb\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*\)/.exec(f)){return[parseInt(e[1]),parseInt(e[2]),parseInt(e[3])]}if(e=/rgb\(\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*,\s*([0-9]+(?:\.[0-9]+)?)\%\s*\)/.exec(f)){return[parseFloat(e[1])*2.55,parseFloat(e[2])*2.55,parseFloat(e[3])*2.55]}if(e=/#([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})/.exec(f)){return[parseInt(e[1],16),parseInt(e[2],16),parseInt(e[3],16)]}if(e=/#([a-fA-F0-9])([a-fA-F0-9])([a-fA-F0-9])/.exec(f)){return[parseInt(e[1]+e[1],16),parseInt(e[2]+e[2],16),parseInt(e[3]+e[3],16)]}if(e=/rgba\(0, 0, 0, 0\)/.exec(f)){return a.transparent}return a[d.trim(f).toLowerCase()]}function c(g,e){var f;do{f=d.curCSS(g,e);if(f!=""&&f!="transparent"||d.nodeName(g,"body")){break}e="backgroundColor"}while(g=g.parentNode);return b(f)}var a={aqua:[0,255,255],azure:[240,255,255],beige:[245,245,220],black:[0,0,0],blue:[0,0,255],brown:[165,42,42],cyan:[0,255,255],darkblue:[0,0,139],darkcyan:[0,139,139],darkgrey:[169,169,169],darkgreen:[0,100,0],darkkhaki:[189,183,107],darkmagenta:[139,0,139],darkolivegreen:[85,107,47],darkorange:[255,140,0],darkorchid:[153,50,204],darkred:[139,0,0],darksalmon:[233,150,122],darkviolet:[148,0,211],fuchsia:[255,0,255],gold:[255,215,0],green:[0,128,0],indigo:[75,0,130],khaki:[240,230,140],lightblue:[173,216,230],lightcyan:[224,255,255],lightgreen:[144,238,144],lightgrey:[211,211,211],lightpink:[255,182,193],lightyellow:[255,255,224],lime:[0,255,0],magenta:[255,0,255],maroon:[128,0,0],navy:[0,0,128],olive:[128,128,0],orange:[255,165,0],pink:[255,192,203],purple:[128,0,128],violet:[128,0,128],red:[255,0,0],silver:[192,192,192],white:[255,255,255],yellow:[255,255,0],transparent:[255,255,255]}})(jQuery);
+
+jQuery("#thediv").mouseover(function() {
+   $(this).animate({ backgroundColor: "olive" }, 2000);
+});
+jQuery("#thediv").mouseleave(function() {
+   $(this).animate({ backgroundColor: "aqua" }, 2000);
+});
+-->
+
+<!--
+//Как получить позицию курсора в текстовом поле (textarea) на JavaScript?
+function getCaret(el) { 
+  if (el.selectionStart) { 
+    return el.selectionStart; 
+  } else if (document.selection) { 
+    el.focus(); 
+ 
+    var r = document.selection.createRange(); 
+    if (r == null) { 
+      return 0; 
+    } 
+ 
+    var re = el.createTextRange(), 
+        rc = re.duplicate(); 
+    re.moveToBookmark(r.getBookmark()); 
+    rc.setEndPoint('EndToStart', re); 
+ 
+    return rc.text.length; 
+  }  
+  return 0; 
+}
+
+alert(getCaret(document.getElementById('thetext')));
+-->
+
+<!--
+<script>
+  var myvar = <?php echo json_encode($myVarValue); ?>;
+</script>
+-->
+
+<!--
+//Как на jQuery сделать спойлер (раскрывающийся текст)?
+<h5 class="spoiler-title closed">Показать текст</h5>
+<div class="spoiler-body">Текст<br />который<br />должен<br />скрываться<br />и<br />раскрываться.<br />Его очень<br />много<br />и он<br />выезжает.</div>
+
+.opened {
+    color:green;
+}
+.closed {
+    color:blue;
+}
+
+$('.spoiler-body').hide();
+$('.spoiler-title').click(function(){
+    $(this).toggleClass('opened').toggleClass('closed').next().slideToggle();
+    if($(this).hasClass('opened')) {
+        $(this).html('Скрыть текст');
+    }
+    else {
+        $(this).html('Показать текст');
+    }
+});
+-->
+
+<!--$("#source").appendTo("#destination"); -->
+
+<!--
+$(function() {
+    $("img")
+        .mouseover(function() { 
+            var src = $(this).attr("src").match(/[^\.]+/) + "over.gif";
+            $(this).attr("src", src);
+        })
+        .mouseout(function() {
+            var src = $(this).attr("src").replace("over.gif", ".gif");
+            $(this).attr("src", src);
+        });
+});
+-->
+
+<!--
+//Как задать позицию курсора в textarea на JavaScript?
+function setSelectionRange(input, selectionStart, selectionEnd) {
+  if (input.setSelectionRange) {
+    input.focus();
+    input.setSelectionRange(selectionStart, selectionEnd);
+  }
+  else if (input.createTextRange) {
+    var range = input.createTextRange();
+    range.collapse(true);
+    range.moveEnd('character', selectionEnd);
+    range.moveStart('character', selectionStart);
+    range.select();
+  }
+}
+function setCaretToPos (input, pos) {
+	setSelectionRange(input, pos, pos);
+}
+
+setCaretToPos(document.getElementById("inputid"), 4);
+-->
+
+<!--
+//Как на чистом JavaScript добавить / удалить класс элемента?
+document.getElementById(&quot;MyElement&quot;).className += &quot; my-class&quot;;
+document.getElementById(&quot;MyElement&quot;).className = document.getElementById(&quot;MyElement&quot;).className.replace( /(?:^|\s)MyClass(?!\S)/ , '' );
+
+document.getElementById('id').classList.add('class');
+document.getElementById('id').classList.remove('class');
+-->
+
+<!--
+//Как разрешить вводить только цифры в input на jQuery?
+$('#txtbox').bind("change keyup input click", function() {
+    if (this.value.match(/[^0-9]/g)) {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    }
+});
+
+<input id="text4" type="number" />
+
+<input id="text5" type="text" pattern="\d*" />
+-->
+
+<!--
+//Как отсортировать список по алфавиту на JavaScript?
+var mylist = $('#my-ul');
+var listitems = mylist.children('li').get();
+listitems.sort(function(a, b) {
+   var compA = $(a).text().toUpperCase();
+   var compB = $(b).text().toUpperCase();
+   return (compA < compB) ? -1 : (compA > compB) ? 1 : 0;
+})
+$.each(listitems, function(idx, itm) { mylist.append(itm); });
+
+sortUnorderedList("list-id"); // Сортируем список с id="list-id" в прямом порядке
+sortUnorderedList("list-id", true); // В обратном порядке
+-->
+
+<!--
+//Как можно получить содержимое тега (в виде строки) на jQuery?
+var decoded = $("<div/>").html(encodedStr).text();
+-->
+
+<!--
+//Существует ли в jQuery функция «существует» :) ?
+if ($('.myclass').length) {
+    // Что-то делаем. Важное
+}
+
+jQuery.fn.exists = function(){return this.length;}
+if ($('.myclass').exists()) {
+    // Что-то делаем
+}
+-->
+
+<!--
+//Как лучше всего добавить ряд в конец таблицы на jQuery?
+$('#myTable > tbody:last').append('<tr>...</tr><tr>...</tr>');
+-->
+
+<!--
+//преобразовать его в реальный массив 
+var argArray = Array.prototype.slice.call(arguments);
+-->
+
+<!--debugger;-->
+
+<!--
+//Как очистить Canvas?
+// Сохраняем текущую матрицу трансформации
+ctx.save();
+// Используем идентичную матрицу трансформации на время очистки
+ctx.setTransform(1, 0, 0, 1, 0, 0);
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+// Возобновляем матрицу трансформации
+ctx.restore();
+-->
+
+<!--
+//Загружать jQuery с сайта Google, а в случае ошибки — из своего?
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+// Пытаемся загрузить jQuery
+google.load("jquery", "1.7");
+// Назначаем функцию возврата на завершение загрузки
+google.setOnLoadCallback(jQueryIsLoaded);
+function jQueryIsLoaded() {
+   alert('jQuery от гугла загружена');
+}
+-->
+
+<!--
+if($('#mycheckbox').is(':checked')) {
+    // ...
+}
+
+$('.myCheckbox').removeAttr('checked');
+
+$('.myCheckbox').attr('checked','checked');
+-->
+
+<!--
+// Non-strict code...
+ 
+(function(){
+  "use strict";
+ 
+  // Define your library strictly...
+})();
+ 
+// Non-strict code... 
+-->
+
+<!--
+//Какой самый эффективный способ клонировать JavaScript-объект?
+// Поверхностное копирование
+var newObject = jQuery.extend({}, oldObject);
+// Глубокое копирование
+var newObject = jQuery.extend(true, {}, oldObject);
+-->
+
+<!--
+//Как сделать редирект, используя jQuery?
+// Поведение браузера будет подобно HTTP-редиректу:
+window.location.replace("http://web-answers.ru");
+// Поведение браузера будет подобно клику по ссылке:
+window.location.href = "http://web-answers.ru";
+-->
+
+<!--
+//HTML5 и Canvas. Возможно ли использовать несколько слоев + z-index?
+<div style="position: relative;">
+ <canvas id="layer1" width="100" height="100"
+   style="position: absolute; left: 0; top: 0; z-index: 0;"></canvas>
+ <canvas id="layer2" width="100" height="100"
+   style="position: absolute; left: 0; top: 0; z-index: 1;"></canvas>
+</div>
+-->
+
+<!--
+//jQuery. Как узнать координаты клика относительно самого объекта?
+$("#mydiv").click(function(e){
+    var xClick = e.pageX - $(this).offset().left;
+    var yClick = e.pageY - $(this).offset().top;
+    // ...
+});
+-->
+
+<!--
+//JavaScript. Как я могу программно вызвать клик по input type=file?
+<div style="display: block; width: 100px; height: 20px; overflow: hidden;">
+<button style="width: 110px; height: 30px; position: relative; top: -5px; left: -5px;"><a href="javascript: void(0)">Upload File</a></button>
+<input type="file" id="upload_input" name="upload" style="font-size: 50px; width: 120px; opacity: 0; filter:alpha(opacity: 0);  position: relative; top: -40px;; left: -20px" />
+</div>
+-->
+
+<!--
+<div class="item" data-number="5" data-text="Здесь какой-нибудь текст"></div>
+-->
+
+<!--
+//Как можно разместить DIV по центру экрана на jQuery?
+jQuery.fn.center = function () {
+    this.css("position","absolute");
+    this.css("top", (($(window).height() - this.outerHeight()) / 2) + $(window).scrollTop() + "px");
+    this.css("left", (($(window).width() - this.outerWidth()) / 2) + $(window).scrollLeft() + "px");
+    return this;
+};
+$(element).center();
+-->
+
+<!--
+//Аналог document.createElement для jQuery?
+this.$OuterDiv = $('<div></div>')
+    .hide()
+    .append($('<table></table>')
+        .attr({ cellSpacing : 0 })
+        .addClass("text")
+    )
+;
+-->
+
+<!--
+<div style="width:100px;height:40px;background:aqua;"></div>
+<div style="width:100px;height:40px;visibility:hidden;"></div>
+<div style="width:100px;height:40px;background:gray;"></div>
+-->
+
+<!--
+//DIV с прозрачной картинкой не позволяет кликнуть по дочерним элементам, закрывая их
+pointer-events:none;
+background:url('your_transparent.png');
+
+filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='your_transparent.png', sizingMethod='scale');
+background:none !important;
+-->
+
+<!--
+//Несколько фоновых изображений на CSS
+<body>
+    <div id="bgtopdiv">
+        Здесь контент
+    </div>
+</body>
+
+body{
+    background-image: url(images/bg.png);
+}
+#bgtopdiv{
+    background-image: url(images/bgtop.png);
+    background-repeat: repeat-x;
+}
+-->
+
+<!--
+//CSS: как убрать промежуток между двумя элементами inline-block?
+<div style="font-size:0;">
+    <span class="in-line" style="font-size:14px;">Первый</span>
+    <span class="in-line" style="font-size:14px;">Второй</span>
+</div>
+-->
+
+<!--
+//CSS: Поддержка скругления углов (“border-radius”) в IE
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+
+.myclass {
+ border-style: solid;
+ border-width: 2px;
+ -moz-border-radius: 15px;
+ -webkit-border-radius: 15px;
+ border-radius: 15px;
+}
+-->
+
+<!--
+//Как преобразовать таблицу Excel в HTML?
+jQuery(document).ready(function(){
+    jQuery('#convert').click(function() {
+        var arrayOfLines = jQuery('#input').val().split('\n');
+        var firstTH = false;
+        if(jQuery('#useth').attr('checked'))
+            firstTH = true;
+        var result = '<table>\n<tbody>\n';
+        for(var key in arrayOfLines) {
+            if(arrayOfLines[key]) {
+                var arrayOfCells = arrayOfLines[key].split('\t');
+                result += '    <tr>\n';
+                for(var key2 in arrayOfCells) {
+                    if(firstTH && key == 0) {
+                        result += '        <th>' + arrayOfCells[key2] + '</th>\n';
+                    }
+                    else {
+                        result += '        <td>' + arrayOfCells[key2] + '</td>\n';
+                    }
+                }
+                result += '    </tr>\n';
+            }
+        }
+        result += '</tbody>\n</table>';
+        jQuery('#output').html(result);
+        jQuery('#thetable').html(result);
+    });
+});
+-->
+
+<!--
+//HTML/CSS. Возможно ли позиционирование “float: bottom”?
+#container {
+    background: aqua;
+    position:relative;
+    height: 100px;
+}
+#copyright {
+    background: orange;
+    position:absolute;
+    bottom:0;
+}
+
+<div id="container">
+....
+  <div id="copyright">
+    Copyright
+  </div>
+</div>
+-->
+
+<!--
+//CSS. Word-wrap в таблице
+<table style="table-layout: fixed; width: 100%;">
+<tr>
+    <td style="border:1px solid black;">Не ооооочень длинное слово</td>
+    <td style="border:1px solid black; word-wrap:break-word">Ооооооооооооооооооооооооооооооооочччччччччччччччччччччччччччччччччччччччччччччччееееееееееееееееееееееееееееееееееееенннннннннннннннььььььььььььььььь длинное слово</td>
+</tr>
+</table>
+-->
+
+<!--
+//Задать на CSS ширину дива равной ширине контента (таблицы)
+<span style="display: inline-block">
+    <table>
+    </table>
+</span>
+-->
+
+<!--
+//Как применить стили CSS к iFrame?
+var cssLink = document.createElement("link") 
+cssLink.href = "style.css"; 
+cssLink.rel = "stylesheet"; 
+cssLink.type = "text/css"; 
+frames['frame1'].document.body.appendChild(cssLink);
+-->
+
+<!--
+//CSS. Задать высоту / ширину 100% вместе с padding / margin
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+        <style>
+            .inner {
+                display: block;
+                position:absolute;
+                height:auto;
+                bottom:0;
+                top:0;
+                left:0;
+                right:0;
+                margin-top:20px;
+                margin-bottom:20px;
+                margin-right:80px;
+                margin-left:80px;
+                background-color: green;
+            }
+            .outer {
+                display: block;
+                width:500px;
+                height: 300px;
+                position: absolute;
+                background: aqua;
+            }
+        </style>
+</head>
+ 
+<body>
+        <div class="outer">
+            <div class="inner">
+ 
+            </div>
+        </div>
+</body>
+</html>
+-->
+
+<!--
+//CSS. Почему не работает вертикальное выравнивание по середине?
+<div>
+   <img style="width:30px;height:60px;vertical-align:middle">
+   <span style="">Работает.</span>
+</div>
+-->
+
+<!--
+//Какое свойство отключает выделение текста на CSS?
+.noselect {
+  -webkit-touch-callout: none;
+    -webkit-user-select: none;
+     -khtml-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+         -o-user-select: none;
+            user-select: none;
+}
+-->
+
+<!--
+//Как работает треугольник на CSS? В чём фокус?
+#triangle-up {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid red;
+}
+-->
+
+<!--
+<span style='color:red;text-decoration:line-through'>
+    <span style='color:blue;'>Синий текст зачёркнут красной линией</span>
+</span>
+-->
+
+<!--
+#rectangle {
+    width: 200px;
+    height: 100px;
+    background: #4880C5;
+}
+
+#square {
+    width: 100px;
+    height: 100px;
+    background: #4880C5;
+}
+
+#circle {
+    width: 100px;
+    height: 100px;
+    background: #4880C5;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+}
+
+#oval {
+    width: 200px;
+    height: 100px;
+    background: #4880C5;
+    -moz-border-radius: 100px / 50px;
+    -webkit-border-radius: 100px / 50px;
+    border-radius: 100px / 50px;
+}
+
+#triangle-up {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid #4880C5;
+}
+
+#triangle-down {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-top: 100px solid #4880C5;
+}
+
+#triangle-left {
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-right: 100px solid #4880C5;
+    border-bottom: 50px solid transparent;
+}
+
+#triangle-topleft {
+    width: 0;
+    height: 0;
+    border-top: 100px solid #4880C5;
+    border-right: 100px solid transparent;
+}
+
+#triangle-topright {
+    width: 0;
+    height: 0;
+    border-top: 100px solid #4880C5;
+    border-left: 100px solid transparent;
+ 
+}
+
+#triangle-bottomleft {
+    width: 0;
+    height: 0;
+    border-bottom: 100px solid #4880C5;
+    border-right: 100px solid transparent;
+}
+
+#triangle-bottomright {
+    width: 0;
+    height: 0;
+    border-bottom: 100px solid #4880C5;
+    border-left: 100px solid transparent;
+}
+
+#parallelogram {
+    width: 150px;
+    height: 100px;
+    -webkit-transform: skew(20deg);
+       -moz-transform: skew(20deg);
+         -o-transform: skew(20deg);
+    background: #4880C5;
+}
+
+#trapezoid {
+    border-bottom: 100px solid #4880C5;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    height: 0;
+    width: 100px;
+}
+
+#star-six {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-bottom: 100px solid #4880C5;
+    position: relative;
+}
+#star-six:after {
+    width: 0;
+    height: 0;
+    border-left: 50px solid transparent;
+    border-right: 50px solid transparent;
+    border-top: 100px solid #4880C5;
+    position: absolute;
+    content: "";
+    top: 30px;
+    left: -50px;
+}
+
+#star-five {
+   margin: 50px 0;
+   position: relative;
+   display: block;
+   color: #4880C5;
+   width: 0px;
+   height: 0px;
+   border-right:  100px solid transparent;
+   border-bottom: 70px  solid #4880C5;
+   border-left:   100px solid transparent;
+   -moz-transform:    rotate(35deg);
+   -webkit-transform: rotate(35deg);
+   -ms-transform:     rotate(35deg);
+   -o-transform:      rotate(35deg);
+}
+#star-five:before {
+   border-bottom: 80px solid #4880C5;
+   border-left: 30px solid transparent;
+   border-right: 30px solid transparent;
+   position: absolute;
+   height: 0;
+   width: 0;
+   top: -45px;
+   left: -65px;
+   display: block;
+   content: '';
+   -webkit-transform: rotate(-35deg);
+   -moz-transform:    rotate(-35deg);
+   -ms-transform:     rotate(-35deg);
+   -o-transform:      rotate(-35deg);
+ 
+}
+#star-five:after {
+   position: absolute;
+   display: block;
+   color: #4880C5;
+   top: 3px;
+   left: -105px;
+   width: 0px;
+   height: 0px;
+   border-right: 100px solid transparent;
+   border-bottom: 70px solid #4880C5;
+   border-left: 100px solid transparent;
+   -webkit-transform: rotate(-70deg);
+   -moz-transform:    rotate(-70deg);
+   -ms-transform:     rotate(-70deg);
+   -o-transform:      rotate(-70deg);
+   content: '';
+}
+
+#pentagon {
+    position: relative;
+    width: 54px;
+    border-width: 50px 18px 0;
+    border-style: solid;
+    border-color: #4880C5 transparent;
+}
+#pentagon:before {
+    content: "";
+    position: absolute;
+    height: 0;
+    width: 0;
+    top: -85px;
+    left: -18px;
+    border-width: 0 45px 35px;
+    border-style: solid;
+    border-color: transparent transparent #4880C5;
+}
+
+#hexagon {
+    width: 100px;
+    height: 55px;
+    background: #4880C5;
+    position: relative;
+}
+#hexagon:before {
+    content: "";
+    position: absolute;
+    top: -25px;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 50px solid #eee;
+    border-right: 50px solid #eee;
+    border-bottom: 25px solid #4880C5;
+}
+#hexagon:after {
+    content: "";
+    position: absolute;
+    bottom: -25px;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 50px solid #eee;
+    border-right: 50px solid #eee;
+    border-top: 25px solid #4880C5;
+}
+
+#octagon {
+    width: 100px;
+    height: 100px;
+    background: #4880C5;
+    position: relative;
+}
+#octagon:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-bottom: 29px solid #4880C5;
+    border-left: 29px solid transparent;
+    border-right: 29px solid transparent;
+    width: 42px;
+    height: 0;
+}
+#octagon:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-top: 29px solid #4880C5;
+    border-left: 29px solid transparent;
+    border-right: 29px solid transparent;
+    width: 42px;
+    height: 0;
+}
+
+#heart {
+    position: relative;
+    width: 100px;
+    height: 90px;
+}
+#heart:before,
+#heart:after {
+    position: absolute;
+    content: "";
+    left: 50px;
+    top: 0;
+    width: 50px;
+    height: 80px;
+    background: #4880C5;
+    -moz-border-radius: 50px 50px 0 0;
+    border-radius: 50px 50px 0 0;
+    -webkit-transform: rotate(-45deg);
+       -moz-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+         -o-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+    -webkit-transform-origin: 0 100%;
+       -moz-transform-origin: 0 100%;
+        -ms-transform-origin: 0 100%;
+         -o-transform-origin: 0 100%;
+            transform-origin: 0 100%;
+}
+#heart:after {
+    left: 0;
+    -webkit-transform: rotate(45deg);
+       -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+         -o-transform: rotate(45deg);
+            transform: rotate(45deg);
+    -webkit-transform-origin: 100% 100%;
+       -moz-transform-origin: 100% 100%;
+        -ms-transform-origin: 100% 100%;
+         -o-transform-origin: 100% 100%;
+            transform-origin :100% 100%;
+}
+
+#infinity {
+    position: relative;
+    width: 212px;
+    height: 100px;
+}
+ 
+#infinity:before,
+#infinity:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60px;
+    height: 60px;
+    border: 20px solid #4880C5;
+    -moz-border-radius: 50px 50px 0 50px;
+         border-radius: 50px 50px 0 50px;
+    -webkit-transform: rotate(-45deg);
+       -moz-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+         -o-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+}
+#infinity:after {
+    left: auto;
+    right: 0;
+    -moz-border-radius: 50px 50px 50px 0;
+         border-radius: 50px 50px 50px 0;
+    -webkit-transform: rotate(45deg);
+       -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+         -o-transform: rotate(45deg);
+            transform: rotate(45deg);
+}
+
+#diamond {
+   width: 80px;
+   height: 80px;
+   background: #4880C5;
+   margin: 25px 0 15px 35px;
+   -webkit-transform: rotate(-45deg);
+   -moz-transform:    rotate(-45deg);
+   -ms-transform:     rotate(-45deg);
+   -o-transform: rotate(-45deg);
+   transform: rotate(-45deg);
+   -webkit-transform-origin: 0 100%;
+   -moz-transform-origin: 0 100%;
+   -ms-transform-origin: 0 100%;
+   -o-transform-origin: 0 100%;
+   transform-origin: 0 100%;
+}
+
+#egg {
+   display:block;
+   width: 126px;
+   height: 180px;
+   background-color: #4880C5;
+   -webkit-border-radius: 63px 63px 63px 63px / 108px 108px 72px 72px;
+   border-radius:        50%   50%  50%  50%  / 60%   60%   40%  40%;
+}
+
+#pacman {
+  width: 0px;
+  height: 0px;
+  border-right: 60px solid transparent;
+  border-top: 60px solid #4880C5;
+  border-left: 60px solid #4880C5;
+  border-bottom: 60px solid #4880C5;
+  border-top-left-radius: 60px;
+  border-top-right-radius: 60px;
+  border-bottom-left-radius: 60px;
+  border-bottom-right-radius: 60px;
+}
+
+#talkbubble {
+   width: 120px;
+   height: 80px;
+   background: #4880C5;
+   position: relative;
+   -moz-border-radius:    10px;
+   -webkit-border-radius: 10px;
+   border-radius:         10px;
+}
+#talkbubble:before {
+   content:"";
+   position: absolute;
+   right: 100%;
+   top: 26px;
+   width: 0;
+   height: 0;
+   border-top: 13px solid transparent;
+   border-right: 26px solid #4880C5;
+   border-bottom: 13px solid transparent;
+}
+
+#burst-12 {
+    background: #4880C5;
+    width: 80px;
+    height: 80px;
+    position: relative;
+    text-align: center;
+}
+#burst-12:before, #burst-12:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 80px;
+    width: 80px;
+    background: #4880C5;
+}
+#burst-12:before {
+    -webkit-transform: rotate(30deg);
+       -moz-transform: rotate(30deg);
+        -ms-transform: rotate(30deg);
+         -o-transform: rotate(30deg);
+            transform: rotate(30deg);
+}
+#burst-12:after {
+    -webkit-transform: rotate(60deg);
+       -moz-transform: rotate(60deg);
+        -ms-transform: rotate(60deg);
+         -o-transform: rotate(60deg);
+            transform: rotate(60deg);
+}
+
+#burst-8 {
+    background: #4880C5;
+    width: 80px;
+    height: 80px;
+    position: relative;
+    text-align: center;
+    -webkit-transform: rotate(20deg);
+       -moz-transform: rotate(20deg);
+        -ms-transform: rotate(20deg);
+         -o-transform: rotate(20eg);
+            transform: rotate(20deg);
+}
+#burst-8:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 80px;
+    width: 80px;
+    background: #4880C5;
+    -webkit-transform: rotate(135deg);
+       -moz-transform: rotate(135deg);
+        -ms-transform: rotate(135deg);
+         -o-transform: rotate(135deg);
+            transform: rotate(135deg);
+}
+
+#cut-diamond {
+    border-style: solid;
+    border-color: transparent transparent #4880C5 transparent;
+    border-width: 0 25px 25px 25px;
+    height: 0;
+    width: 50px;
+    position: relative;
+    margin: 20px 0 50px 0;
+}
+#cut-diamond:after {
+    content: "";
+    position: absolute;
+    top: 25px;
+    left: -25px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: #4880C5 transparent transparent transparent;
+    border-width: 70px 50px 0 50px;
+}
+
+#yin-yang {
+    width: 96px;
+    height: 48px;
+    background: #eee;
+    border-color: #4880C5;
+    border-style: solid;
+    border-width: 2px 2px 50px 2px;
+    border-radius: 100%;
+    position: relative;
+}
+#yin-yang:before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    background: #eee;
+    border: 18px solid #4880C5;
+    border-radius: 100%;
+    width: 12px;
+    height: 12px;
+}
+#yin-yang:after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: #4880C5;
+    border: 18px solid #eee;
+    border-radius:100%;
+    width: 12px;
+    height: 12px;
+}
+
+#badge-ribbon {
+ position: relative;
+ background: #4880C5;
+ height: 100px;
+ width: 100px;
+ -moz-border-radius:    50px;
+ -webkit-border-radius: 50px;
+ border-radius:         50px;
+}
+#badge-ribbon:before,
+#badge-ribbon:after {
+  content: '';
+  position: absolute;
+  border-bottom: 70px solid #4880C5;
+  border-left: 40px solid transparent;
+  border-right: 40px solid transparent;
+  top: 70px;
+  left: -10px;
+  -webkit-transform: rotate(-140deg);
+  -moz-transform:    rotate(-140deg);
+  -ms-transform:     rotate(-140deg);
+  -o-transform:      rotate(-140deg);
+}
+ 
+#badge-ribbon:after {
+  left: auto;
+  right: -10px;
+  -webkit-transform: rotate(140deg);
+  -moz-transform:    rotate(140deg);
+  -ms-transform:     rotate(140deg);
+  -o-transform:      rotate(140deg);
+}
+-->
+
+<!--
+//Как растянуть ссылку на всю ширину родительского контейнера?
+<div>
+    <a href="/contacts" style="display:block;">Контакты</a>
+</div>
+-->
+
+<!--
+//Как зафиксировать footer внизу сайта?
+* {
+    margin: 0;
+}
+html, body {
+    height: 100%;
+}
+.wrapper {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -142px; /* нижний внешний отступ должен быть равным отрицательному значению высоты футера */
+}
+.footer, .push {
+    height: 142px; /* .push должен быть такой же высоты, как и .footer */
+}
+
+<div class="wrapper">
+    <div class="push"></div>;
+    <div class="footer"></div>;
+</div>
+-->
+
+<!--
+<form name="form1" id="form1" method="post" autocomplete="off" action="http://www.site.com/form.php">
+-->
+
+<!--
+//Как на CSS сделать полупрозрачный фон, но не текст?
+.alpha60 {
+/* Обращаемся ко всем браузерам, которые не поддерживают RGBa */
+background: rgb(0, 0, 0) transparent;
+/* А теперь тем, которые поддерживают зададим прозрачность 0.6 */
+background: rgba(0, 0, 0, 0.6);
+/* Для IE 5.5 - 7*/
+filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);
+/* Для 8*/
+-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";
+}
+-->
+
+<!--
+#inner {
+    width: 50%;
+    margin: 0px auto;
+}
+
+<div id="outer" style="width:100%">  
+     <div id="inner">Foo foo</div>
+</div>
+-->
+
+<!--
+//Как кроссбраузерно выровнять чексбоксы с их метками в один ряд?
+<form>
+    <div>
+        <label><input type="checkbox" /> Label text</label>
+    </div>
+</form>
+ 
+<style type="text/css">
+label {
+    display: block;
+    padding-left: 15px;
+    text-indent: -15px;
+}
+input {
+    width: 13px;
+    height: 13px;
+    padding: 0;
+    margin:0;
+    vertical-align: bottom;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
+}
+</style>
+-->
+
+<!--
+//Force a Vertical Scrollbar
+html, body {
+  height: 100%;
+  margin: 0 0 1px;
+  padding: 0;
+}
+-->
+
+<!--
+//
+.clear {
+    width: 100%;
+    clear: both !important;
+    display: inline-block;
+}
+.clear:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+* html .clear {
+    height: 1%;
+}
+
+<div class="clear"></div>
+-->
+
+<!--
+//
+var Convert = {
+  initialize: function() {
+    var spans = document.getElementsByTagName("span");
+    for (var i = 0; i < spans.length; i++) {
+      if(spans[i].getAttribute("class") == "address") {
+        string = spans[i].childNodes[0].nodeValue;
+        email = string.split("_")[0] + "@" + string.split("_")[2];
+        spans[i].innerHTML = '<a href="mailto:' + email + '">' + email + '</a>';
+      }
+    }
+  }
+}
+window.onload = Convert.initialize;
+
+<span class="address">workwithme_at_ryanfait.com</span>
+-->
+
+<!--
+//
+Protect Flash files from being downloaded with this technique. It is not fool-proof, but this takes a completely different approach to stopping the average user trying to get at your SWF files than other tactics.
+Protect Flash Files from Being Downloaded
+< ?php
+session_start();
+?>
+<html>
+  <head>
+    <title>Flash</title>
+  </head>
+  <body>
+< ?php
+$_SESSION["flash"] = $_SERVER["HTTP_HOST"];
+?>
+    <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="550" height="400" id="movie_name">
+      <param name="movie" value="flash.php" />
+      <!--[if !IE]>-->
+      <!-- <object type="application/x-shockwave-flash" data="flash.php" width="550" height="400">
+        <param name="movie" value="flash.php"/>
+      </object>
+      <!--<![endif]-->
+    <!--</object>
+  </body>
+</html>
+
+< ?php
+session_start();
+ 
+if(isset($_SESSION["flash"])) {
+  $referrer = $_SERVER["HTTP_REFERER"];
+  $referrer = parse_url($referrer);
+  if($referrer["host"] != $_SESSION["flash"]) {
+    echo "Permission denied.";
+    die();
+  }
+} else {
+  echo "Permission denied.";
+  die();
+}
+ 
+unset($_SESSION["flash"]);
+ 
+header("Cache-Control: no-cache, must-revalidate");
+header("Expires: Mon, 18 Jan 2010 00:00:00 GMT"); // Don't change.
+header("Content-type: application/x-shockwave-flash");
+readfile("/home/www/private/real_movie.swf");
+ 
+? >
+-->
+
+<!--
+<input type="checkbox" name="a" class="styled" />
+
+<input type="radio" name="radio" class="styled" /> Yes
+<input type="radio" name="radio" class="styled" /> No
+
+<select name="d" class="styled">
+  <option value="1">Option 1</option>
+  <option value="2">Option 2</option>
+  <option value="3">Option 3</option>
+</select>
+-->
+
+<!--
+<html>
+    <head>
+        <link rel="stylesheet" href="layout.css" ... />
+    </head>
+    <body>
+        <div class="wrapper">
+            <p>Your website content here.</p>
+            <div class="push"></div>
+        </div>
+        <div class="footer">
+            <p>Copyright (c) 2008</p>
+        </div>
+    </body>
+</html>
+
+* {
+margin: 0;
+}
+html, body {
+height: 100%;
+}
+.wrapper {
+min-height: 100%;
+height: auto !important;
+height: 100%;
+margin: 0 auto -4em;
+}
+.footer, .push {
+height: 4em;
+//clear: both;
+}
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

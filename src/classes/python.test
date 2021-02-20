@@ -1,0 +1,3382 @@
+https://ru.wikiversity.org/wiki/%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B_%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC_%D0%BD%D0%B0_%D1%8F%D0%B7%D1%8B%D0%BA%D0%B5_Python
+
+if os.path.isfile('.pythonrc.py'): exec(open('.pythonrc.py').read())
+
+import os
+filename = os.environ.get('PYTHONSTARTUP')
+if filename and os.path.isfile(filename):
+    exec(open(filename).read())
+	
+"Äpfel".encode('utf-8') 
+
+>>> for x in a[:]:  # создать срез-копию всего списка
+...    if len(x) > 6: a.insert(0, x)
+
+>>> a = ['Mary', 'had', 'a', 'little', 'lamb']
+>>> for i in range(len(a)):
+...     print(i, a[i])
+
+>>> list(range(5))
+
+
+>>> for n in range(2, 10): 
+...     for x in range(2, int(n ** 0.5) + 1):
+...         if n % x == 0:
+...             print(n, 'равно', x, '*', n//x)
+...             break
+...     else:
+...             print(n, '- простое число')
+
+import asyncore
+from medusa import http_server
+server=http_server.http_server(ip='localhost', port=8080)
+asyncore.loop()
+
+
+ >>> class x(object):pass
+ ....
+ >>> f = x()
+ >>> f.attr = 12
+ >>> print f.__dict__
+ {'attr': 12}
+ >>> print x.__dict__       # т.к. классы тоже являются экземплярами объекта type
+                            # то и они поддерживают этот тип интроспекции
+ {'__dict__': <attribute '__dict__' of 'x' objects>, '__module__'.......
+
+
+ >>> def f():pass
+ ....
+ >>> f.func_code.co_code    # получение байтокода функции
+ 'd\x00\x00S'
+ >>> f.__class__            # специальный атрибут - ссылка на класс данного объекта
+ <type 'function'>
+
+
+ >>> def f(x,y = 10,**mp):pass
+ ...
+ >>> inspect.getargspec(f)
+ (['x', 'y'], None, 'mp', (10,))
+
+
+ >>> def f(i): return j + i
+ ....
+ >>> j = 2
+ >>> f(1)
+ 3
+ >>> import new
+ >>> g = new.function(f.func_code, {'j': 23})
+ >>> g(1)
+ 24
+
+    class Point:
+         def __init__(self, x, y, z):
+             self.coord = (x, y, z)
+
+         def __repr__(self):
+             return "Point(%s, %s, %s)" % self.coord
+
+
+>>> class Singleton(object):
+        obj = None                           # Атрибут для хранения единственного экземпляра
+        def __new__(cls,*dt,**mp):           # класса Singleton.
+           if cls.obj is None:               # Если он еще не создан, то
+              cls.obj = object.__new__(cls,*dt,**mp) # вызовем __new__ родительского класса
+           return cls.obj                    # вернем синглтон
+...
+>>> obj = Singleton()
+>>> obj.attr = 12
+>>> new_obj = Singleton()
+>>> new_obj.attr                       
+12
+>>> new_obj is obj                     # new_obj и obj - это один и тот же объект
+True
+
+
+class Line:
+    def __init__(self, p1, p2):
+        self.line = (p1, p2)
+
+    def __del__(self):
+        print "Удаляется линия %s - %s" % self.line
+
+>>> import shelve
+>>> s = shelve.open("somefile.db")
+>>> s['myobject'] = [1, 2, 3, 4, 'свечка']
+>>> s.close()
+
+>>> import shelve
+>>> s = shelve.open("somefile.db")
+>>> print s['myobject']
+[1, 2, 3, 4, '\xd1\x81\xd0\xb2\xd0\xb5\xd1\x87\xd0\xba\xd0\xb0']
+
+
+>>> class parent(object):
+      def __init__(self):
+          self.__f = 2
+      def get(self):
+          return self.__f
+....
+>>> class child(parent):
+    def __init__(self):
+        self.__f = 1
+        parent.__init__(self)
+    def cget(self):
+        return self.__f
+
+class A(object):
+    def __init__(self, x):
+        self._x = x
+
+    def getx(self):                 # метод для получения значения
+        return self._x
+
+    def setx(self, value):          # присваивания нового значения
+        self._x = value
+
+    def delx(self):                 # удаления атрибута
+        del self._x                 
+
+    x = property(getx, setx, delx, "Свойство x")    # определяем x как свойство
+
+a = A(5)      
+print a.x      # Синтаксис доступа к атрибуту при этом прежний
+a.x = 5
+
+
+>>> class Parent(object):
+        def isParOrPChild(self) : return True
+        def who(self) : return 'parent'
+>>> class Child(Parent):
+        def who(self): return 'child'
+>>> x = Parent()
+
+>>> class Child(Parent):
+        def __init__(self):
+            Parent.__init__(self)
+
+
+class Child(Parent):
+    def __init__(self):
+        super(Child, self).__init__()
+
+
+>>> class abstobj(object):
+        def abstmeth(self):
+            raise NotImplementedError('Method abstobj.abstmeth is pure virtual')
+>>> abstobj().abstmeth()
+
+>>> def abstract(func):
+        def closure(*dt, **mp):
+            raise NotImplementedError("Method %s is pure virtual" % func.__name__)
+        return closure
+>>> class abstobj(object):
+        @abstract
+        def abstmeth(self): pass
+
+>>> c = child()
+>>> c.val = 10
+>>> c.who()
+'child'
+>>> c.__class__ = Parent
+>>> c.who()
+'parent'
+>>> c.val
+10
+
+>>> class Add:
+...      def __call__(self, x, y):    # определение метода, 
+...          return x + y             # который отвечает за операцию вызова функции
+...
+>>> add = Add()
+>>> add(3, 4)                         # это эквивалентно add.__call__(3, 4)
+7
+
+>>> class wrongList(list):     # определяем собственный класс для списка
+...     def __len__(self):     # который всегда считает, что имеет нулевую длину
+...         return 0
+...
+>>> w = wrongList([1,2,3])
+>>> len(w)                     # это эквивалентно w.__len__()
+0
+
+Методы __getitem__,__setitem__,__delitem__,__contains__ позволяют создать интерфейс для словаря или списка(dict).
+
+
+class Multiplyable:
+    def __init__(self, value):
+        self.value = value
+
+    def __mul__(self, y):
+        return self.value * y
+
+    def __rmul__(self, x):
+        return x * self.value
+
+    def __imul__(self, y):
+        return Multiplyable(self.value * y)
+
+    def __str__(self):
+        return "Multiplyable(%s)" % self.value
+
+>>> class Par1(object):                # наследуем один базовый класс - object
+        def name1(self): return 'Par1'
+>>> class Par2(object):
+        def name2(self): return 'Par2'
+>>> class Child(Par1, Par2):           # создадим класс, наследующий Par1, Par2 (и, опосредованно, object)
+        pass
+>>> x = Child()
+>>> x.name1(), x.name2()               # экземпляру Child доступны методы из Par1 и Par2
+'Par1','Par2'
+
+ class Storage(dict):
+    def __getattr__(self, key):
+        try:
+            return self[key]
+        except KeyError, k:
+            raise AttributeError, k
+
+    def __setattr__(self, key, value):
+        self[key] = value
+
+    def __delattr__(self, key):
+        try:
+            del self[key]
+        except KeyError, k:
+            raise AttributeError, k
+
+    def __repr__(self):
+      return '<Storage ' + dict.__repr__(self) + '>'
+
+>>> cont = dict(a=1, b=2, c=3)
+>>> for k in cont:
+...     print k, cont[k]
+...
+a 1
+c 3
+b 2
+
+
+# описание метакласса
+class myobject(type):
+    # небольшое вмешательство в момент выделения памяти для класса
+    def __new__(cls, name, bases, dict):
+        print "NEW", cls.__name__, name, bases, dict
+        return type.__new__(cls, name, bases, dict)
+    # небольшое вмешательство в момент инициализации класса
+    def __init__(cls, name, bases, dict):
+        print "INIT", cls.__name__, name, bases, dict
+        return super(myobject, cls).__init__(name, bases, dict)
+# порождение класса на основе метакласса (заменяет оператор class)
+MyObject = myobject("MyObject", (), {})
+# обычное наследование другого класса из только что порожденного
+class MySubObject(MyObject):
+    def __init__(self, param):
+        print param
+# получение экземпляра класса
+myobj = MySubObject("parameter")
+
+class MyClass(object):
+    def mymethod(self, x):
+        return x == self._x
+
+>>> class D(object):  
+       @staticmethod
+       def test(x):
+           return x == 0
+...
+>>> D.test(1)    # доступ к статическому методу можно получать и через класс
+False
+>>> f = D()
+>>> f.test(0)    # и через экземпляр класса
+True
+
+>>> class A(object):  
+      def __init__(self, int_val):
+          self.val = int_val + 1
+      @classmethod
+      def fromString(cls, val):   # вместо self принято использовать cls
+          return cls(int(val))
+...
+>>> class B(A):pass
+...
+>>> x = A.fromString("1")
+>>> print x.__class__.__name__
+A
+>>> x = B.fromString("1")
+>>> print x.__class__.__name__
+B
+
+Классовые методы достаточно часто используются для перегрузки конструктора. Классовые методы, как и статические, реализуются через свойства (property).
+
+>>> import operator as op
+>>> print op.add(2, 2), op.add(2.0, 2), op.add(2, 2.0), op.add(2j, 2)
+4 4.0 4.0 (2+2j)
+
+
+from multimethods import Dispatch
+
+class Asteroid(object): pass
+class Spaceship(object): pass
+
+def asteroid_with_spaceship(a1, s1): print "A-><-S"
+def asteroid_with_asteroid(a1, a2): print "A-><-A"
+def spaceship_with_spaceship(s1, s2): print "S-><-S"
+
+collide = Dispatch()
+collide.add_rule((Asteroid, Spaceship), asteroid_with_spaceship)
+collide.add_rule((Asteroid, Asteroid), asteroid_with_asteroid)
+collide.add_rule((Spaceship, Spaceship), spaceship_with_spaceship)
+collide.add_rule((Spaceship, Asteroid), lambda x,y: asteroid_with_spaceship(y,x))
+
+a, s1, s2 = Asteroid(), Spaceship(), Spaceship()
+
+collision1 = collide(a, s1)[0]
+collision2 = collide(s1, s2)[0]
+
+
+# сериализация
+>>> import pickle
+>>> p = set([1, 2, 3, 5, 8])
+>>> pickle.dumps(p)
+'c__builtin__\nset\np0\n((lp1\nI8\naI1\naI2\naI3\naI5\natp2\nRp3\n.'
+
+# де-сериализация
+>>> import pickle
+>>> p = pickle.loads('c__builtin__\nset\np0\n((lp1\nI8\naI1\naI2\naI3\naI5\natp2\nRp3\n.')
+>>> print p
+set([8, 1, 2, 3, 5])
+
+
+На стандартном для Python механизме сериализации построена работа модуля shelve (shelve(англ. глаг.) — ставить на полку; сдавать в архив). Модуль предоставляет функцию open. Объект, который она возвращает, работает аналогично словарю, но объекты сериализуются и сохраняются в файле:
+
+>>> import shelve
+>>> s = shelve.open("myshelve.bin")
+>>> s['abc'] = [1, 2, 3]
+>>> s.close()
+# .....
+>>> s = shelve.open("myshelve.bin")
+>>> s['abc']
+[1, 2, 3]
+
+>>> # Заменим некоторые элементы:
+... a[0:2] = [1, 12]
+>>> a
+[1, 12, 123, 1234]
+>>> # Удалим немного:
+... a[0:2] = []
+>>> a
+[123, 1234]
+>>> # Вставим пару:
+... a[1:1] = ['bletch', 'xyzzy']
+>>> a
+[123, 'bletch', 'xyzzy', 1234]
+>>> # Вставим (копию) самого себя в начало
+>>> a[:0] = a
+>>> a
+[123, 'bletch', 'xyzzy', 1234, 123, 'bletch', 'xyzzy', 1234]
+>>> # Очистка списка: замена всех значений пустым списком
+>>> a[:] = []
+>>> a
+[]
+
+def f(a, L=[]):
+    L.append(a)
+    return L
+
+print(f(1))
+print(f(2))
+print(f(3))
+
+def f(a, L=None):
+    if L is None:
+        L = []
+    L.append(a)
+    return L
+
+
+>>> list(range(3, 6))             # обычный вызов с отдельными параметрами
+[3, 4, 5]
+>>> args = [3, 6]
+>>> list(range(*args))            # вызов с распакованными из списка параметрами
+[3, 4, 5]
+
+>>> def parrot(voltage, state='a stiff', action='voom'):
+...     print("-- This parrot wouldn't", action, end=' ')
+...     print("if you put", voltage, "volts through it.", end=' ')
+...     print("It's", state, "!")
+...
+>>> d = {"voltage": "four million", "state": "bleedin' demised", "action": "VOOM"}
+>>> parrot(**d)
+-- This parrot wouldn't VOOM if you put four million volts through it. It's bleedin' demised !
+
+
+>>> [3*x for x in vec if x > 3]
+[12, 18]
+>>> [3*x for x in vec if x < 2]
+[]
+
+>>> vec1 = [2, 4, 6]
+>>> vec2 = [4, 3, -9]
+>>> [x*y for x in vec1 for y in vec2]
+[8, 6, -18, 16, 12, -36, 24, 18, -54]
+>>> [x+y for x in vec1 for y in vec2]
+[6, 5, -7, 8, 7, -5, 10, 9, -3]
+>>> [vec1[i]*vec2[i] for i in range(len(vec1))]
+[8, 12, -54]
+
+
+>>> print([[row[i] for row in mat] for i in [0, 1, 2]])
+[[1, 4, 7], [2, 5, 8], [3, 6, 9]]
+
+for i in [0, 1, 2]:
+    for row in mat:
+        print(row[i], end="")
+    print()
+
+>>> list(zip(*mat))
+[(1, 4, 7), (2, 5, 8), (3, 6, 9)]
+
+c=[[sum(x*y for x,y in zip(i,j)) for j in zip(*b)] for i in a]
+
+
+a=[[0]*i+[1]+[0]*(n-i-1) for i in range(n)]
+
+>>> empty = ()
+>>> singleton = 'hello',    # <-- обратите внимание на замыкающую запятую
+>>> len(empty)
+0
+>>> len(singleton)
+1
+>>> singleton
+('hello',)
+
+
+$("body").bind("click mousedown", function(e) {
+    console.log(e);
+});
+Instead of that extra bind, you can just type this into the console:
+
+monitorEvents($0, 'mouse')
+Which, if you have the body selected in the Elements panel, is equivalent to typing:
+
+monitorEvents(document.body, 'mouse')
+unmonitorEvents(document.body)
+
+>>> for i, v in enumerate(['tic', 'tac', 'toe']):
+...     print(i, v)
+...
+0 tic
+1 tac
+2 toe
+
+>>> knights = {'gallahad': 'the pure', 'robin': 'the brave'}
+>>> for k, v in knights.items():
+...     print(k, v)
+...
+gallahad the pure
+robin the brave
+
+
+>>> questions = ['name', 'quest', 'favorite color']
+>>> answers = ['lancelot', 'the holy grail', 'blue']
+>>> for q, a in zip(questions, answers):
+...     print('What is your {0}?  It is {1}.'.format(q, a))
+...
+What is your name?  It is lancelot.
+What is your quest?  It is the holy grail.
+What is your favorite color?  It is blue.
+
+>>> basket = ['apple', 'orange', 'apple', 'pear', 'orange', 'banana']
+>>> for f in sorted(set(basket)):
+...     print(f)
+...
+apple
+banana
+orange
+pear
+
+
+
+import imp; imp.reload(<имя_модуля>)
+
+
+
+
+if __name__ == "__main__":
+    import sys
+    fib(int(sys.argv[1]))
+
+
+>>> import sys
+>>> sys.path.append('/ufs/guido/lib/python')
+
+>>> import builtins
+>>> dir(builtins)
+
+__all__ = ["echo", "surround", "reverse"]
+
+>>> for x in range(1, 11):
+...     print(repr(x).rjust(2), repr(x*x).rjust(3), end=' ')
+...     # Обратите внимание на использование end в предыдущей строке
+...     print(repr(x*x*x).rjust(4))
+
+>>> for x in range(1, 11):
+...     print('{0:2d} {1:3d} {2:4d}'.format(x, x*x, x*x*x))
+
+
+>>> print('Этот {food} — {adjective}.'.format(
+...       food='фарш', adjective='непередаваемо ужасен'))
+Этот фарш — непередаваемо ужасен.
+
+>>> print('{0} и {1}'.format('фарш', 'яйца'))
+фарш и яйца
+>>> print('{1} и {0}'.format('фарш', 'яйца'))
+яйца и фарш
+
+>>> print('История о {0}е, {1}е, и {other}е.'.format('Билл', 'Манфред',
+                                                       other='Георг'))
+История о Билле, Манфреде, и Георге.
+
+
+>>> table = {'Sjoerd': 4127, 'Jack': 4098, 'Dcab': 7678}
+>>> for name, phone in table.items():
+...     print('{0:10} ==> {1:10d}'.format(name, phone))
+
+
+>>> table = {'Sjoerd': 4127, 'Jack': 4098, 'Dcab': 8637678}
+>>> print('Jack: {0[Jack]:d}; Sjoerd: {0[Sjoerd]:d}; '
+          'Dcab: {0[Dcab]:d}'.format(table))
+
+
+>>> with open('/tmp/workfile', 'r') as f:
+...     read_data = f.read()
+>>> f.closed
+True
+
+>>> try:
+...    raise Exception('spam', 'eggs')
+... except Exception as inst:
+...    print(type(inst))     # экземпляр исключения
+...    print(inst.args)      # аргументы хранятся в .args
+...    print(inst)           # __str__ позволяет вывести args явно,
+...                          # но может быть переопределён в подклассах исключения
+...    x, y = inst           # распаковка args
+...    print 'x =', x
+...    print 'y =', y
+...
+<class 'Exception'>
+('spam', 'eggs')
+('spam', 'eggs')
+x = spam
+y = eggs
+
+>>> class MyError(Exception):
+...     def __init__(self, value):
+...         self.value = value
+...     def __str__(self):
+...         return repr(self.value)
+... 
+>>> try:
+...     raise MyError(2*2)
+... except MyError as e:
+...     print('Поймано моё исключение со значением:', e.value)
+... 
+Поймано моё исключение со значением: 4
+>>> raise MyError('ой!')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+__main__.MyError: 'ой!'
+
+class Error(Exception):
+    """Базовый класс для всех исключений в этом модуле."""
+    pass
+
+class InputError(Error):
+    """Исключение порождается при ошибках при вводе.
+
+    Атрибуты:
+        expression -- выражение на вводе, в котором обнаружена ошибка
+        message -- описание ошибки
+    """
+
+    def __init__(self, expression, message):
+        self.expression = expression
+        self.message = message
+
+class TransitionError(Error):
+    """Порождается, когда операция пытается выполнить неразрешённый переход
+    из одного состояния в другое.
+
+    Attributes:
+        previous -- состояние в начале перехода
+        next -- новое состояние, попытка принять которое была принята 
+        message -- описание, по какой причине такой переход невозможен
+    """
+
+    def __init__(self, previous, next, message):
+        self.previous = previous
+        self.next = next
+        self.message = message
+
+
+
+>>> def divide(x, y):
+...     try:
+...         result = x / y
+...     except ZeroDivisionError:
+...         print("деление на ноль!")
+...     else:
+...         print("результат: ", result)
+...     finally:
+...         print("выполнение блока finally")
+...
+>>> divide(2, 1)
+результат:  2
+выполнение блока finally
+>>> divide(2, 0)
+деление на ноль!
+выполнение блока finally
+>>> divide("2", "1")
+выполнение блока finally
+Traceback (most recent call last):
+  File "<stdin>", line 1, in ?
+  File "<stdin>", line 3, in divide
+TypeError: unsupported operand type(s) for /: 'str' and 'str'
+
+
+with open("myfile.txt") as f:
+    for line in f:
+        print(line)
+
+
+def scope_test():
+    def do_local():
+        spam = "локальный спам"
+    def do_nonlocal():
+        nonlocal spam
+        spam = "нелокальный спам"
+    def do_global():
+        global spam
+        spam = "глобальный спам"
+
+    spam = "тестовый спам"
+    do_local()
+    print("После локального присваивания:", spam)
+    do_nonlocal()
+    print("После нелокального присваивания:", spam)
+    do_global()
+    print("После глобального присваивания:", spam)
+
+scope_test()
+print("В глобальной области видимости:", spam)
+
+
+>>> print(property.__doc__)
+property(fget=None, fset=None, fdel=None, doc=None) -> property attribute
+
+fget - функция для чтения, fset - для записи, fdel - для удаления атрибута.
+Типичный пример использования для управляемого атрибута x:
+class C(object):
+    def getx(self): return self._x
+    def setx(self, value): self._x = value
+    def delx(self): del self._x
+    x = property(getx, setx, delx, "Я - свойство 'x'.")
+
+Декораторы упрощают определение новых свойств и изменение существующих:
+class C(object):
+    @property
+    def x(self): return self._x
+    @x.setter
+    def x(self, value): self._x = value
+    @x.deleter
+    def x(self): del self._x
+
+for element in [1, 2, 3]:
+    print(element)
+for element in (1, 2, 3):
+    print(element)
+for key in {'один':1, 'два':2}:
+    print(key)
+for char in "123":
+    print(char)
+for line in open("myfile.txt"):
+    print(line)
+
+    "Итератор по последовательности в обратном направлении"
+    def __init__(self, data):
+        self.data = data
+        self.index = len(data)
+    def __iter__(self):
+        return self
+    def __next__(self):
+        if self.index == 0:
+            raise StopIteration
+        self.index = self.index - 1
+        return self.data[self.index]
+
+>>> for char in Reverse('спам'):
+...     print(char)
+...
+м
+а
+п
+с
+
+
+def reverse(data):
+    for index in range(len(data)-1, -1, -1):
+        yield data[index]
+	
+>>> for char in reverse('гольф'):
+...     print(char)
+...
+ф
+ь
+л
+о
+г
+
+
+>>> sum(i*i for i in range(10))                 # сумма квадратов
+285
+
+>>> xvec = [10, 20, 30]
+>>> yvec = [7, 5, 3]
+>>> sum(x*y for x,y in zip(xvec, yvec))         # скалярное произведение
+260
+
+>>> from math import sin, radians
+>>> sine_table = {x: sin(radians(x)) for x in range(0, 91)}
+
+>>> unique_words = set(word  for line in page  for word in line.split())
+
+>>> valedictorian = max((student.gpa, student.name) for student in graduates)
+
+>>> data = 'golf'
+>>> list(data[i] for i in range(len(data)-1, -1, -1))
+['f', 'l', 'o', 'g']
+
+
+>>> import shutil
+>>> shutil.copyfile('data.db', 'archive.db')         # копировать файл
+>>> shutil.move('/build/executables', 'installdir')  # переместить каталог
+
+>>> import os
+>>> os.getcwd()                     # возвращает путь к текущему каталогу
+'C:\\Python31'
+>>> os.system('dir *.txt')          # выполнить указанную команду ОС
+...список текстовых файлов, выведенных командой...
+0
+>>> os.chdir('/server/accesslogs')  # сменить текущий каталог
+
+
+>>> import glob
+>>> glob.glob('*.py')
+['primes.py', 'random.py', 'quote.py']
+
+
+import sys
+print(sys.argv)
+
+
+>>> import re
+>>> re.findall(r'\bf[a-z]*', 'which foot or hand fell fastest')
+['foot', 'fell', 'fastest']
+>>> re.sub(r'(\b[a-z]+) \1', r'\1', 'cat in the the hat')
+'cat in the hat'
+
+
+
+>>> import random
+>>> random.choice(['яблоко', 'груша', 'банан'])
+'яблоко'
+>>> random.sample(range(100), 10)   # выборка без повторений
+[30, 83, 16, 4, 8, 81, 41, 50, 18, 33]
+>>> random.random()        # случайное число с плавающей запятой
+0.17970987693706186
+>>> random.randrange(6)    # случайное целое из диапазона range(6)
+4
+>>> random.sample([1, 2, 3, 4, 5],  3)  # случайные три элемента из списка
+[4, 1, 5]
+
+>>> from urllib.request import urlopen
+>>> for line in urlopen('http://tycho.usno.navy.mil/cgi-bin/timer.pl'):
+...     if 'EST' in line or 'EDT' in line:  # временные зоны
+...         print(line)
+
+<BR>Nov. 25, 09:43:32 PM EST
+
+>>> import smtplib
+>>> server = smtplib.SMTP('localhost')
+>>> server.sendmail('soothsayer@example.org', 'jcaesar@example.org',
+... """To: jcaesar@example.org
+... From: soothsayer@example.org
+...
+... Beware the Ides of March.
+... """)
+>>> server.quit()
+
+
+# даты можно легко составлять и выводить в требуемом формате
+>>> from datetime import date
+>>> now = date.today()
+>>> now
+datetime.date(2009, 2, 3)
+>>> now.strftime("%d.%m.%Y")
+'03.02.2009'
+
+# даты поддерживают календарную арифметику
+>>> birthday = date(1964, 7, 31)
+>>> age = now - birthday
+>>> age.days
+16258
+
+
+>>> import zlib
+>>> s = "Закрой замок на замок, чтобы замок не замок"
+>>> len(bytes(s, "utf-8"))
+78
+>>> t = zlib.compress(s)
+>>> len(t)
+54
+>>> print(str(zlib.decompress(t), "utf-8"))
+Закрой замок на замок, чтобы замок не замок
+>>> zlib.crc32(s)
+2392363341
+
+>>> from timeit import Timer
+>>> Timer('a, b = b, a', 'a=1; b=2').timeit()
+0.15707302093505859
+>>> Timer('t=a; a=b; b=t', 'a=1; b=2').timeit()
+0.19421601295471191
+
+
+def average(values):
+    """Вычисляет среднее арифметическое списка чисел.
+
+    >>> print(average([20, 30, 70]))
+    40.0
+    """
+    return sum(values) / len(values)
+
+import doctest
+doctest.testmod()   # автоматически проверяет тесты в документации
+
+
+import unittest
+
+class TestStatisticalFunctions(unittest.TestCase):
+
+    def test_average(self):
+        self.assertEqual(average([20, 30, 70]), 40.0)
+        self.assertEqual(round(average([1, 5, 7]), 1), 4.3)
+        self.assertRaises(ZeroDivisionError, average, [])
+        self.assertRaises(TypeError, average, 20, 30, 70)
+
+unittest.main() # Вызов из командной строки выполняет проверку всех тестов этого модуля
+
+
+>>> import pprint
+>>> t = [[[['чёрный', 'бирюзовый'], 'белый', ['зелёный', 'красный']], [['пурпурный', 'жёлтый'], 'голубой']]]
+>>> pprint.pprint(t, width=30)
+
+>>> import reprlib
+>>> reprlib.repr(set('supercalifragilisticexpialidocious'))
+"set(['a', 'c', 'd', 'e', 'f', 'g', ...])"
+
+
+>>> import textwrap
+>>> doc = """Метод wrap() аналогичен fill(), но он возвращает список строк, а не одну большую строку с признаками концов строк."""
+>>> print(textwrap.fill(doc, width=40))
+Метод wrap() аналогичен fill(), но он
+возвращает список строк, а не одну
+большую строку с признаками концов
+строк.
+
+>>> import locale
+>>> locale.setlocale(locale.LC_ALL, 'en_US.UTF8')
+'en_US.UTF8'
+>>> conv = locale.localeconv()          # получить отображение соглашений
+>>> x = 1234567.8
+>>> locale.format("%d", x, grouping=True)
+'1,234,567'
+>>> locale.format("%s%.*f", (conv['currency_symbol'], conv['frac_digits'], x), grouping=True)
+'$1,234,567.80'
+
+
+>>> from string import Template
+>>> t = Template('${village}folk send $$10 to $cause.')
+>>> t.substitute(village='Nottingham', cause='the ditch fund')
+'Nottinghamfolk send $10 to the ditch fund
+
+
+>>> t = Template('Return the $item to $owner.')
+>>> d = dict(item='unladen swallow')
+>>> t.substitute(d)
+Traceback (most recent call last):
+  . . .
+KeyError: 'owner'
+>>> t.safe_substitute(d)
+'Return the unladen swallow to $owner.'
+
+>>> import time, os.path
+>>> photofiles = ['img_1074.jpg', 'img_1076.jpg', 'img_1077.jpg']
+>>> class BatchRename(Template):
+...     delimiter = '%'
+>>> fmt = input('Введите стиль переименования (%d - дата, %n - номер п/п, %f - формат):  ')
+Введите стиль переименования (%d - дата, %n - номер п/п, %f - формат):  Ashley_%n%f
+
+>>> t = BatchRename(fmt)
+>>> date = time.strftime('%d%b%y')
+>>> for i, filename in enumerate(photofiles):
+...     base, ext = os.path.splitext(filename)
+...     newname = t.substitute(d=date, n=i, f=ext)
+...     print('{0} --> {1}'.format(filename, newname))
+
+img_1074.jpg --> Ashley_0.jpg
+img_1076.jpg --> Ashley_1.jpg
+img_1077.jpg --> Ashley_2.jpg
+
+
+
+import struct
+
+data = open('myfile.zip', 'rb').read()
+start = 0
+for i in range(3):                      # показать первые три заголовка
+    start += 14
+    fields = struct.unpack('<IIIHH', data[start:start+16])
+    crc32, comp_size, uncomp_size, filenamesize, extra_size = fields
+
+    start += 16
+    filename = data[start:start+filenamesize]
+    start += filenamesize
+    extra = data[start:start+extra_size]
+    print(filename, hex(crc32), comp_size, uncomp_size)
+
+    start += extra_size + comp_size     # пропустить до следующего заголовка
+
+
+
+import threading, zipfile
+
+class AsyncZip(threading.Thread):
+    def __init__(self, infile, outfile):
+        threading.Thread.__init__(self)
+        self.infile = infile
+        self.outfile = outfile
+    def run(self):
+        f = zipfile.ZipFile(self.outfile, 'w', zipfile.ZIP_DEFLATED)
+        f.write(self.infile)
+        f.close()
+        print('Завершён фоновый zip для:', self.infile)
+
+background = AsyncZip('mydata.txt', 'myarchive.zip')
+background.start()
+print('Главная программа на переднем плане.')
+
+background.join()    # Ждём завершения фоновой задачи
+print('Главная программа дождалась завершения фоновой задачи.')
+
+import logging
+logging.debug('Отладочная информация')
+logging.info('Для информации')
+logging.warning('Предупреждение: файл %s не найден', 'server.conf')
+logging.error('Произошла ошибка!')
+logging.critical('Критическая ошибка - выход')
+
+
+>>> import weakref, gc
+>>> class A:
+...     def __init__(self, value):
+...             self.value = value
+...     def __repr__(self):
+...             return str(self.value)
+...
+>>> a = A(10)                   # создаёт ссылку
+>>> d = weakref.WeakValueDictionary()  # словарь, использующий слабые ссылки
+>>> d['primary'] = a            # не создаёт ссылки
+>>> d['primary']                # достать объект, если он все ещё "жив"
+10
+>>> del a                       # удалить одну ссылку
+>>> gc.collect()                # произвести сборку мусора
+0
+>>> d['primary']                # запись была автоматически удалена
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    d['primary']
+  File "C:/python31/lib/weakref.py", line 46, in __getitem__
+    o = self.data[key]()
+KeyError: 'primary'
+
+
+>>> from array import array
+>>> a = array('H', [4000, 10, 700, 22222])
+>>> sum(a)
+26932
+>>> a[1:3]
+array('H', [10, 700])
+
+
+
+>>> from collections import deque
+>>> d = deque(["задача1", "задача2", "задача3"])
+>>> d.append("task4")
+>>> print("Обрабатывается", d.popleft())
+Обрабатывается задача1
+
+unsearched = deque([starting_node])
+def breadth_first_search(unsearched):
+    node = unsearched.popleft()
+    for m in gen_moves(node):
+        if is_goal(m):
+            return m
+        unsearched.append(m)
+
+
+>>> import bisect
+>>> scores = [(100, 'perl'), (200, 'tcl'), (400, 'lua'), (500, 'python')]
+>>> bisect.insort(scores, (300, 'ruby'))  # вставка значения в отсортированный список
+>>> scores
+[(100, 'perl'), (200, 'tcl'), (300, 'ruby'), (400, 'lua'), (500, 'python')]
+
+
+
+>>> from heapq import heapify, heappop, heappush
+>>> data = [1, 3, 5, 7, 9, 2, 4, 6, 8, 0]
+>>> heapify(data)                      # сделать из списка кучу
+>>> heappush(data, -5)                 # добавить новый элемент
+>>> [heappop(data) for i in range(3)]  # извлечь три наименьших значения
+[-5, 0, 1]
+
+
+>>> from decimal import *
+>>> Decimal('0.70') * Decimal('1.05')
+Decimal("0.7350")
+>>> .70 * 1.05
+0.73499999999999999
+
+public interface HasName {
+    class Extensions {
+        private static final WeakHashMap<HasName, String> map = new WeakHashMap<>();
+    }
+    default void setName(String name) {
+        Extensions.map.put(this, name);
+    }
+    default String getName() {
+        return Extensions.map.get(this);
+    }
+}
+
+$ cat /dev/fb0 > /home/$USER/screenshot.raw
+
+public class Test {
+ 
+    public static void main(String args[]) throws InterruptedException {
+ 
+        Map<Integer, Integer> numberAndCount = new HashMap<>();
+ 
+        int[] numbers = {3, 5, 7, 9, 11, 13, 17, 19, 2, 3, 5, 33, 12, 5};
+ 
+        for (int i : numbers) {
+            int count = numberAndCount.get(i); // NullPointerException
+            numberAndCount.put(i, count++); 
+        }
+    }
+ 
+}
+
+
+public boolean isUniqueChars(String str) {
+    int checker = 0;
+    for (int i = 0; i < str.length(); i++) {
+        int val = str.charAt(i) - 'a';
+        if (checker & (1 << val)) > 0) {
+            return false;
+        }
+        checker |= (1 << val);
+    }
+    return true;
+}
+
+public static boolean findElement(int[][] matrix, int elem) {
+    int row = 0;
+    int col = matrix[0].length - 1;
+    while (row < matrix.length && col >= 0) {
+        if (matrix[row][col] == elem) {
+            return true;
+        } else if (matrix[row][col] > elem) {
+            col--;
+        } else {
+            row++;
+        }
+    }
+    return false;
+}
+
+public Coordinate findElement(int[][] matrix, Coordinate origin, Coordinate dest, int x) {
+    if (!origin.inbounds(matrix) || !dest.inbounds(matrix)) {
+        return null;
+    }
+    if (matrix[origin.row][origin.column] == x) {
+        return origin;
+    } else if (!origin.isBefore(dest)) {
+        return null;
+    }
+ 
+    /* Установим start на начало диагонали, a end - на конец
+    * диагонали. Так как сетка, возможно, не является квадратной, конец
+    * диагонали может не равняться dest. */
+    Coordinate start = (Coordinate) origin.clone();
+    int diagDist = Math.min(dest.row - origin.row, dest.column - origin.column);
+    Coordinate end = new Coordinate(start.row + diagDist, start.column + diagDist);
+    Coordinate p = new Coordinated(0, 0);
+ 
+    /* Производим бинарный поиск no диагонали, ищем первый
+    * элемент больше х */
+    while (start.isBefore(end)) {
+        р.setToAverage(start, end);
+        if (x > matrix[p.row][p.column]) {
+            start.row = p.row + 1;
+            start.column = p.column + 1;
+        } else {
+            end.row = p.row - 1;
+            end.column = p.column - 1;
+        }
+    }
+ 
+    /* Разделяем сетку на квадранты. Ищем в нижнем левом и верхнем
+     * правом квадранте */
+    return partitionAndSearch(matrix, origin, dest, start, x);
+}
+ 
+public Coordinate partitionAndSearch(int[][] matrix,
+Coordinate origin. Coordinate dest, Coordinate pivot, int elem) {
+    Coordinate lowerLeftOrigin = new Coordinate(pivot.row, origin.column);
+    Coordinate lowerLeftDest = new Coordinate(dest.row, pivot.column - 1);
+    Coordinate upperRightOrigin = new Coordinate(origin.row, pivot.column);
+    Coordinate upperRightDest = new Coordinate(pivot.row - 1, dest.column);
+    
+    Coordinate lowerLeft = findElement(matrix, lowerLeftOrigin, lowerLeftDest, elem);
+    if (lowerLeft == null) {
+        return findElement(matrix, upperRightOrigin, upperRightDest, elem);
+    }
+    return lowerLeft;
+}
+ 
+public static Coordinate findElement(int[][] matrix, int x) {
+    Coordinate origin = new Coordinate(0, 0);
+    Coordinate dest = new Coordinate(matrix.length - 1, matrix[0].length - 1);
+    return findElement(matrix, origin, dest, x);
+}
+public class Coordinate implements Cloneable {
+    public int row;
+    public int column;
+    public Coordinate(int r, int c) {
+        row = r;
+        column = c;
+    }
+ 
+    public boolean inbounds(int[][] matrix) {
+        return row >= 0 && column >= 0 &&
+        row < matrix.length && column < matrix[0].length;
+    }
+ 
+    public boolean isBefore(Coordinate p) {
+        return row <= p.row && column <= p.column;
+    }
+ 
+    public Object clone() {
+        return new Coordinate(row, column);
+    }
+ 
+    public void setToAverage(Coordinate min, Coordinate max) {
+        row = (min.row + max.row) / 2;
+        column = (min.column + max.column) / 2;
+    }
+}
+
+
+private static HashMap<Integer, Integer> cashe = new HashMap<Integer, Integer>();
+ 
+private static int fcashe(int n){
+        if(!cashe.containsKey(n)){//Проверяем, находили ли мы данное значение
+            cashe.put(n, f(n)); //Если нет, то находим и записываем в таблицу
+        }
+        return cashe.get(n);
+}
+
+
+
+LinkedList<Integer> stek = new LinkedList<Integer>();
+stek.add(n);
+        
+{
+LinkedList<Integer> queue = new LinkedList<Integer>();
+//Храним индексы, для которых ещё не вычислены зависимости
+ 
+queue.add(n);
+int dum;
+while(queue.size()>0){ //Пока есть что вычислять
+    dum = queue.removeFirst(); 
+                
+    if(dum%2==0){ //Проверяем чётность
+        if(dum/2>1){ //Если вычисленная зависимость не принадлежит начальным состояниям
+            stek.addLast(dum/2); //Добавляем в стек
+            queue.add(dum/2); //Сохраняем, чтобы
+                             //вычислить дальнейшие зависимости
+        }
+        if(dum/2-1>1){ //Проверяем принадлежность к начальным состояниям
+            stek.addLast(dum/2-1); //Добавляем в стек
+            queue.add(dum/2-1); //Сохрнаяем, чтобы
+                               //вычислить дальнейшие зависимости
+        }
+ 
+    }else{
+        if((dum-1)/2>1){ //Проверяем принадлежность к начальным состояниям
+            stek.addLast((dum-1)/2); //Добавляем в стек
+            queue.add((dum-1)/2); //Сохрнаяем, чтобы
+                                 //вычислить дальнейшие зависимости
+        }
+        if((dum-1)/2-1>1){ //Проверяем принадлежность к начальным состояниям
+            stek.addLast((dum-1)/2-1); //Добавляем в стек
+            queue.add((dum-1)/2-1); //Сохрнаяем, чтобы
+                                   //вычислить дальнейшие зависимости
+        }
+    }
+ 
+/*
+Конкретно для этой задачи есть более элегантный способ найти все зависимости,
+здесь же показан достаточно универсальный
+*/
+            
+}
+}
+
+HashMap<Integer,Integer> values = new HashMap<Integer,Integer>();
+        
+values.put(0,1); //Важно добавить начальные состояния
+//в таблицу значений
+values.put(1,1);
+            
+while(stek.size()>0){
+    int num = stek.removeLast();
+ 
+    if(!values.containsKey(num)){ //Эту конструкцию
+                                     //вы должны помнить с абзаца о кешировании
+    if(num%2==0){ //Проверяем чётность
+        int value = values.get(num/2)+values.get(num/2-1); //Вычисляем значение
+        values.add(num, value); //Помещаем его в таблицу
+    }else{
+        int value = values.get((num-1)/2)-values.get((num-1)/2-1); //Вычисляем значение
+        values.add(num, value); //Помещаем его в таблицу
+    }        
+}
+
+return values.get(n);
+
+int[] vars = new int[3];
+vars[0]=1;vars[1]=2;vars[2]=4;
+        
+    for(int i=3; i<N; i++){
+        vars[i%3] = vars[0]+vars[1]+vars[2];
+    }
+}
+        
+System.out.println(vars[(N-1)%3]);
+
+int[][] dp = new int[Imax][Jmax];
+        
+for(int i=0; i<Imax; i++){
+    for(int j=0; j<Jmax; j++){
+        if(i==0 || j==0){
+            dp[i][j]=1;
+        }else{
+            dp[i][j]=dp[i-1][j]+dp[i][j-1];
+        }
+    }
+}
+        
+System.out.println(dp[Imax-1][Jmax-1]);
+
+//Ввод числа N с клавиатуры
+ 
+N+=2;
+ 
+BigInteger[] fib = new BigInteger[2];
+fib[0]=fib[1]=BigInteger.ONE;
+        
+for(int i=2; i<N; i++){
+    fib[i%2] = fib[0].add(fib[1]);
+}
+        
+        
+System.out.println(fib[(N-1)%2]);
+
+int Imax;
+//*ввод с клавиатуры числа ступенек*
+ 
+DP = new int[Imax];
+            
+for(int i=0; i<Imax; i++){
+    ///Ввод с клавиатуры стоимости ступеньки DP[i]    
+}
+        
+for(int i=2; i<DP.length; i++){
+    DP[i]+=Math.min(DP[i-1], DP[i-2]);
+}
+                
+System.out.println(DP[Imax-1]);
+
+int N;
+//Ввод с клавиатуры
+ 
+int[] a = new int[N+1];
+a[1]= 0;
+        
+{
+int min;
+for(int i=2; i<N+1; i++){
+    min=a[i-1]+1;
+    if(i%2==0) min=Math.min(min,a[i/2]+1);
+    if(i%3==0) min=Math.min(min,a[i/3]+1);
+    
+    a[i] = min;
+}
+}
+ 
+StringBuilder ret = new StringBuilder();
+        
+{
+    int i=N;
+    while(i>1){
+        if(a[i]==a[i-1]+1){
+            ret.insert(0, 1);
+            i--;
+            continue;
+        }
+                
+        if(i%2==0&&a[i]==a[i/2]+1){
+            ret.insert(0, 2);
+            i/=2;
+            continue;
+        }
+                
+        ret.insert(0, 3);
+        i/=3;
+    }
+}
+ 
+System.out.println(a[N]);
+System.out.println(ret);
+
+///nextInt() --- метод, считывающий с консоли число
+int Imax=nextInt();
+int Jmax=nextInt();
+        
+long[][] dp = new long[Imax][Jmax];
+        
+for(int i=0; i<Imax; i++){
+    for(int j=0; j<Jmax; j++){
+        dp[i][j]= nextInt();
+        if(i>0 && j>0){
+            dp[i][j]+=Math.min(dp[i-1][j], dp[i][j-1]);
+        }else{
+            if(i>0){
+                dp[i][j]+=dp[i-1][j];
+            }else if(j>0){
+                dp[i][j]+=dp[i][j-1];
+            }
+        }
+    }
+}
+        
+System.out.println(dp[Imax-1][Jmax-1]);
+
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+public int partition(int[] array, int left, int right, int pivot) {
+    while (true) {
+        while (left <= right && array[left] <= pivot) {
+            left++;
+        }
+    
+        while (left <= right && array[right] > pivot) {
+            right--;
+        }
+ 
+        if (left > right) {
+            return left - 1;
+        }
+ 
+        swap(array, left, right);
+    }
+}
+ 
+public int rank(int[] array, int left, int right, int rank) {
+    int pivot = array[randomIntInRange(left, right)];
+    
+    /* Раздел и возврат конца левого раздела */
+    int leftEnd = partition(array, left, right, pivot);
+    
+    int leftSize = leftEnd - left + 1;
+    if (leftSize == rank + 1) {
+        return max(array, left, leftEnd);
+    } else if (rank < leftSize) {
+        return rank(array, left, leftEnd, rank);
+    } else {
+        return rank(array, leftEnd + 1, right, rank - leftSize);
+    }
+}
+
+// ==UserScript==
+// @name        NULL Opener object
+// @namespace   nullopenerobjectns
+// @description Clears the window.openeer object.
+// @version     1
+// @grant       none
+// @run-at      document-start
+// ==/UserScript==
+ 
+(function() {
+    "use strict";
+ 
+    window.opener = null;
+})();
+
+
+
+Задача на копирование списка
+22 октября 2015 в 14:48, Задачки
+ 17 951
+
+Есть однонаправленный список из структур. В нём random указывает на какой-то еще элемент этого же списка. Требуется написать функцию, которая копирует этот список с сохранением структуры (т.е. если в старом списке random первой ноды указывал на 4-ю, в новом списке должно быть то же самое — рандом первой ноды указывает на 4-ю ноду нового списка). O(n), константная дополнительная память + память под элементы нового списка. Нельзя сразу выделить память под все данные одник куском т.е. список должен быть честным, разбросанным по частям, а не единым блоком, как массив.
+
+Вот один из вариантов решения. Делаем обход списка, создаём дубликаты узлов и вставляем их по next, получая 2*N элементов, каждый нечётный ссылается на свой дубликат. Делаем второй обход списка, в каждом чётном узле random = random.next. Делаем третий обход списка, в каждом узле next = next.next.
+
+Есть ещё один вариант от Пашки Джиоева.
+
+Node *copyList(Node *head)
+{
+    for (Node* cur = head; cur != NULL; cur = cur->next) {
+        Node* dup = (Node*)malloc(sizeof(Node));
+        dup->data = cur->data;
+        dup->next = cur->random;
+        cur->random = dup;
+    }
+    Node* result = head->random;
+    for (Node* cur = head; cur != NULL; cur = cur->next) {
+        Node* dup = cur->random;
+        dup->random = dup->next->random;
+    }
+    for (Node* cur = head; cur != NULL; cur = cur->next) {
+        Node* dup = cur->random;
+        cur->random = dup->next;
+        dup->next = cur->next ? cur->next->random : NULL;
+    }
+    return result;
+}
+
+int getMax(int a, int b) {
+    int c = a - b;
+    
+    int sa = sign(a); // если a >= 0, то 1, иначе 0
+    int sb = sign(b); // если a >= 1, то 1, иначе 0
+    int sc = sign(c); // зависит от переполнения a - b
+    
+    /* Цель: найти k, которое = 1, если а > b, и 0, если a < b.
+     * если a = b, k не имеет значения */
+ 
+    // Если у а и b равные знаки, то k = sign(a)
+    int use_sign_of_a = sa ^ sb;
+    
+    // Если у a и b одинаковый знак, то k = sign(a - b)
+    int use_sign_of_c = flip(sa ^ sb);
+    
+    int k = use_sign_of_a * sa + use_sign_of_c * sc;
+    int q = flip(k); // отражение к
+ 
+    return a * k + b * q;
+}
+
+int flip(int bit) {
+    return 1^bit;
+}
+
+public static int add(int a, int b)    {
+    if (b == 0) return a;
+    int sum = a ^ b;            // добавляем без переноса
+    int carry = (a & b) << 1;    // перенос без суммирования
+    return add(sum, carry);        // рекурсия
+}
+
+
+public static int count2sInRangeAtDigit(int number, int d) {
+    int powerOf10 = (int) Math.pow(10, d);
+    int nextPowerOf10 = powerOf10 * 10;
+    int right = number % powerOf10;
+    
+    int roundDown = number - number % nextPowerOf10;
+    int roundUp = roundDown + nextPowerOf10;
+ 
+    int digit = (number / powerOf10) % 10;
+    if (digit < 2) { // если digit меньше 2
+        return roundDown / 10;
+    } else if (digit == 2) {
+        return roundDown / 10 + right + 1;
+    } else {
+        return roundUp / 10;
+    }
+}
+ 
+public static int count2sInRange(int number) {
+    int count = 0;    
+    int len = String.valueOf(number).length();
+    for (int digit = 0; digit < len; digit++) {
+        count += count2sInRangeAtDigit(number, digit);
+    }
+    return count;
+}
+
+
+byte[] bitfield = new byte [0xFFFFFFF/8];
+void findOpenNumber2() throws FileNotFoundException {
+    Scanner in = new Scanner(new FileReader("file.txt"));
+    while (in.hasNextInt()) {
+        int n = in.nextInt ();
+        /* Находим соответствующее число в bitfield, используя
+        * оператор OR для установки n-го бита байта
+        * (то есть 10 будет соответствовать 2-му биту индекса 2
+        * в массиве байтов). */
+        bitfield [n / 8] |= 1 << (n % 8);
+    }
+ 
+    for (int i = 0; i < bitfield.length; i++) {
+        for (int j = 0; j < 8; j++) {
+        /* Получает отдельные биты каждого байта. Когда будет найден
+        * бит 0, находим соответствующее значение. */
+            if ((bitfield[i] & (1 << j)) == 0) {
+                System.out.println(i * 8 + j);
+                return;
+            }
+        }
+    }
+}
+
+int bitsize = 1048576; // 2^20 bits (2^17 bytes)
+int blockNum = 4096; // 2^12
+byte[] bitfield = new byte[bitsize/8];
+int[] blocks = new int[blockNum];
+ 
+void findOpenNumber() throws FileNotFoundException {
+    int starting = -1;
+    Scanner in = new Scanner (new FileReader ("file.txt"));
+    while (in.hasNextInt()) {
+        int n = in.nextInt();
+        blocks[n / (bitfield.length * 8)]++;
+    }
+    
+    for (int i = 0; i < blocks.length; i++) {
+        if (blocks[i] < bitfield.length * 8) {
+            /* если значение < 2^20, то отсутствует как минимум 1 число
+             * в этой секции. */
+            starting = i * bitfield.length * 8;
+            break;
+        }
+    }
+    
+    in = new Scanner(new FileReader("input_file.txt"));
+    while (in.hasNextInt()) {
+        int n = in.nextInt();
+        /* Если число внутри блока, в котором отсутствуют числа,
+         * мы записываем его */
+        if (n >= starting && n < starting + bitfield.length * 8) {
+            bitfield[(n - starting) / 8] |= 1 << ((n - starting) % 8);
+        }
+    }
+    
+    for (int i = 0 ; i < bitfield.length; i++) {
+        for (int j = 0; j < 8; j++) {
+            /* Получаем отдельные биты каждого байта. Когда бит 0
+             * найден, находим соответствующее значение. */
+            if ((bitfield[i] & (1 << j)) == 0) {
+                System.out.println(i * 8 + j + starting); return;
+            }
+        }
+    }
+}
+
+
+public static Set<String> generateParens(int remaining) {
+    Set<String> set = new HashSet<String>();
+    if (remaining == 0) {
+        set.add("");
+    } else {
+        Set<String> prev = generateParens(remaining - 1);
+        for (String str : prev) {
+            for (int i = 0; i < str.length(); i++) {
+                if (str.charAt(i) == '(') {
+                    String s = insertInside(str, i);
+                    if (!set.contains(s)) {
+                        set.add(s);
+                    }
+                }
+            }
+            if (!set.contains("()" + str)) {
+                set.add("()" + str);
+            }
+        }
+    }
+    return set;
+}
+ 
+public String insertInside(String str, int leftIndex) {
+    String left = str.substring(0, leftIndex + 1);
+    String right = str.substring(leftIndex + 1, str.length();
+    return left + "()" + right;
+}
+
+
+public void addParen(ArrayList<String> list, int leftRem, int rightRem, char[] str, int count) {
+    if (leftRem < 0 || rightRem < leftRem) return; // некорректное состояние
+    
+    if (leftRem == 0 && rightRem == 0) { /* нет больше левых скобок */
+        String s = String.copyValueOf(str);
+        list.add(s);
+    } else {
+        /* Добавляем левую скобку, если остались любые левые скобки */
+        if (leftRem > 0) {
+            str[count] = '(';
+            addParen(list, leftRem - 1, rightRem, str, count + 1);
+        }
+    
+        /* Добавляем правую скобку, если выражение верно */
+        if (rightRem > leftRem) {
+            str[count] = ')';
+            addParen(list, leftRem, rightRem - 1, str, count + 1);
+        }
+    }
+}
+public ArrayList<String> generateParens(int count) {
+    char[] str = new char[count * 2];
+    ArrayList<String> list = new ArrayList<String>();
+    addParen(list, count, count, str, 0);
+    return list;
+}
+
+
+public class LockFactory {
+    private static LockFactory instance;
+    private int numberOfLocks = 5; /* по умолчанию */
+    private LockNode[] locks;
+    
+    /* Отображаем процесс (владельца) в порядок,
+     * в котором владелец требовал блокировку */
+    
+    private Hashtable<Integer, LinkedList<LockNode>> lockOrder;
+    
+    private LockFactory(int count) { ... }
+    public static LockFactory getInstance() { return instance; }
+    
+    public static synchronized LockFactory initialize(int count) {
+        if (instance == null)
+            instance = new LockFactory(count); 
+        return instance;
+    }
+    
+    public boolean hasCycle(Hashtable<Integer, Boolean> touchedNodes, int[] resourcesInOrder) {
+        /* проверяем на наличие петли */
+        for (int resource : resourcesInOrder) {
+            if (touchedNodes.get(resource) == false) {
+                LockNode n = locks[resource];
+                if (n.hasCycle(touchedNodes)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    /* Чтобы предотвратить мертвую блокировку, заставляем процессы
+    *    объявлять, что они хотят заблокировать. Проверяем,
+    *    что запрашиваемый порядок не вызовет мертвую блокировку
+    *    (петлю в направленном графе) */
+    public boolean declare(int ownerId, int[] resourcesInOrder) {
+        Hashtable<Integer, Boolean> touchedNodes = new Hashtable<Integer, Boolean>();
+        /* добавляем узлы в граф */
+        int index = 1;
+        touchedNodes.put(resourcesInOrder[0], false);
+        for (index = 1; index < resourcesInOrder.length; index++) {
+            LockNode prev = locks[resourcesInOrder[index - 1]];
+            LockNode curr = locks[resourcesInOrder[index]];
+            prev.joinTo(curr);
+            touchedNodes.put(resourcesInOrder[index], false);
+        }
+        /* если получена петля, уничтожаем этот список ресурсов
+         * и возвращаем false */
+        if (hasCycle(touchedNodes, resourcesInOrder)) {
+            for (int j = 1; j < resourcesInOrder.length; j++) {
+                LockNode p = locks[resourcesInOrder[j - 1]];
+                LockNode c = locks[resourcesInOrder[j]];
+                p.remove(c);
+            }
+            return false;
+        }
+        /* Петля не найдена. Сохраняем порядок, который был объявлен,
+         *    так как мы можем проверить, что процесс действительно вызывает
+         *    блокировку в нужном порядке */
+        LinkedList<LockNode> list = new LinkedList<LockNode>();
+        for (int i = 0; i < resourcesInOrder.length; i++) {
+            LockNode resource = locks[resourcesInOrder[i]];
+            list.add(resource);
+        }
+        lockOrder.put(ownerId, list);
+        
+        return true;
+    }
+    /* Получаем блокировку, проверяем сначала, что процесс
+     * действительно запрашивает блокировку в объявленном порядке*/
+     public Lock getLock(int ownerld, int resourceID) {
+        LinkedList<LockNode> list = lockOrder.get(ownerId);
+        if (list == null) return null;
+        
+        LockNode head = list.getFirst();
+        if (head.getId() == resourceID) {
+            list.removeFirst();
+            return head.getLock();
+        }
+        return null;
+    }
+}
+public class LockNode {
+    public enum VisitState { FRESH, VISITING, VISITED );
+    
+    private ArrayList<LockNode> children;
+    private int lockId;
+    private Lock lock;
+    private int maxLocks;
+    
+    public LockNode(int id, int max) { ... }
+    
+    /* Присоединяем "this" в "node", проверяем, что мы не создадим этим
+    * петлю (цикл) */
+    public void joinTo(LockNode node) { children.add(node); }
+    public void remove(LockNode node) { children.remove(node); }
+    
+    /* Проверяем на наличие цикла с помощью поиска в глубину */ 
+    public boolean hasCycle(Hashtable<Integer, Boolean> touchedNodes) {
+        VisitState[] visited = new VisitState[maxLocks];
+        for (int i = 0; i < maxLocks; i++) {
+            visited[i] = VisitState.FRESH;
+        }
+        return hasCycle(visited, touchedNodes);
+    }
+    
+    private boolean hasCycle(VisitState[] visited,
+    Hashtable<Integer, Boolean> touchedNodes) {
+        if (touchedNodes.containsKey(lockId)) {
+            touchedNodes.put(lockId, true);
+        }
+        if (visited[lockId) == VisitState.VISITING) {
+            /* Мы циклично возвращаемся к этому узлу, следовательно, 
+             * мы знаем, что здесь есть цикл (петля) */
+            return true;
+        } else if (visited[lockId] == VisitState.FRESH) {
+            visited[lockId] = VisitState.VISITING;
+            for (LockNode n : children) {
+                if (n.hasCycle(visited, touchedNodes)) {
+                    return true;
+                }
+            }
+            visited[lockId] = VisitState.VISITED;
+        }
+        return false;
+    }
+ 
+    public Lock getLock() {
+        if (lock == null) lock = new ReentrantLock();
+        return lock;
+    }
+    
+    public int getId() { return lockId; }
+}
+
+
+void printLast10Lines(char* fileName) {
+    
+    const int K = 10;
+    ifstream file (fileName);
+    string L[K];
+    int size = 0;
+    
+    /* читаем файл построчно в круговой массив */
+    while (file.good()) {
+        getline(file, L[size % K]);
+        size++;
+    }
+    
+    /* вычисляем начало кругового массива и его размер */
+    int start = size > K ? (size % K) : 0;
+    int count = min(K, size);
+    
+    /* выводим элементы в порядке чтения */
+    for (int i = 0; i < count; i++) {
+        cout << L[(start + i) % K] << endl;
+    }
+}
+
+
+aptitude moo; aptitude -v moo; aptitude -vv moo; aptitude -vvv moo; aptitude -vvvv moo; aptitude -vvvvv moo; aptitude -vvvvvv moo
+
+public String sort(String s) {
+    char[] content = s.toCharArray();
+    java.util.Arrays.sort(content);
+    return new String(content);
+}
+ 
+public boolean permutation (String s,String t) {
+    if (s.length() != t.length()) {
+        return false;
+    }
+    return sort(s).equals(sort(t));
+}
+
+public boolean permutation(String s, String t) {
+    if (s.length() != t.length()) {
+        return false;
+    }
+ 
+    int[] letters = new int[256];
+ 
+    char[] s_array = s.toCharArray();
+    for (char c : s_array) {
+        letters[c]++;
+    }
+ 
+    for (int i = 0; i < t.length(); i++) {
+        int c = (int) t.charAt(i);
+        if (--letters[c] < 0) {
+            return false;
+        }
+    }
+ 
+    return true;
+}
+
+
+Например, любой откомпилированный класс языка Java начинается с шестнадцатеричного «магического числа» 0xCAFEBABE. Второй широко известный пример — любой исполняемый файл ОС Microsoft Windows с расширением .exe начинается с последовательности байт 0x4D5A. Менее известным примером является неинициализированный указатель в Microsoft Visual С++ (начиная с 2005 версии Microsoft Visual Studio), который в режиме отладки имеет адрес 0xDEADBEEF.
+
+def golden_pyramid_d(triangle):
+    tr = [row[:] for row in triangle]  # copy
+    for i in range(len(tr) - 2, -1, -1):
+        for j in range(i + 1):
+            tr[i][j] += max(tr[i + 1][j], tr[i + 1][j + 1])
+    return tr[0][0]
+
+
+from functools import reduce
+​
+def sum_triangle(top, left, right):
+    return top + max(left, right)
+​
+def integrate(lowerline, upperline):
+    return list(map(sum_triangle, upperline, lowerline, lowerline[1:]))
+​
+def count_gold(pyramid):
+    return reduce(integrate, reversed(pyramid)).pop()
+
+
+def count_gold(p):
+    path = 1 << len(p)     res = 0     while bin(path).count("1") != len(p) + 1:         s = ind = 0         for row in range(len(p)):             ind += 1 if row > 0 and bin(path)[3:][row] == "1" else 0
+            s += p[row][ind]
+        res = max(res, s)
+        path += 1
+    return res
+
+ount_gold=lambda p:__import__("functools").reduce(lambda D,r:[x+max(D[j],D[j+1])
+for j,x in enumerate(r)],p[-2::-1],list(p[-1]))[0]
+
+
+
+from collections import Counter
+ 
+def sanitize(text):
+    yield from (ch.lower() for ch in text.lower() if ch.isalpha())
+ 
+def verify_anagrams(first, second):
+    return Counter(sanitize(first)) == Counter(sanitize(second))
+
+def count_letters(text):
+    counter = {}
+    for ch in text:
+        counter[ch] = counter.get(ch, 0) + 1
+    return counter
+
+sanitize = lambda t: map(str.lower, filter(str.isalpha, text))
+def sanitize(text):
+    yield from (ch.lower() for ch in text.lower() if ch.isalpha())
+def sanitize(text):
+    return [ch.lower() for ch in text if ch.isalpha()]
+
+def verify_anagrams(first, second):
+    return "".join(sorted(first.lower())).strip() == "".join(sorted(second.lower())).strip()
+verify_anagrams=lambda f,s,p=lambda x: "".join(sorted(x.lower())).strip():p(f)==p(s)
+
+
+public void setZeros(int[][] matrix) {
+    boolean[] row = new boolean[matrix.length];
+    boolean[] column = new boolean[matrix[0].length];
+    
+    for (int i = 0; i < matrix.length; i++) {
+        for (int j = 0; j < matrix[0].length; j++) {
+            if (matrix[i][j] == 0) {
+                row[i] = true;
+                column[j] = true;
+            }
+        }
+    }
+ 
+    for (int i = 0; i < matrix.length; i++) {
+        for (int j = 0; j < matrix[0].length; j++) {
+            if (row[i] || column[j]) {
+                matrix[i][j] = 0;
+            }
+        }
+    }
+}
+
+void printPairSums (int[] array, int sum) {
+    Arrays.sort(array);
+    int first = 0;
+    int last = array.length - 1;
+    while (first < last) {
+        int s = array[first] + array[last];
+        if (s == sum) {
+            System.out.printIn(array[first] + "" + array[last]);
+            first++;
+            last--;
+        } else {
+            if (s < sum) first++;
+            else last--;
+        }
+    }
+}
+
+
+public class Server {
+    HashMap<Integer, Machine) machines = new HashMap<Integer, Machine>();
+    HashMap<Integer, Integer) personToMachineMap = new HashMap<Integer, Integer>();
+    public Machine getMachineWithId(int machinelD) {
+        return machines.get(machineID);
+    }
+ 
+    public int getMachineIDForUser(int personID) {
+        Integer machinelD = personToMachineMap.get(personID);
+        return machineID == null ? -1 : machineID;
+    }
+ 
+    public Person getPersonWithID(int personID) {
+        Integer machineID = personToMachineMap.get(personID);
+        if (machineID == null)
+            return null;
+        Machine machine = getMachineWithId(machineID);
+        if (machine == null) return null;
+        return machine.getPersonWithID(personID);
+    }
+}
+public class Person {
+    private ArrayList<Integer> friendIDs;
+    private int personID;
+    public Person(int id) { this.personID = id; }
+ 
+    public int getID() { return personID; }
+ 
+    public void addFriend(int id) { friends.add(id); }
+}
+public class Machine {
+    public HashMap<Integer, Person> persons = new HashMap<Integer, Person>();
+    public int machinelD;
+    public Person getPersonWithID(int personID) {
+        return persons.get(personID);
+    }
+}
+
+public static void deleteDups (LinkedListNode n) {
+        Hashtable table = new Hashtable();
+        LinkedListNode previous = null;
+        while (n != null) {
+            if (table.containsKey(n.data)) {
+                previous.next = n.next;
+            } else {
+                table.put(n.data, true);
+                previous = n;
+            }
+            n = n.next;
+        }
+}
+
+public static void deleteDups (LinkedListNode head) {
+    if (head == null) return;
+ 
+    LinkedListNode current = head;
+    while (current != null) {
+        /* Удаляем все следующие узлы с таким же значением */
+        LinkedListNode runner = current;
+        while (runner.next != null) {
+            if (runner.next.data == current.data) {
+                runner.next = runner.next.next;
+            } else{
+              runner = runner.next;
+            }
+        }
+        current = current.next;
+    }
+}
+
+public void shuffleArray(int[] cards) {
+    int temp, index;
+    for (int i = 0; < cards.length; i++) {
+    /*Карты с индексами от 0 до i-1 уже были выбраны
+    * (они перемещены в начало массива), поэтому сейчас мы
+    * выбираем случайную карту с индексом, больше или равным i
+    * */
+    index = (int) (Math.random() * (cards.length - i)) + i;
+    temp = cards[i];
+        cards[i] = cards[index];
+        cards[index] = temp;
+    }
+}
+
+
+import json
+import random
+
+
+def read_quotes(filename):
+    with open('quotes.json') as f:
+        lines = (l.strip() for l in f)
+        return [json.loads(l.decode('utf-8')) for l in lines if l]
+
+
+def main():
+    quotes = read_quotes('quotes.txt')
+    authors = list(set(author for _, author in quotes))
+    quote, _ = random.choice(quotes)
+    author = random.choice(authors)
+    print quote.encode('utf-8'), '-', author.encode('utf-8')
+
+if __name__ == '__main__':
+    main()
+
+The Most common :
+
+\x20 – The standard space or \s
+
+\xC2\xA0 – The non-breaking space &nbsp;
+
+\x0D – Carriage Return or \r
+
+\x0A – New Line or \n
+
+\x09 – The tab or \t
+
+in youre case:  \xC2\xA0
+
+//«Простое» решение: O(N4)
+Subsquare findSquare(int[][] matrix) {
+    for (int i = matrix.length; i >= 1; i--) {
+        Subsquare square = findSquareWithSize(matrix, i);
+        if (square != null) return square;
+    }
+    return null;
+}
+ 
+Subsquare findSquareWithSize(int[][] matrix, int squareSize) {
+    /* На стороне размером N есть (N - sz + 1) квадратов
+     * длины sz. */
+    int count = matrix.length - squareSize + 1;
+ 
+    /* Перебор всех квадратов со стороной squareSize. */
+    for (int row = 0; row < count; row++) {
+        for (int col = 0; col < count; col++) {
+            if (isSquare(matrix, row, col, squareSize)) {
+                return new Subsquare(row, col, squareSize);
+            }
+        }
+    }
+    return null;
+}
+ 
+boolean isSquare(int[][] matrix, int row, int col, int size) {
+    // Проверяем верхнюю и нижнюю стороны
+    for (int j = 0; j < size; j++){
+        if (matrix[row][col+j] == 1) {
+            return false;
+        }
+        if (matrix[row+size-l][col+j] == 1){
+            return false;
+        }
+    }
+ 
+    // Проверяем левую и правую стороны
+    for (int i=1; i < size - 1; i++){
+        if (matrix[row+i][col] == 1){
+            return false;
+        }
+        if (matrix[row+i][col+size-1] == 1){
+            return false;
+        }
+    }
+    return true;
+
+	
+//Решение с предварительной обработкой: O(N3)
+public class SquareCell {
+    public int zerosRight = 0;
+    public int zerosBelow = 0;
+    /* объявления, функции установки и получения значений */
+}
+ 
+Subsquare findSquare(int[][] matrix) {
+    SquareCell[][] processed = processSquare(matrix);
+    for (int i = matrix.length; i >= 1; i--) {
+        Subsquare square = findSquareWithSize(processed, i);
+        if (square != null) return square;
+    }
+    return null;
+}
+ 
+Subsquare findSquareWithSize(SquareCell[][] processed,
+int squareSize) {
+    /* эквивалентна первому алгоритму */
+}
+ 
+boolean isSquare(SquareCell[][] matrix, int row, int col,
+int size) {
+    SquareCell topLeft = matrix[row][col];
+    SquareCell topRight = matrix[row][col + size - 1];
+    SquareCell bottomRight = matrix[row + size - l][col];
+    if (topLeft.zerosRight < size) { // Проверяем верхнюю сторону
+        return false;
+    }
+    if (topLeft.zerosBelow < size) { // Проверяем левую сторону
+        return false;
+    }
+    if (topRight.zerosBelow < size) { // Проверяем правую сторону
+        return false;
+    }
+    if (bottomRight.zerosRight < size) { // Проверяем нижнюю сторону
+        return false;
+    }
+    return true;
+}
+ 
+SquareCellf][] processSquare(int[][] matrix) {
+    SquareCell[][] processed = 
+    new SquareCell[matrix.length][matrix.length];
+ 
+    for (int г = matrix.length - 1; г >= 0; r--) {
+        for (int c = matrix.length - 1; c >= 0; c--) {
+            int rightZeros = 0;
+            int belowZeros = 0;
+            // нужно обработать, только если ячейка черная
+            if (matrix[r][с] == 0) {
+                rightZeros++;
+                belowZeros++;
+                // следующая колонка в этом ряду
+                if (с + 1 < matrix.length) {
+                    SquareCell previous = processed[r][с + 1];
+                    rightZeros += previous.zerosRight;
+                }
+                if (r + 1 < matrix.length) {
+                    SquareCell previous = processed[r + 1][c];
+                    belowZeros += previous.zerosBelow;
+                }
+            }
+            processed[r][c] = new SquareCell(rightZeros, belowZeros);
+        }
+    }
+    return processed;
+}
+
+private Comparator<Integer> maxHeapComparator;
+private Comparator<Integer> minHeapComparator;
+private PriorityQueue<Integer> maxHeap, minHeap;
+ 
+public void addNewNumber(int randomNumber) {
+    /*Заметьте: addNewNumber поддерживает условие, что
+    *maxHeap.size() >= minHeap.size() */
+    if (maxHeap.size() >= minHeap.size()) {
+        if ((minHeap.peek() != null) &&
+        randomNumber > minHeap.peek()) {
+            maxHeap.offer(minHeap.poll());
+            minHeap.offer(randomNumber);
+        } else {
+            maxHeap.offer(randomNumber);
+        }
+    } else {
+        if(randomNumber < maxHeap.peek()) {
+            minHeap.offer(maxHeap.poll());
+            maxHeap.offer(randomNumber)
+        }
+        else {
+        minHeap.offer(randomNumber);
+        }
+    }
+}
+ 
+public static double getMedian() {
+    /*maxHeap является всегда по крайней мере столь же большой,
+    *как minHeap. Если maxHeap пуста, то minHeap тоже пуста. */
+    if (maxHeap.isEmpty()) {
+        return 0;
+    }
+    if(maxHeap.size() == minHeap.size()) {
+        return ((double)minHeap.peek()+(double)maxHeap.peek()) / 2;
+    } else {
+        /* Если maxHeap и minHeap разных размеров, то 
+        * в maxHeap есть один дополнительный элемент.
+        * Возвращаем вергину кучи maxHeap */
+        return maxHeap.peek();
+    }
+}
+
+
+• Стек 1: [0, n/3).
+• Стек 2: [n/3, 2n/3).
+• Стек 3: [2n/3, n].
+
+int stackSize = 100;
+int[] buffer = new int [stackSize * 3];
+int[] stackPointer = {0,0,0};    //указатели для отслеживания верхних элементов
+ 
+void push(int stackNum, int value) throws Exception {
+    /* Проверяем, есть ли пространство */
+    if (stackPointer[stackNum] >= stackSize){
+        throw new Exception("Недостаточно пространства.");
+    }
+    /* аходим индекс верхнего элемента массива + 1,
+    * и увеличиваем указатель стека */
+    int index = stackNum * stackSize + stakPointer[stackNum] + 1;
+    stackPointer[stackNum]++;
+    buffer[index] = valuse;
+}
+ 
+int pop(int stackNum) throws Exception {
+    if (stackPointer[stackNum] == 0) {
+        throw new Exception("Попытка использовать пустой стек");
+    }
+    int index = stackNum * stackSize + stackPointer[stackNum];
+    stackPointer[stackNum]--;
+    int value = buffer[index];
+    buffer[index] = 0;
+    return value;
+}
+ 
+int peek(int stackNum) {
+    int index = stackNum * stackSize + stackPointer[stackNum];
+    return buffer[index];
+}
+ 
+boolean isEmpty(int stackNum) {
+    return stackPointer[stackNum] ==0;
+}
+
+//----------------------------------------------------------------------------
+
+/* StackData - простой класс, который хранит набор данных о каждом стеке
+* Коласс не содержит элементы стека! */
+public class stackData{
+    public int start;
+    public int pointer;
+    public int size = 0;
+    public int capacity;
+    public stackData(int _start, int _capacity){
+        start = _start;
+        pointer = _start -1;
+        capacity = _capacity;
+    }
+    
+    public boolean isWithinStack(int index, int total_size){
+        if(start + capacity <= total_size) { // нормальный размер
+            if(start <= index && index <= start + capacity) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {    // стек отсекается вокруг начала массива
+            int shifted_index = index + total_size;
+            if (start <= shifted_index &&
+            shifted_index <= start + capacity){
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+}
+ 
+public class Question B {
+    static int number_of_stack = 3;
+    static int default_size = 4;
+    static int total_size = default_size * number_of_stack;
+    static StackData [] stacks = {new StackData(0, default_size),
+    new StackData(default_size, default_size),
+    new StackData(default_size * 2, default_size)};
+static int [] buffer = new int [total_size];
+ 
+public static void main(String [] args) throw Exception {
+    push(0,10);
+    push(1,20);
+    push(2,30);
+    int v = pop(0);
+    ...
+}
+ 
+public static int nextElement(int index) {
+    if (index + 1 == total_size) return 0;
+    else return index + 1;
+}
+ 
+public static int previousElement(int index) {
+if (index ==0) return total_size - 1;
+    else return index - 1;
+}
+ 
+public static void shift(int stackNum) {
+    StackData stack = stacks[stackNum];
+    if (stack.size >= stack.capacity) {
+        int nextStack = (stackNum + 1) % number_of_stacks;
+        shift(nextStack); // выполняем сдвиг
+        stack.capacity++;
+    }
+    
+    //Сдвигаем элементы в обратном порядке
+    for (int i = (stack.start + stack.capacity -1) %  total_size;
+        stack.isWithinStack(i, total_size);
+        i=previousElement(i)) {
+            buffer[i] = buffer[previousElement(i)];
+        }
+    
+        buffer[stack.start] = 0;
+        stack.start = nextElement(stack.start); //перемещаем начало стека
+        stack.pointer = nextElement(stack.pointer); // перемещаем указатель
+        stack.capacity--; // устанавливаем оригинальный размер
+    }
+ 
+    /* Расширяем стек, сдвигаем остальные стеки */
+    public static void expand(int stackNum) {
+        shift((stackNum + 1) % number_of_stacks);
+        stacks[stackNum].capacity++;
+    }
+ 
+    public static void push(int stackNum, int value)
+    throws Exception {
+        StackData stack = stacks[stackNum];
+        /* Проверим, есть ли размер */
+        if (stack.size >= stack.capacity) {
+            if (numberOfElements() >= total_size) { // Totally full
+                throw new Exception("Ндостаточно пространства.");
+            } else {    // Нужно выполнить сдвиг
+                expand(stackNum);
+            }
+        }
+        /* Находим индекс верхнего элемента в массиве +1,
+        * и увеличиваем указатель стека */
+        stack.size++;
+        stack.pointer = nextElement(stack.pointer);
+        buffer[stack.pointer] = value;
+    }
+    public static int pop(int stackNum) throws Exception{
+        StackData stack = stacks[stackNum];
+        if (stack.size == 0) {
+            throw new Exception("Попытка использовать пустой стек");
+        }
+        int value = buffer[stack.pointer];
+        buffer[stack.pointer] = 0;
+        stack.pointer = previousElement(stack.pointer);
+        stack.size--;
+        return value;
+    }
+    
+    public static int peek(int stackNum) {
+        StackData stack = stacks[stackNum];
+        return buffer[stack.pointer];
+    }
+    
+    public static boolean isEmpty(int stackNum) {
+        StackData stack = stacks[stackNum];
+        return stack.size == 0;
+    }
+}
+
+
+public int makeChange(int n, int denom)  {
+    int next_denom = 0;
+    switch (denom)  {
+        case 25:
+            next_denom =10;
+            break;
+        case 10:
+            next_denom =5;
+            break;
+        case 5:
+            next_denom =1;
+            break;
+        case 1:
+            return 1;
+    }
+ 
+    int ways = 0;
+    for (int I = 0; I * denom<= n; i++){
+        ways += makeChange (n – 1 * denom , next_denom);
+    }
+    return ways;
+}
+ 
+System.out.writeln(makeChange(100, 25));
+
+
+
+public int shortest(String[] words, String word1, String word2) {
+    int min = Integer.MAX_VALUE;
+    int lastPosWord1 = -1;
+    int lastPosWord2 = -1;
+    for (int i = 0; i < words.lenght; i++) {
+        String currentWord = words[i];
+        if (currentWord.equals(word1)) {
+            lastPosWord1 = i;
+            // Закомментируйте 3 следующие строки, если порядок слов
+            // имеет значение
+            int distance = lastPosWord1 - lastPosWord2;
+            if (lastPosWord2 >= 0 && min > distance) {
+                min = distance;
+            }
+        } else if (currentWord.equals(word2)) {
+            lastPosWord2 = i;
+            int distance = lastPosWord2 - lastPosWord1;
+            if (lastPosWord >= 0 && min > distance) {
+                min = distance;
+            }
+        }
+    }
+    return min;
+}
+
+Если нам придется выполнять ту же работу для других пар слов, можно создать хэш–таблицу, связывающую слова с позицией в файле. Тогда решением будет минимальная (арифметическая) разница между значением из списков listA и listB.
+
+Существует несколько способов вычислить минимальную разницу между значениями из listA и listB. Давайте рассмотрим списки:
+
+listA: {1, 2, 9, 15, 25}
+listB: {4, 10, 19}
+
+Можно объединить списки в один отсортированный список, но связать каждое значение с исходным списком. Эта операция выполняется «обертыванием» каждого значения в класс, у которого будет две переменные экземпляра: data (для хранения фактического значения) и listNumber.
+
+list: {1a, 2a, 4b, 9a, 10b, 15a, 19b, 20a}
+
+Расчет минимального расстояния превращается в поиск минимального расстояния между двумя последовательными числами, у которых разные теги списка. В этом случае решением будет 1 (расстояние между 9a и 10b).
+
+now = new Date(),
+tenDaysAgo = new Date( now.getFullYear(), now.getMonth(), now.getDate() - 10);
+
+public LinkedListNode partition(LinkedListNode node, int x) {
+    LinkedListNode beforeStart = null;
+    LinkedListNode afterStart = null;
+ 
+    / Разбиваем список */
+    while (node != null) {
+        LinkedListNode next = node.next;
+        if (node.data < x) {
+            /* Вставляем узел в начало списка before */
+            node.next = beforeStart;
+            beforeStart = node;
+        } else {
+            /* Вставляем узел в начало списка after */
+            node.next = afterStart;
+            afterStart = node;
+        }
+        node = next;
+    }
+    /* Выполняем слияние списков */
+    if (beforeStart == null) {
+        return afterStart;
+    }
+ 
+    /* Находим конец списка before и соединяем списки*/
+    LinkedListNode head = beforeStart;
+    while (beforeStart.next != null) {
+        beforeStart = beforeStart.next;
+    }
+    beforeStart.next = afterStart; return head;
+ 
+    return head;
+}
+
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
+ 
+public class RhinoEngine {
+    public static void main(String[] args) {
+        ScriptEngineManager mgr = new ScriptEngineManager();
+        ScriptEngine engine = mgr.getEngineByName("JavaScript");
+ 
+        // Теперь у нас есть экземпляр движка и мы можем выполнить JavaScript
+        try {
+            engine.put("name", args[0]);
+            engine.eval("print('Hello ' + name + '!')");
+        } catch (ScriptException ex) {
+            ex.printStackTrace();
+        }    
+    }
+}
+
+
+
+// Функция, используемая рабочими нодами на Map-шаге
+// для обработки пар ключ-значение из входного потока
+void map(String name, String document):
+    // Входные данные:
+    //   name - название документа
+    //   document - содержимое документа
+    for each word w in document:
+        EmitIntermediate(w, "1");
+ 
+// Функция, используемая рабочими нодами на Reduce-шаге
+// для обработки пар ключ-значение, полученных на Map-шаге
+void reduce(String word, Iterator partialCounts):
+    // Входные данные:
+    //   word - слово
+    //   partialCounts - список группированных промежуточных результатов. Количество записей в partialCounts и есть 
+    //     требуемое значение
+    int result = 0;
+    for each v in partialCounts:
+        result += parseInt(v);
+    Emit(AsString(result));
+	
+	
+	var total = [0, 1, 2, 3].reduce(function(a, b) {
+   return a + b;
+});
+// total == 6
+	
+var flattened = [[0, 1], [2, 3], [4, 5]].reduce(function(a, b) {
+    return a.concat(b);
+});
+// flattened равен [0, 1, 2, 3, 4, 5]
+
+# Суммирование элементов списка с помощью свёртки
+reduce( lambda x, y: x + y, list )
+
+
+//Алгоритм Фишера-Йетса — отличный пример, он не только несмещенный, но и выполняется за линейное время, использует константную память и легок в реализации.
+function shuffle(array) {
+  var n = array.length, t, i;
+  while (n) {
+    i = Math.random() * n-- | 0; // 0 ≤ i &lt; n
+    t = array[n];
+    array[n] = array[i];
+    array[i] = t;
+  }
+  return array;
+}
+
+
+/* Случайное число между lower и higher включительно */
+public static int rand(int lower, int higher) {
+    return lower + (int)(Math.random() * (higher - lower + 1));
+}
+ 
+/* Выбрать M элементов из исходного массива. Клонируемый исходный 
+* массив так, чтобы не уничтожить ввод */
+public static int[] pickMRandomly(int[] original, int m) {
+    int[] subset = new int[m];
+    int[] array = original.clone();
+    for(int j = 0; j < m; j++) {
+        int index = rand(j, array.length - 1);
+        subset[j] = array[index];
+        array[index] = array[j]; //array[j] теперь "мертв"
+    }
+    return subset;
+}
+
+public Boolean getPath(int x, int y, ArrayList<Point> path,
+Hashtable<Point, Boolean> cache){
+        Point p = new Point(x, y);
+        if (cache.containsKey(p)) { // Мы уже посещали эту ячейку
+            return cache.get(p);
+        }
+        path.add(p);
+        if (x == 0 && y == 0) {
+            return true;  // Найден путь
+        }
+        boolean success = false;
+        if (x >= 1 && isFree(X - 1, Y)) { //Пытаемся идти вправо
+            success = getPath(x - 1, y, path, cache); // Свободно! Можно идти вправо
+        }
+        if (!success && y >= 1 && isFree(x, y - 1)) { // Пытаемся идти вниз
+            success = getPath(x, y - 1, path, cache); // Свободно! Можно идти вниз
+        } 
+        if (!success) {
+            path.remove(p); //Неверный путь! Прекратить движение этим маршрутом
+        }  
+        cache.put(p, success); // Вычисляем результат
+        return success;
+}
+
+String compressAlternate(String str) {
+    /* Проверяем, вдруг сжатие создаст более длинную строку */
+    int size = countCompression(str);
+    if (size >= str.length()) {
+        return str;
+    }
+ 
+    char[] array = new char[size];
+    int index = 0;
+    char last = str.charAt(0);
+    int count = 1;
+    for (int i = 1; i < str.length(); i++) {
+        if (str.charAt(i) == last) { // Найдите повторяющийся символ
+            count++;
+        }    else {
+            /* Обоновляем счетчик повторяющихся символов */
+            index = setChar(str, array, last, index, count);
+            last = str.charAt(i);
+            count = 1;
+        }
+    }
+ 
+    /* Обновляем строку с последним набором повторяющихся символов */
+        index = setchar(str, array, last, index, count); 
+                return String.valueOf(array);
+}
+ 
+int setChar(String str, char[] array, char c, int index,
+            int count) {
+    array[index] = c;
+    index++;
+ 
+    /* Конвертируем счетчик в строку */
+    char[] cnt = String. valueOf (count) .toCharArray();
+ 
+    /* Копируем символы от большего разряда к меньшему */
+    for (char х : cnt) {
+        array[index] = х;
+        index++;
+    }
+    return index;
+}
+ 
+int countCompression(String str) {
+    /* так же, как и раньше    */
+}
+
+import static java.util.Arrays.stream;
+ 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.OptionalInt;
+import java.util.function.IntPredicate;
+ 
+public class Duplicates {
+    public static OptionalInt firstDuplicate(int... ints) {
+        return stream(ints)
+              .filter(((IntPredicate) new HashSet<>()::add).negate())
+              .findFirst();
+    }
+ 
+    public static int[] duplicates(int... ints) {
+        return stream(ints)
+              .filter(((IntPredicate) new HashSet<>()::add).negate())
+              .toArray();
+    }
+ 
+    public static void main(String[] args) {
+        System.out.println(firstDuplicate(1, 2, 3, 1, 4).getAsInt());         // 1
+        System.out.println(Arrays.toString(duplicates(1, 2, 3, 1, 2, 4, 1))); // [1, 2, 1]
+    }
+}
+
+var db = require('mongoskin').db('localhost:27017/db'); 
+db.collection('users').find({_id: req.query.id}).toArray(function(err, results) {
+    if (err) throw err;
+    console.log(results);
+});
+> db.users.find({});
+> db.users.insert({name: 'Azat', email: 'azat@rpjs.co'})
+> db.users.update({name:'Azat'},{$set:{email:'hi@rpjs.co'}})
+
+http://webapplog.com/php-vs-node-js/
+
+var http = require('http');
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Hello World\n');
+}).listen(1337, '127.0.0.1');
+console.log('Server running at http://127.0.0.1:1337/');
+
+
+
+# Add the repository
+# node.js
+sudo add-apt-repository -y ppa:chris-lea/node.js
+# redis
+sudo add-apt-repository -y ppa:chris-lea/redis-server
+# mongodb
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+sudo echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/10gen.list
+
+# Update the apt-get
+sudo apt-get -y update
+
+# Set
+sudo apt-get -y install nodejs
+sudo apt-get -y install mongodb-10gen
+sudo apt-get -y install redis-server
+
+@FunctionalInterface
+public interface Iterable {
+	Iterator iterator();
+		default void forEach(Consumer<? super T> action) {
+			Objects.requireNonNull(action);
+			for (T t : this) {
+			action.accept(t);
+		}
+	}
+}
+
+1 try (FileReader fr = new FileReader("file");
+2     BufferedReader br = new BufferedReader(fr)) {
+3     br.lines().forEach(System.out::println);
+4 }
+
+1 try (Stream st = Files.lines(Paths.get("file"))) {
+2     st.forEach(System.out::println);
+3 }
+
+1 import java.util.regex.Pattern;
+2 // later on...
+3 Pattern patt = Pattern.compile(",");
+4 patt.splitAsStream("a,b,c")
+5     .forEach(System.out::println);
+
+
+1 Files.list(Paths.get("."))
+2     .forEach(System.out::println);
+
+
+1 PlayerPoints highestPlayer = 
+2   names.stream().map(name -> new PlayerPoints(name, getPoints(name)))
+3 	.reduce(new PlayerPoints("", 0.0), 
+4 			(s1, s2) -> (s1.points > s2.points) ? s1 : s2);
+
+1 double bestGpa = students
+2     .parallelStream()
+3     .filter(s -> (s.graduationYear == THIS_YEAR))
+4     .mapToDouble(s -> s.gpa)
+5     .max().getAsDouble();
+
+
+1 Files.list(Paths.get("."))
+2     .map(Path::getFileName)
+3     .peek(System.out::println)
+4     .forEach(p -> doSomething(p));
+
+1 Random rnd = new Random();
+2 rnd.ints().limit(10)
+3     .forEach(System.out::println);
+
+1 rnd.ints().limit(10).sorted()
+2     .forEach(System.out::println)
+
+1 Files.list(Paths.get("."))
+2     .map(Path::getFileName) // still a path
+3     .map(Path::toString) // convert to Strings
+4     .filter(name -> name.endsWith(".java"))
+5     .sorted() // sort them alphabetically
+6     .limit(5) // first 5
+7     .forEach(System.out::println);
+
+1 // Accumulate names into a List
+2 List<String> list = dragons.stream()
+3         .map(Dragon::getName)
+4         .collect(toList());
+5 
+6 // Accumulate names into a TreeSet
+7 Set<String> set = dragons.stream()
+8         .map(Dragon::getName)
+9         .collect(toCollection(TreeSet::new));
+
+1 String names = dragons.stream()
+2         .map(Dragon::getName)
+3         .collect(joining(","));
+
+1 System.out.println("\n----->Average line length:");
+2 System.out.println(
+3     Files.lines(Paths.get("Nio.java"))
+4         .map(String::trim)
+5         .filter(s -> !s.isEmpty())
+6         .collect(averagingInt(String::length))
+7         );
+
+
+1 IntSummaryStatistics stats = Files.lines(Paths.get("Nio.java"))
+2         .map(String::trim)
+3         .filter(s -> !s.isEmpty())
+4         .collect(summarizingInt(String::length));
+5 
+6 System.out.println(stats.getAverage());
+7 System.out.println("count=" + stats.getCount());
+8 System.out.println("max=" + stats.getMax());
+9 System.out.println("min=" + stats.getMin());
+
+1 IntSummaryStatistics stats = Files.lines(Paths.get("Nio.java"))
+2     .map(String::trim)
+3     .filter(s -> !s.isEmpty())
+4     .mapToInt(String::length)
+5     .summaryStatistics();
+
+1 // Group by first letter of name
+2 List<Dragon> dragons = getDragons();
+3 Map<Character,List<Dragon>> map = dragons.stream()
+4         .collect(groupingBy(dragon -> dragon.getName().charAt(0)));
+
+1 // Group by whether or not the dragon is green
+2 Map<Boolean,List<Dragon>> map = dragons.stream()
+3         .collect(partitioningBy(Dragon::isGreen));
+
+dragons.parallelStream().unordered().collect(groupingByConcurrent(Dragon::getColor));.
+
+10 max = list.stream().reduce(0.0, Math::max);
+
+11 // or
+
+12 max = list.stream().mapToDouble(Number::doubleValue).max().getAsDouble();
+
+9 ave = list.stream().mapToDouble(Number::doubleValue).average().getAsDouble();
+
+
+ 5 // Java 8
+ 6 IntStream.range(1, 11)
+ 7     .forEach(System.out::println);
+ 8 //or
+ 9 Stream.iterate(1, i -> i+1).limit(10)
+10     .forEach(System.out::println);
+
+6 // Java 8
+7 String names = dragons.stream()
+8     .map(Dragon::getName)
+9     .collect(Collectors.joining(","));
+
+orElse(T) – Returns the given default value if the Optional is empty.
+orElseGet(Supplier<T>) – Calls on the given Supplier to provide a value if the Optional is empty.
+orElseThrow(Supplier<X extends Throwable>) – Calls on the given Supplier for an exception to throw if the Optional is empty.
+It also includes functional style (lambda friendly) methods, like the following:
+
+filter(Predicate<? super T> predicate) – Filters the value and returns a new Optional.
+flatMap(Function<? super T,Optional<U>> mapper) – Performs a mapping operation which returns an Optional.
+ifPresent(Consumer<? super T> consumer) – Executes the given Consumer only if there is a value present (no return value).
+map(Function<? super T,? extends U> mapper) – Uses the given mapping Function and returns a new Optional.
+
+1 for (var i=0; i < paths.size(); i++)
+2 	Files.newOutputStream(paths.get(i))
+3 		.write("test\n".getBytes());
+
+ 1 var concurrent = new JavaImporter(java.util, java.util.concurrent);
+ 2 var Callable = Java.type("java.util.concurrent.Callable");
+ 3 with (concurrent) {
+ 4   var executor = Executors.newCachedThreadPool();
+ 5   var tasks = new LinkedHashSet();
+ 6   for (var i=0; i < 200; i++) {
+ 7     var MyTask = Java.extend(Callable, {call: function() {print("task " + i)}})
+ 8     var task = new MyTask();
+ 9     tasks.add(task);
+10     executor.submit(task);
+11   }
+12 }
+
+1 Invocable inv = (Invocable) engine;
+1 engine.eval("function p(s) { print(s) }");
+2 inv.invokeFunction("p", "hello");
+
+1 public static interface JPrinter {
+2     void p(String s);
+3 }
+4 // later on...
+5 JPrinter printer = inv.getInterface(JPrinter.class);
+6 printer.p("Hello again!");
+
+1 LocalTime now = LocalTime.now();
+2 LocalTime later = now.plus(8, HOURS);
+
+1 LocalDate today = LocalDate.now();
+2 LocalDate thirtyDaysFromNow = today.plusDays(30);
+3 LocalDate nextMonth = today.plusMonths(1);
+4 LocalDate aMonthAgo = today.minusMonths(1);
+
+
+1 LocalTime time = LocalTime.of(12, 15, 0);
+2 LocalDateTime datetime = date.atTime(time);
+
+1 LocalDate today = LocalDate.now();
+2 LocalDate nextWeek = today.plus(1, ChronoUnit.WEEKS);
+3 LocalDate nextMonth = today.plus(1, ChronoUnit.MONTHS);
+4 LocalDate nextYear = today.plus(1, ChronoUnit.YEARS);
+5 LocalDate nextDecade = today.plus(1, ChronoUnit.DECADES);
+
+
+1 Period p = Period.between(date1, date2);
+2 Duration d = Duration.between(time1, time2);
+
+1 Duration twoHours = Duration.ofHours(2);
+2 Duration tenMinutes = Duration.ofMinutes(10);
+3 Duration thirtySecs = Duration.ofSeconds(30);
+
+1 LocalTime t2 = time.plus(twoHours);
+
+1 import static java.time.temporal.TemporalAdjusters.*;
+2 //...
+3 LocalDate nextTuesday = LocalDate.now().with(next(DayOfWeek.TUESDAY));
+
+1 ZoneId mountainTime = ZoneId.of("America/Denver");
+2 ZoneId myZone = ZoneId.systemDefault();
+1 System.out.println(ZoneId.getAvailableZoneIds());
+
+ 1 // Class instance creation:
+ 2 new @Interned RocketShip();
+ 3 
+ 4 // Type cast:
+ 5 notNullString = (@NonNull String) str;
+ 6 
+ 7 // implements clause:
+ 8 class ImmutableSet<T> implements
+ 9         @Readonly Set<@Readonly T> { ... }
+10 
+11 // Thrown exception declaration:
+12 void launchRocket() throws
+13    	@Critical FireException { ... }
+
+1 // the first of the month and every monday at 7am
+2 @Schedule(dayOfMonth="first")
+3 @Schedule(dayOfWeek="Monday", hour=7)
+4 public void doGoblinInvasion() { ... }
+
+1 Function<Integer,String> f = Function.<Integer>identity()
+2         .andThen(i -> 2*i).andThen(i -> "str" + i);
+
+1 public Function<LocalDate,LocalDateTime> dateTimeFunction(
+2     final Function<LocalDate,LocalDate> f) {
+3     
+4     return f.andThen(d -> d.atTime(2, 2));
+5 }
+
+ 1 public class Tuple2<A, B> {
+ 2     public final A _1;
+ 3     public final B _2;
+ 4 
+ 5     public Tuple2(A a, B b) {
+ 6             this._1 = a;
+ 7             this._2 = b;
+ 8     }
+ 9 
+10     @Override
+11     public A get_1() {
+12             return _1;
+13     }
+14 
+15     @Override
+16     public B get_2() {
+17             return _2;
+18     }
+19 }
+
+1 list.stream().filter(Dragon::isGreen).count();
+
+ 1 public Dragon closestDragon(Location location) {
+ 2     AtomicReference<DragonDistance> closest = 
+ 3         new AtomicReference<>(DragonDistance.worstMatch());
+ 4     CountDownLatch latch = new CountDownLatch(dragons.size());
+ 5     dragons.forEach(dragon -> {
+ 6         CompletableFuture.supplyAsync(() -> dragon.distance(location))
+ 7           .thenAccept(result -> {
+ 8             closest.accumulateAndGet(result, DragonDistance::closest);
+ 9             latch.countDown();
+10             });
+11         });
+12     try {
+13         latch.await();
+14     } catch (InterruptedException e) {
+15         throw new RuntimeException("Interrupted during calculations", e);
+16     }
+17     return closest.get().getDragon();
+18 }
+
+1 public Dragon closestDragon(Location location) {
+2     return dragons.parallelStream()
+3       .map(dragon -> dragon.distance(location))
+4       .reduce(DistancePair.worstMatch(), DragonDistance::closest)
+5       .getDragon();
+6 }
+
+
+ 1 @FunctionalInterface
+ 2 public interface Tail<T> {
+ 3 
+ 4     Tail<T> apply();
+ 5 
+ 6     default boolean isDone() {
+ 7         return false;
+ 8     }
+ 9 
+10     default T result() {
+11         throw new UnsupportedOperationException("Not done yet.");
+12     }
+13 
+14     default T invoke() {
+15         return Stream.iterate(this, Tail::apply)
+16                 .filter(Tail::isDone)
+17                 .findFirst()
+18                 .get()
+19                 .result();
+20     }
+
+ 1 static <T> Tail<T> done(final T value) {
+ 2     return new Tail<T>() {
+ 3         @Override
+ 4         public T result() {
+ 5           return value;
+ 6         }  
+ 7         @Override
+ 8         public boolean isDone() {
+ 9           return true;
+10         }
+11         @Override
+12         public Tail<T> apply() {
+13           throw new UnsupportedOperationException("Not supported.");
+14         }
+15     };
+16 }
+
+ 1 public static BigInteger factorial(int n) {
+ 2     return streamFactorial(BigInteger.ONE, n).invoke();
+ 3 }
+ 4 private static Tail<BigInteger> streamFactorial(BigInteger x, int n) {
+ 5     return () -> {
+ 6       switch (n) {
+ 7         case 1:
+ 8           return Tail.done(x);
+ 9         default:
+10           return streamFactorial(x.multiply(BigInteger.valueOf(n)), n - 1);
+11       }
+12     };
+13 }
+
+Quick Web Worker With JavaScript
+http://www.tutorialsavvy.com/books/
+
+pushd "%pathtofolder%" && (rd /s /q "%pathtofolder%" 2>nul & popd)
+
+RD /S /Q folderPath
+
+runas /user:Administrator cmd
+rmdir c:\test /s /q
+
+
+
+Состав информации о дефекте[править | править вики-текст]
+Главный компонент такой системы — база данных, содержащая сведения об обнаруженных дефектах. Эти сведения могут включать в себя:
+номер (идентификатор) дефекта;
+короткое описание дефекта;
+кто сообщил о дефекте;
+дата и время, когда был обнаружен дефект;
+версия продукта, в которой обнаружен дефект;
+серьёзность (критичность) дефекта и приоритет решения[1];
+описание шагов для выявления дефекта (воспроизведения неправильного поведения программы);
+ожидаемый результат и фактический результат;
+кто ответственен за устранение дефекта;
+обсуждение возможных решений и их последствий;
+текущее состояние (статус) дефекта;
+версия продукта, в которой дефект исправлен.
+Кроме того, развитые системы предоставляют возможность прикреплять файлы, помогающие описать проблему (например, дамп памяти или скриншот).
+
+
+Отлично для быстрого старта, но стоит ещё описать про конфиги psql, например написав в .pg_service.conf
+[stat]
+dbname=stat_db
+host=localhost
+port=5432
+user=stat_master
+
+можно будет будет не вспоминать про параметры, а коннектится так:
+psql 'service=stat'
+в .psqlrc можно вид подтюнить, алиасы сделать, у меня выглядит так
+\set PROMPT1 '(%n@%M:%>) [%/] > '
+\set PROMPT2 ''
+
+\timing
+
+\set use '\\c'
+
+\set show_users '\\du+'
+
+http://burtleburtle.net/bob/hash/doobs.html
+Найти информацию по теме оказалось несложно. Во-первых, в Perl используется хэш-функция Дженкинса:
+/* http://en.wikipedia.org/wiki/Jenkins_hash_function */
+uint32_t _htable_hash(const char *key, const size_t key_len) {
+  uint32_t hash, i;
+  for(hash = i = 0; i < key_len; ++i) {
+    hash += key[i];
+    hash += (hash << 10);
+    hash ^= (hash >> 6);
+  }
+  hash += (hash << 3);
+  hash ^= (hash >> 11);
+  hash += (hash << 15);
+  return hash;
+}
+
+matrix ModExp(matrix A, int b, int c) {
+   if (b == 0) return I; // Единичная матрица
+   if (b % 2 == 1) return (A * ModExp(A, b-1, c)) % c; 
+   matrix D = ModExp(A, b/2, c);
+   return (D * D) % c;
+}
+
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java8-installer
+sudo apt-get install oracle-java8-unlimited-jce-policy
+
+
+curl -L http://debian.datastax.com/debian/repo_key | sudo apt-key add -
+echo "deb http://debian.datastax.com/community stable main" | \
+  sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
+sudo apt-get update
+sudo apt-get install dsc21 cassandra-tools
+http://eax.me/mini-notes-issue-16/
+
+
+-server
+-Xms128m
+-Xmx2048m
+-XX:MaxPermSize=256m
+-XX:ReservedCodeCacheSize=96m
+-ea
+-Dsun.io.useCanonCaches=false
+-Djava.net.preferIPv4Stack=true
+-Djsse.enableSNIExtension=false
+-XX:+UseCodeCacheFlushing
+-XX:+UseConcMarkSweepGC
+-XX:SoftRefLRUPolicyMSPerMB=50
+-Dawt.useSystemAAFontSettings=lcd
+
+sudo apt-get remove openjdk\*
+sudo add-apt-repository ppa:webupd8team/java
+sudo apt-get update
+sudo apt-get install oracle-java7-installer
+sudo apt-get install oracle-java7-unlimited-jce-policy
+
+
+sudo update-java-alternatives -s java-7-oracle
+
+openssl s_client -connect light.webmoney.ru:443
+
+sudo apt-get install python-qt4 libqt4-webkit python-pip xvfb
+wget http://git.io/xexXPA -O ~/bin/webkit2png
+chmod u+x ~/bin/webkit2png
+sudo xvfb-run --server-args="-screen 0, 1024x768x24" \
+  /home/eax/bin/webkit2png -o eaxme.png http://eax.me
+
+sudo apt-get install cutycapt
+cutycapt --url=http://eax.me --javascript=off --out=eaxme.png
+
+# преобразуем jpg-сканы в ч/б png
+ls *.jpg | parallel -j 2 --eta convert '{}' -colorspace Gray \
+  -resize 640x -type Palette -colors 16 -white-threshold 90% \
+  -black-threshold 10% 'png/{.}.png'
+
+# объединяем полученные png-файлы в pdf:
+convert png/*.png -quality 100 -units PixelsPerInch \
+  -density 72 result.pdf
+
+DO $$ DECLARE x record; BEGIN for x in (select id from users) loop RAISE NOTICE 'id = %', x.id; end loop; END$$;
+
+select table_name, string_agg(column_name, ',') as columns from information_schema.columns where data_type = 'numeric' group by table_name;
+
+
+select table_name, column_name from information_schema.columns where data_type = 'numeric' and eval('select count(*) from "' || table_name || '" where length(abs("' || column_name || '") - floor(abs("' || column_name || '")) || '''') > 10 limit 1') > 0;
+
+
+erlang:system_info({wordsize, external}).
+
+
+MethodHandles.Lookup lookup = MethodHandles.lookup();
+//Задается тип метода, например для String.substring(int): String
+MethodType methodType = MethodType.methodType(String.class, int.class);
+MethodHandle methodHandle = lookup.findVirtual(String.class, "substring", mt);
+String str = (String) methodHandle.invokeExact("smiles", 1);
+assert(str.equals("miles"));
+
+
+class PrintArgs {
+private static final MethodHandle printArgs;
+ 
+@BootstrapMethod(value=PrintArgs.class, name="bootstrap")
+static void test() throws Throwable {
+ // данный запрос будет послан в PrintArgs.bootstrap
+    InvokeDynamic.baz("mix", 2, 3.14);
+}
+ 
+private static void printArgs(Object... args) {
+  System.out.println(java.util.Arrays.deepToString(args));
+}
+ 
+static {
+  MethodHandles.Lookup lookup = MethodHandles.lookup();
+  printArgs = lookup.findStatic(PrintArgs.class,
+      "printArgs", MethodType.methodType(void.class, Object[].class));
+}
+ 
+private static CallSite bootstrap(Class caller, String name, MethodType type) {
+ //адоптируем аргументы, находящиеся в type для printArgs
+  return new CallSite(MethodHandles.collectArguments(printArgs, type));
+}
+ 
+}
+
+InvokeDynamic str = "main";
+InvokeDynamic date = new Date();
+
+private class LongOperation extends AsyncTask<String, Void, String> {
+    @Override
+    protected String doInBackground(String... params) {
+        for (int i = 0; i < 5; i++) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                Thread.interrupted();
+            }
+         }
+         return "Executed";
+     }
+
+    @Override
+    protected void onPostExecute(String result) {
+        System.out.println("OnPostExecute");
+    }
+
+    @Override
+    protected void onPreExecute() {
+        System.out.println("OnPostExecute");
+    }
+
+    @Override
+    protected void onProgressUpdate(Void... values) {}
+}
+… переписав его на Scala:
+Future {
+    println("OnPreExecute")
+    for (i <- 1 to 5) {
+        Thread.sleep(1000)
+    }
+    "Executed"
+}.map(_ => "OnPostExecute")
+ .recover { case e => println(s"Error $e"); "OnError"}
+
+
+background:#EFEFEF; /*цвет фона кнопки для браузеров без поддержки CSS3*/
+background: -webkit-gradient(linear, left top, left bottom, from(#3437CD), to(#538BFF)); /* для Webkit браузеров */
+background: -moz-linear-gradient(top,  #3437CD, #538BFF); /* для Firefox */
+background-image: -o-linear-gradient(top,  #3437CD,  #538BFF); /* для Opera 11 */
+filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#3437CD', endColorstr='#538BFF'); /* фильтр для IE */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
