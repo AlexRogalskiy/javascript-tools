@@ -36,7 +36,7 @@
     "expect": "^26.6.2",
     "folio": "^0.3.18",
     "husky": "^4.2.5",
-    "jest": "^27.0.0-next.2",
+    "jest": "^28.0.3",
     "jest-circus": "^26.6.3",
     "lint-staged": "^10.1.6",
     "prettier": "^2.1.2",
