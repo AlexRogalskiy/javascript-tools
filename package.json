@@ -51,7 +51,7 @@
     "access": "public"
   },
   "engines": {
-    "node": ">= v8.17.0"
+    "node": ">= 21.7.3"
   },
   "keywords": [
     "javascript",
